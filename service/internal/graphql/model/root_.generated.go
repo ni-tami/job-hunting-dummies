@@ -73,6 +73,12 @@ type ComplexityRoot struct {
 		Website     func(childComplexity int) int
 	}
 
+	DeletionStatus struct {
+		Data   func(childComplexity int) int
+		Error  func(childComplexity int) int
+		Status func(childComplexity int) int
+	}
+
 	Job struct {
 		Company      func(childComplexity int) int
 		CreatedAt    func(childComplexity int) int
@@ -90,6 +96,11 @@ type ComplexityRoot struct {
 		CreateCompany         func(childComplexity int, input NewCompany) int
 		CreateJob             func(childComplexity int, input NewJob) int
 		CreateUser            func(childComplexity int, input NewUser) int
+		DeleteApplicantByID   func(childComplexity int, input int64) int
+		DeleteApplicationByID func(childComplexity int, input int64) int
+		DeleteCompanyByID     func(childComplexity int, input int64) int
+		DeleteJobByID         func(childComplexity int, input int64) int
+		DeleteUserByID        func(childComplexity int, input int64) int
 		UpdateApplicationByID func(childComplexity int, input UpdateApplication) int
 		UpdateCompanyByID     func(childComplexity int, input UpdateCompany) int
 		UpdateJobByID         func(childComplexity int, input UpdateJob) int
@@ -273,6 +284,27 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Company.Website(childComplexity), true
 
+	case "DeletionStatus.data":
+		if e.complexity.DeletionStatus.Data == nil {
+			break
+		}
+
+		return e.complexity.DeletionStatus.Data(childComplexity), true
+
+	case "DeletionStatus.error":
+		if e.complexity.DeletionStatus.Error == nil {
+			break
+		}
+
+		return e.complexity.DeletionStatus.Error(childComplexity), true
+
+	case "DeletionStatus.status":
+		if e.complexity.DeletionStatus.Status == nil {
+			break
+		}
+
+		return e.complexity.DeletionStatus.Status(childComplexity), true
+
 	case "Job.company":
 		if e.complexity.Job.Company == nil {
 			break
@@ -388,6 +420,66 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(NewUser)), true
+
+	case "Mutation.deleteApplicantById":
+		if e.complexity.Mutation.DeleteApplicantByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteApplicantById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteApplicantByID(childComplexity, args["input"].(int64)), true
+
+	case "Mutation.deleteApplicationById":
+		if e.complexity.Mutation.DeleteApplicationByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteApplicationById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteApplicationByID(childComplexity, args["input"].(int64)), true
+
+	case "Mutation.deleteCompanyById":
+		if e.complexity.Mutation.DeleteCompanyByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteCompanyById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteCompanyByID(childComplexity, args["input"].(int64)), true
+
+	case "Mutation.deleteJobById":
+		if e.complexity.Mutation.DeleteJobByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteJobById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteJobByID(childComplexity, args["input"].(int64)), true
+
+	case "Mutation.deleteUserById":
+		if e.complexity.Mutation.DeleteUserByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteUserById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteUserByID(childComplexity, args["input"].(int64)), true
 
 	case "Mutation.updateApplicationById":
 		if e.complexity.Mutation.UpdateApplicationByID == nil {
@@ -644,6 +736,12 @@ type Mutation {
   updateCompanyById(input: UpdateCompany!): Company
   updateUserById(input: UpdateUser!): User
   updateApplicationById(input: UpdateApplication!): Application
+
+  deleteJobById(input: ID!): DeletionStatus
+  deleteCompanyById(input: ID!): DeletionStatus
+  deleteApplicantById(input: ID!): DeletionStatus
+  deleteUserById(input: ID!): DeletionStatus
+  deleteApplicationById(input: ID!): DeletionStatus
 }
 
 type Query {
@@ -659,6 +757,7 @@ type Query {
 # https://gqlgen.com/getting-started/
 
 scalar Time
+scalar Any
 
 input NewJob {
   companyId:     ID!
@@ -763,6 +862,12 @@ type Application {
   createdAt:   Time!
   updatedAt:   Time!
   deletedAt:   Time
+}
+
+type DeletionStatus {
+  status: String!
+  data: Any
+  error: String
 }
 `, BuiltIn: false},
 }

@@ -14,6 +14,12 @@ type Mutation {
   updateCompanyById(input: UpdateCompany!): Company
   updateUserById(input: UpdateUser!): User
   updateApplicationById(input: UpdateApplication!): Application
+
+  deleteJobById(input: ID!): DeletionStatus
+  deleteCompanyById(input: ID!): DeletionStatus
+  deleteApplicantById(input: ID!): DeletionStatus
+  deleteUserById(input: ID!): DeletionStatus
+  deleteApplicationById(input: ID!): DeletionStatus
 }
 
 type Query {

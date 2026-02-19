@@ -3,6 +3,7 @@
 # https://gqlgen.com/getting-started/
 
 scalar Time
+scalar Any
 
 input NewJob {
   companyId:     ID!
@@ -107,4 +108,10 @@ type Application {
   createdAt:   Time!
   updatedAt:   Time!
   deletedAt:   Time
+}
+
+type DeletionStatus {
+  status: String!
+  data: Any
+  error: String
 }

@@ -35,6 +35,12 @@ type Company struct {
 	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
+type DeletionStatus struct {
+	Status string  `json:"status"`
+	Data   any     `json:"data,omitempty"`
+	Error  *string `json:"error,omitempty"`
+}
+
 type Job struct {
 	ID           int64      `json:"id"`
 	Company      *Company   `json:"company"`

@@ -7,6 +7,7 @@ package graphql
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -235,6 +236,89 @@ func (r *mutationResolver) UpdateApplicationByID(ctx context.Context, input mode
 		log.Print("Application not found. Skip update.")
 	}
 	return updatedApplication, nil
+}
+
+// DeleteJobByID is the resolver for the deleteJobById field.
+func (r *mutationResolver) DeleteJobByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
+	panic(fmt.Errorf("not implemented: DeleteJobByID - deleteJobById"))
+}
+
+// DeleteCompanyByID is the resolver for the deleteCompanyById field.
+func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
+	var deletedCompany *model.Company
+	for _, c := range r.companies {
+		if c.ID == input && c.DeletedAt == nil {
+			userMutation, _ := r.DeleteUserByID(ctx, c.User.ID)
+			if userMutation.Data == nil {
+				break
+			}
+			now := time.Now()
+			c.DeletedAt = &now
+			break
+		}
+	}
+	if deletedCompany == nil {
+		log.Print("Company not found. Skip delete.")
+	}
+	return &model.DeletionStatus{
+		Status: "OK",
+		Data:   deletedCompany,
+		Error:  nil,
+	}, nil
+}
+
+// DeleteApplicantByID is the resolver for the deleteApplicantById field.
+func (r *mutationResolver) DeleteApplicantByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
+	panic(fmt.Errorf("not implemented: DeleteApplicantByID - deleteApplicantById"))
+}
+
+// DeleteUserByID is the resolver for the deleteUserById field.
+func (r *mutationResolver) DeleteUserByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
+	var deletedUser *model.User
+	for _, u := range r.users {
+		if u.ID == input && u.DeletedAt == nil {
+			now := time.Now()
+			u.DeletedAt = &now
+			break
+		}
+	}
+	if deletedUser == nil {
+		log.Print("User not found. Skip delete.")
+		return &model.DeletionStatus{
+			Status: "IGNORE",
+			Data:   nil,
+			Error:  nil,
+		}, nil
+	}
+	return &model.DeletionStatus{
+		Status: "OK",
+		Data:   deletedUser,
+		Error:  nil,
+	}, nil
+}
+
+// DeleteApplicationByID is the resolver for the deleteApplicationById field.
+func (r *mutationResolver) DeleteApplicationByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
+	var deletedApplicant *model.Applicant
+	for _, a := range r.applicants {
+		if a.ID == input && a.DeletedAt == nil {
+			userMutation, _ := r.DeleteUserByID(ctx, a.User.ID)
+			if userMutation.Data == nil {
+				break
+			}
+			now := time.Now()
+			a.DeletedAt = &now
+			break
+		}
+	}
+	if deletedApplicant == nil {
+		log.Print("Applicant not found. Skip delete.")
+	}
+	return &model.DeletionStatus{
+		Status: "OK",
+		Data:   deletedApplicant,
+		Error:  nil,
+	}, nil
 }
 
 // Jobs is the resolver for the jobs field.
