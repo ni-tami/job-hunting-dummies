@@ -4,11 +4,16 @@
 
 
 type Mutation {
-    createTodo(input: NewTodo!): Todo!
+  createJob(input: NewJob!): Job
+  createCompany(input: NewCompany!): Company
+  createApplicant(input: NewApplicant!): Applicant
+  createUser(input: NewUser!): User
+  createApplication(input: NewApplication!): Application
+}
 
-    createJob(input: NewJob!): Job
-    createCompany(input: NewCompany!): Company
-    createApplicant(input: NewApplicant!): Applicant
-    createUser(input: NewUser!): User
-    createApplication(input: NewApplication!): Application
+type Query {
+  jobs: [Job!]!
+  companies: [Company!]!
+  applicants: [Applicant!]!
+  applications: [Application!]!  
 }

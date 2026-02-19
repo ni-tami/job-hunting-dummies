@@ -9,7 +9,6 @@ import "github.com/ni-tami/service/internal/graphql/model"
 // here.
 
 type Resolver struct {
-	todos []*model.Todo
 	applications []*model.Application
 	companies []*model.Company
 	applicants []*model.Applicant

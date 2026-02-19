@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -21,6 +22,7 @@ type ApplicantResolver interface {
 }
 type ApplicationResolver interface {
 	Applicant(ctx context.Context, obj *Application) (*Applicant, error)
+
 	Job(ctx context.Context, obj *Application) (*Job, error)
 }
 type CompanyResolver interface {
@@ -52,13 +54,42 @@ func (ec *executionContext) _Applicant_id(ctx context.Context, field graphql.Col
 			return obj.ID, nil
 		},
 		nil,
-		ec.marshalNID2string,
+		ec.marshalNID2int64,
 		true,
 		true,
 	)
 }
 
 func (ec *executionContext) fieldContext_Applicant_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Applicant",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Applicant_userId(ctx context.Context, field graphql.CollectedField, obj *Applicant) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Applicant_userId,
+		func(ctx context.Context) (any, error) {
+			return obj.UserID, nil
+		},
+		nil,
+		ec.marshalNID2int64,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Applicant_userId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Applicant",
 		Field:      field,
@@ -182,9 +213,9 @@ func (ec *executionContext) _Applicant_deletedAt(ctx context.Context, field grap
 			return obj.DeletedAt, nil
 		},
 		nil,
-		ec.marshalNTime2timeᚐTime,
+		ec.marshalOTime2ᚖtimeᚐTime,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -211,13 +242,42 @@ func (ec *executionContext) _Application_id(ctx context.Context, field graphql.C
 			return obj.ID, nil
 		},
 		nil,
-		ec.marshalNID2string,
+		ec.marshalNID2int64,
 		true,
 		true,
 	)
 }
 
 func (ec *executionContext) fieldContext_Application_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Application",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Application_applicantId(ctx context.Context, field graphql.CollectedField, obj *Application) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Application_applicantId,
+		func(ctx context.Context) (any, error) {
+			return obj.ApplicantID, nil
+		},
+		nil,
+		ec.marshalNID2int64,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Application_applicantId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Application",
 		Field:      field,
@@ -256,6 +316,8 @@ func (ec *executionContext) fieldContext_Application_applicant(_ context.Context
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Applicant_id(ctx, field)
+			case "userId":
+				return ec.fieldContext_Applicant_userId(ctx, field)
 			case "user":
 				return ec.fieldContext_Applicant_user(ctx, field)
 			case "createdAt":
@@ -266,6 +328,35 @@ func (ec *executionContext) fieldContext_Application_applicant(_ context.Context
 				return ec.fieldContext_Applicant_deletedAt(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Applicant", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Application_jobId(ctx context.Context, field graphql.CollectedField, obj *Application) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Application_jobId,
+		func(ctx context.Context) (any, error) {
+			return obj.JobID, nil
+		},
+		nil,
+		ec.marshalNID2int64,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Application_jobId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Application",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
 		},
 	}
 	return fc, nil
@@ -297,6 +388,8 @@ func (ec *executionContext) fieldContext_Application_job(_ context.Context, fiel
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Job_id(ctx, field)
+			case "companyId":
+				return ec.fieldContext_Job_companyId(ctx, field)
 			case "company":
 				return ec.fieldContext_Job_company(ctx, field)
 			case "title":
@@ -415,9 +508,9 @@ func (ec *executionContext) _Application_deletedAt(ctx context.Context, field gr
 			return obj.DeletedAt, nil
 		},
 		nil,
-		ec.marshalNTime2timeᚐTime,
+		ec.marshalOTime2ᚖtimeᚐTime,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -444,13 +537,42 @@ func (ec *executionContext) _Company_id(ctx context.Context, field graphql.Colle
 			return obj.ID, nil
 		},
 		nil,
-		ec.marshalNID2string,
+		ec.marshalNID2int64,
 		true,
 		true,
 	)
 }
 
 func (ec *executionContext) fieldContext_Company_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Company",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Company_userId(ctx context.Context, field graphql.CollectedField, obj *Company) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Company_userId,
+		func(ctx context.Context) (any, error) {
+			return obj.UserID, nil
+		},
+		nil,
+		ec.marshalNID2int64,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Company_userId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Company",
 		Field:      field,
@@ -661,9 +783,9 @@ func (ec *executionContext) _Company_deletedAt(ctx context.Context, field graphq
 			return obj.DeletedAt, nil
 		},
 		nil,
-		ec.marshalNTime2timeᚐTime,
+		ec.marshalOTime2ᚖtimeᚐTime,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -690,13 +812,42 @@ func (ec *executionContext) _Job_id(ctx context.Context, field graphql.Collected
 			return obj.ID, nil
 		},
 		nil,
-		ec.marshalNID2string,
+		ec.marshalNID2int64,
 		true,
 		true,
 	)
 }
 
 func (ec *executionContext) fieldContext_Job_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Job",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Job_companyId(ctx context.Context, field graphql.CollectedField, obj *Job) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Job_companyId,
+		func(ctx context.Context) (any, error) {
+			return obj.CompanyID, nil
+		},
+		nil,
+		ec.marshalNID2int64,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_Job_companyId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Job",
 		Field:      field,
@@ -735,6 +886,8 @@ func (ec *executionContext) fieldContext_Job_company(_ context.Context, field gr
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Company_id(ctx, field)
+			case "userId":
+				return ec.fieldContext_Company_userId(ctx, field)
 			case "user":
 				return ec.fieldContext_Company_user(ctx, field)
 			case "companyName":
@@ -911,9 +1064,9 @@ func (ec *executionContext) _Job_deletedAt(ctx context.Context, field graphql.Co
 			return obj.DeletedAt, nil
 		},
 		nil,
-		ec.marshalNTime2timeᚐTime,
+		ec.marshalOTime2ᚖtimeᚐTime,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -940,7 +1093,7 @@ func (ec *executionContext) _User_id(ctx context.Context, field graphql.Collecte
 			return obj.ID, nil
 		},
 		nil,
-		ec.marshalNID2string,
+		ec.marshalNID2int64,
 		true,
 		true,
 	)
@@ -1085,9 +1238,9 @@ func (ec *executionContext) _User_deleted_at(ctx context.Context, field graphql.
 			return obj.DeletedAt, nil
 		},
 		nil,
-		ec.marshalNTime2timeᚐTime,
+		ec.marshalOTime2ᚖtimeᚐTime,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -1124,7 +1277,7 @@ func (ec *executionContext) unmarshalInputNewApplicant(ctx context.Context, obj 
 		switch k {
 		case "userId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			data, err := ec.unmarshalNID2string(ctx, v)
+			data, err := ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -1151,14 +1304,14 @@ func (ec *executionContext) unmarshalInputNewApplication(ctx context.Context, ob
 		switch k {
 		case "applicantId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("applicantId"))
-			data, err := ec.unmarshalNID2string(ctx, v)
+			data, err := ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.ApplicantID = data
 		case "jobId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jobId"))
-			data, err := ec.unmarshalNID2string(ctx, v)
+			data, err := ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -1185,7 +1338,7 @@ func (ec *executionContext) unmarshalInputNewCompany(ctx context.Context, obj an
 		switch k {
 		case "userId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			data, err := ec.unmarshalNID2string(ctx, v)
+			data, err := ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -1233,7 +1386,7 @@ func (ec *executionContext) unmarshalInputNewJob(ctx context.Context, obj any) (
 		switch k {
 		case "companyId":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyId"))
-			data, err := ec.unmarshalNID2string(ctx, v)
+			data, err := ec.unmarshalNID2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -1323,6 +1476,11 @@ func (ec *executionContext) _Applicant(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "userId":
+			out.Values[i] = ec._Applicant_userId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		case "user":
 			field := field
 
@@ -1371,9 +1529,6 @@ func (ec *executionContext) _Applicant(ctx context.Context, sel ast.SelectionSet
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Applicant_deletedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -1413,6 +1568,11 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "applicantId":
+			out.Values[i] = ec._Application_applicantId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		case "applicant":
 			field := field
 
@@ -1449,6 +1609,11 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "jobId":
+			out.Values[i] = ec._Application_jobId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		case "job":
 			field := field
 
@@ -1502,9 +1667,6 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Application_deletedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -1541,6 +1703,11 @@ func (ec *executionContext) _Company(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = graphql.MarshalString("Company")
 		case "id":
 			out.Values[i] = ec._Company_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "userId":
+			out.Values[i] = ec._Company_userId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
@@ -1607,9 +1774,6 @@ func (ec *executionContext) _Company(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Company_deletedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -1646,6 +1810,11 @@ func (ec *executionContext) _Job(ctx context.Context, sel ast.SelectionSet, obj 
 			out.Values[i] = graphql.MarshalString("Job")
 		case "id":
 			out.Values[i] = ec._Job_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "companyId":
+			out.Values[i] = ec._Job_companyId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
@@ -1712,9 +1881,6 @@ func (ec *executionContext) _Job(ctx context.Context, sel ast.SelectionSet, obj 
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Job_deletedAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -1776,9 +1942,6 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "deleted_at":
 			out.Values[i] = ec._User_deleted_at(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -1810,6 +1973,50 @@ func (ec *executionContext) marshalNApplicant2githubᚗcomᚋniᚑtamiᚋservice
 	return ec._Applicant(ctx, sel, &v)
 }
 
+func (ec *executionContext) marshalNApplicant2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicantᚄ(ctx context.Context, sel ast.SelectionSet, v []*Applicant) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
 func (ec *executionContext) marshalNApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant(ctx context.Context, sel ast.SelectionSet, v *Applicant) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -1820,8 +2027,106 @@ func (ec *executionContext) marshalNApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋserv
 	return ec._Applicant(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNApplication2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicationᚄ(ctx context.Context, sel ast.SelectionSet, v []*Application) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNApplication2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplication(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNApplication2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplication(ctx context.Context, sel ast.SelectionSet, v *Application) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Application(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNCompany2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompany(ctx context.Context, sel ast.SelectionSet, v Company) graphql.Marshaler {
 	return ec._Company(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNCompany2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompanyᚄ(ctx context.Context, sel ast.SelectionSet, v []*Company) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCompany2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompany(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalNCompany2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompany(ctx context.Context, sel ast.SelectionSet, v *Company) graphql.Marshaler {
@@ -1836,6 +2141,50 @@ func (ec *executionContext) marshalNCompany2ᚖgithubᚗcomᚋniᚑtamiᚋservic
 
 func (ec *executionContext) marshalNJob2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJob(ctx context.Context, sel ast.SelectionSet, v Job) graphql.Marshaler {
 	return ec._Job(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNJob2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJobᚄ(ctx context.Context, sel ast.SelectionSet, v []*Job) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNJob2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJob(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalNJob2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJob(ctx context.Context, sel ast.SelectionSet, v *Job) graphql.Marshaler {
@@ -1929,6 +2278,24 @@ func (ec *executionContext) marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋ
 		return graphql.Null
 	}
 	return ec._Job(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOTime2ᚖtimeᚐTime(ctx context.Context, v any) (*time.Time, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalTime(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOTime2ᚖtimeᚐTime(ctx context.Context, sel ast.SelectionSet, v *time.Time) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	_ = sel
+	_ = ctx
+	res := graphql.MarshalTime(*v)
+	return res
 }
 
 func (ec *executionContext) marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *User) graphql.Marshaler {

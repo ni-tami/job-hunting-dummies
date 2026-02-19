@@ -7,42 +7,118 @@ package graphql
 
 import (
 	"context"
-	"fmt"
+	"time"
 
 	"github.com/ni-tami/service/internal/graphql/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
-}
-
 // CreateJob is the resolver for the createJob field.
 func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*model.Job, error) {
-	panic(fmt.Errorf("not implemented: CreateJob - createJob"))
+	id := time.Now().UnixMicro()
+	job := &model.Job{
+		ID:           id,
+		CompanyID:    input.CompanyID,
+		Title:        input.Title,
+		Description:  input.Description,
+		Requirements: input.Requirements,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
+		DeletedAt:    nil,
+	}
+	r.jobs = append(r.jobs, job)
+	return job, nil
 }
 
 // CreateCompany is the resolver for the createCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCompany) (*model.Company, error) {
-	panic(fmt.Errorf("not implemented: CreateCompany - createCompany"))
+	id := time.Now().UnixMicro()
+	company := &model.Company{
+		ID:          id,
+		UserID:      input.UserID,
+		CompanyName: input.CompanyName,
+		Website:     input.Website,
+		Description: input.Description,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+		DeletedAt:   nil,
+	}
+	r.companies = append(r.companies, company)
+	return company, nil
 }
 
 // CreateApplicant is the resolver for the createApplicant field.
 func (r *mutationResolver) CreateApplicant(ctx context.Context, input model.NewApplicant) (*model.Applicant, error) {
-	panic(fmt.Errorf("not implemented: CreateApplicant - createApplicant"))
+	id := time.Now().UnixMicro()
+	applicant := &model.Applicant{
+		ID:        id,
+		UserID:    input.UserID,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
+	}
+	r.applicants = append(r.applicants, applicant)
+	return applicant, nil
 }
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+	id := time.Now().UnixMicro()
+	user := &model.User{
+		ID:        id,
+		Username:  input.Username,
+		Name:      input.Name,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
+	}
+	return user, nil
 }
 
 // CreateApplication is the resolver for the createApplication field.
 func (r *mutationResolver) CreateApplication(ctx context.Context, input model.NewApplication) (*model.Application, error) {
-	panic(fmt.Errorf("not implemented: CreateApplication - createApplication"))
+	id := time.Now().UnixMicro()
+	application := &model.Application{
+		ID:          id,
+		ApplicantID: input.ApplicantID,
+		JobID:       input.JobID,
+		Status:      "APPLIED",
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+		DeletedAt:   nil,
+	}
+	r.applications = append(r.applications, application)
+	return application, nil
+}
+
+// Jobs is the resolver for the jobs field.
+func (r *queryResolver) Jobs(ctx context.Context) ([]*model.Job, error) {
+	// TODO: refactor
+	return r.jobs, nil
+}
+
+// Companies is the resolver for the companies field.
+func (r *queryResolver) Companies(ctx context.Context) ([]*model.Company, error) {
+	// TODO: refactor
+	return r.companies, nil
+}
+
+// Applicants is the resolver for the applicants field.
+func (r *queryResolver) Applicants(ctx context.Context) ([]*model.Applicant, error) {
+	// TODO: refactor
+	return r.applicants, nil
+}
+
+// Applications is the resolver for the applications field.
+func (r *queryResolver) Applications(ctx context.Context) ([]*model.Application, error) {
+	// TODO: refactor
+	return r.applications, nil
 }
 
 // Mutation returns model.MutationResolver implementation.
 func (r *Resolver) Mutation() model.MutationResolver { return &mutationResolver{r} }
 
+// Query returns model.QueryResolver implementation.
+func (r *Resolver) Query() model.QueryResolver { return &queryResolver{r} }
+
 type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }

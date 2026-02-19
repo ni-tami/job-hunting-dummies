@@ -38,7 +38,6 @@ type ResolverRoot interface {
 	Job() JobResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
-	Todo() TodoResolver
 }
 
 type DirectiveRoot struct {
@@ -51,16 +50,19 @@ type ComplexityRoot struct {
 		ID        func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 		User      func(childComplexity int) int
+		UserID    func(childComplexity int) int
 	}
 
 	Application struct {
-		Applicant func(childComplexity int) int
-		CreatedAt func(childComplexity int) int
-		DeletedAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Job       func(childComplexity int) int
-		Status    func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
+		Applicant   func(childComplexity int) int
+		ApplicantID func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
+		DeletedAt   func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Job         func(childComplexity int) int
+		JobID       func(childComplexity int) int
+		Status      func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	Company struct {
@@ -71,11 +73,13 @@ type ComplexityRoot struct {
 		ID          func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
 		User        func(childComplexity int) int
+		UserID      func(childComplexity int) int
 		Website     func(childComplexity int) int
 	}
 
 	Job struct {
 		Company      func(childComplexity int) int
+		CompanyID    func(childComplexity int) int
 		CreatedAt    func(childComplexity int) int
 		DeletedAt    func(childComplexity int) int
 		Description  func(childComplexity int) int
@@ -90,19 +94,14 @@ type ComplexityRoot struct {
 		CreateApplication func(childComplexity int, input NewApplication) int
 		CreateCompany     func(childComplexity int, input NewCompany) int
 		CreateJob         func(childComplexity int, input NewJob) int
-		CreateTodo        func(childComplexity int, input NewTodo) int
 		CreateUser        func(childComplexity int, input NewUser) int
 	}
 
 	Query struct {
-		Todos func(childComplexity int) int
-	}
-
-	Todo struct {
-		Done func(childComplexity int) int
-		ID   func(childComplexity int) int
-		Text func(childComplexity int) int
-		User func(childComplexity int) int
+		Applicants   func(childComplexity int) int
+		Applications func(childComplexity int) int
+		Companies    func(childComplexity int) int
+		Jobs         func(childComplexity int) int
 	}
 
 	User struct {
@@ -169,12 +168,26 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Applicant.User(childComplexity), true
 
+	case "Applicant.userId":
+		if e.complexity.Applicant.UserID == nil {
+			break
+		}
+
+		return e.complexity.Applicant.UserID(childComplexity), true
+
 	case "Application.applicant":
 		if e.complexity.Application.Applicant == nil {
 			break
 		}
 
 		return e.complexity.Application.Applicant(childComplexity), true
+
+	case "Application.applicantId":
+		if e.complexity.Application.ApplicantID == nil {
+			break
+		}
+
+		return e.complexity.Application.ApplicantID(childComplexity), true
 
 	case "Application.createdAt":
 		if e.complexity.Application.CreatedAt == nil {
@@ -203,6 +216,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Application.Job(childComplexity), true
+
+	case "Application.jobId":
+		if e.complexity.Application.JobID == nil {
+			break
+		}
+
+		return e.complexity.Application.JobID(childComplexity), true
 
 	case "Application.status":
 		if e.complexity.Application.Status == nil {
@@ -267,6 +287,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Company.User(childComplexity), true
 
+	case "Company.userId":
+		if e.complexity.Company.UserID == nil {
+			break
+		}
+
+		return e.complexity.Company.UserID(childComplexity), true
+
 	case "Company.website":
 		if e.complexity.Company.Website == nil {
 			break
@@ -280,6 +307,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Job.Company(childComplexity), true
+
+	case "Job.companyId":
+		if e.complexity.Job.CompanyID == nil {
+			break
+		}
+
+		return e.complexity.Job.CompanyID(childComplexity), true
 
 	case "Job.createdAt":
 		if e.complexity.Job.CreatedAt == nil {
@@ -378,18 +412,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(NewJob)), true
 
-	case "Mutation.createTodo":
-		if e.complexity.Mutation.CreateTodo == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createTodo_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CreateTodo(childComplexity, args["input"].(NewTodo)), true
-
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
 			break
@@ -402,40 +424,33 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(NewUser)), true
 
-	case "Query.todos":
-		if e.complexity.Query.Todos == nil {
+	case "Query.applicants":
+		if e.complexity.Query.Applicants == nil {
 			break
 		}
 
-		return e.complexity.Query.Todos(childComplexity), true
+		return e.complexity.Query.Applicants(childComplexity), true
 
-	case "Todo.done":
-		if e.complexity.Todo.Done == nil {
+	case "Query.applications":
+		if e.complexity.Query.Applications == nil {
 			break
 		}
 
-		return e.complexity.Todo.Done(childComplexity), true
+		return e.complexity.Query.Applications(childComplexity), true
 
-	case "Todo.id":
-		if e.complexity.Todo.ID == nil {
+	case "Query.companies":
+		if e.complexity.Query.Companies == nil {
 			break
 		}
 
-		return e.complexity.Todo.ID(childComplexity), true
+		return e.complexity.Query.Companies(childComplexity), true
 
-	case "Todo.text":
-		if e.complexity.Todo.Text == nil {
+	case "Query.jobs":
+		if e.complexity.Query.Jobs == nil {
 			break
 		}
 
-		return e.complexity.Todo.Text(childComplexity), true
-
-	case "Todo.user":
-		if e.complexity.Todo.User == nil {
-			break
-		}
-
-		return e.complexity.Todo.User(childComplexity), true
+		return e.complexity.Query.Jobs(childComplexity), true
 
 	case "User.created_at":
 		if e.complexity.User.CreatedAt == nil {
@@ -491,7 +506,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewApplication,
 		ec.unmarshalInputNewCompany,
 		ec.unmarshalInputNewJob,
-		ec.unmarshalInputNewTodo,
 		ec.unmarshalInputNewUser,
 	)
 	first := true
@@ -596,13 +610,18 @@ var sources = []*ast.Source{
 
 
 type Mutation {
-    createTodo(input: NewTodo!): Todo!
+  createJob(input: NewJob!): Job
+  createCompany(input: NewCompany!): Company
+  createApplicant(input: NewApplicant!): Applicant
+  createUser(input: NewUser!): User
+  createApplication(input: NewApplication!): Application
+}
 
-    createJob(input: NewJob!): Job
-    createCompany(input: NewCompany!): Company
-    createApplicant(input: NewApplicant!): Applicant
-    createUser(input: NewUser!): User
-    createApplication(input: NewApplication!): Application
+type Query {
+  jobs: [Job!]!
+  companies: [Company!]!
+  applicants: [Applicant!]!
+  applications: [Application!]!  
 }
 `, BuiltIn: false},
 	{Name: "../jobhunt.schema.graphqls", Input: `# GraphQL schema example
@@ -645,67 +664,52 @@ type User {
   name:       String!
   created_at: Time!
   updated_at: Time!
-  deleted_at: Time!
+  deleted_at: Time
 }
 
 type Applicant {
   id:        ID!
+  userId:       ID!
   user:      User!
   createdAt: Time!
   updatedAt: Time!
-  deletedAt: Time!
+  deletedAt: Time
 }
 
 type Company {
   id:           ID!
+  userId:       ID!
   user:         User!
   companyName:  String!
   website:      String!
   description:  String!
   createdAt:    Time!
   updatedAt:    Time!
-  deletedAt:    Time!
+  deletedAt:    Time
 }
 
 type Job {
   id:           ID!
+  companyId:    ID!
   company:      Company!
   title:        String!
   description:  String!
   requirements: [String!]!
   createdAt:    Time!
   updatedAt:    Time!
-  deletedAt:    Time!
+  deletedAt:    Time
 }
 
 type Application {
   id:          ID!
+  applicantId: ID!
   applicant:   Applicant!
+  jobId:       ID!
   job:         Job!
   status:      String!
   createdAt:   Time!
   updatedAt:   Time!
-  deletedAt:   Time!
-}
-`, BuiltIn: false},
-	{Name: "../schema.graphqls", Input: `# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
-
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
-type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
+  deletedAt:   Time
 }
 `, BuiltIn: false},
 }

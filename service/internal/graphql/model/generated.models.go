@@ -7,74 +7,74 @@ import (
 )
 
 type Applicant struct {
-	ID        string    `json:"id"`
-	User      *User     `json:"user"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	DeletedAt time.Time `json:"deletedAt"`
+	ID        int64      `json:"id"`
+	UserID    int64      `json:"userId"`
+	User      *User      `json:"user"`
+	CreatedAt time.Time  `json:"createdAt"`
+	UpdatedAt time.Time  `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Application struct {
-	ID        string     `json:"id"`
-	Applicant *Applicant `json:"applicant"`
-	Job       *Job       `json:"job"`
-	Status    string     `json:"status"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt time.Time  `json:"deletedAt"`
+	ID          int64      `json:"id"`
+	ApplicantID int64      `json:"applicantId"`
+	Applicant   *Applicant `json:"applicant"`
+	JobID       int64      `json:"jobId"`
+	Job         *Job       `json:"job"`
+	Status      string     `json:"status"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Company struct {
-	ID          string    `json:"id"`
-	User        *User     `json:"user"`
-	CompanyName string    `json:"companyName"`
-	Website     string    `json:"website"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-	DeletedAt   time.Time `json:"deletedAt"`
+	ID          int64      `json:"id"`
+	UserID      int64      `json:"userId"`
+	User        *User      `json:"user"`
+	CompanyName string     `json:"companyName"`
+	Website     string     `json:"website"`
+	Description string     `json:"description"`
+	CreatedAt   time.Time  `json:"createdAt"`
+	UpdatedAt   time.Time  `json:"updatedAt"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Job struct {
-	ID           string    `json:"id"`
-	Company      *Company  `json:"company"`
-	Title        string    `json:"title"`
-	Description  string    `json:"description"`
-	Requirements []string  `json:"requirements"`
-	CreatedAt    time.Time `json:"createdAt"`
-	UpdatedAt    time.Time `json:"updatedAt"`
-	DeletedAt    time.Time `json:"deletedAt"`
+	ID           int64      `json:"id"`
+	CompanyID    int64      `json:"companyId"`
+	Company      *Company   `json:"company"`
+	Title        string     `json:"title"`
+	Description  string     `json:"description"`
+	Requirements []string   `json:"requirements"`
+	CreatedAt    time.Time  `json:"createdAt"`
+	UpdatedAt    time.Time  `json:"updatedAt"`
+	DeletedAt    *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Mutation struct {
 }
 
 type NewApplicant struct {
-	UserID string `json:"userId"`
+	UserID int64 `json:"userId"`
 }
 
 type NewApplication struct {
-	ApplicantID string `json:"applicantId"`
-	JobID       string `json:"jobId"`
+	ApplicantID int64 `json:"applicantId"`
+	JobID       int64 `json:"jobId"`
 }
 
 type NewCompany struct {
-	UserID      string `json:"userId"`
+	UserID      int64  `json:"userId"`
 	CompanyName string `json:"companyName"`
 	Description string `json:"description"`
 	Website     string `json:"website"`
 }
 
 type NewJob struct {
-	CompanyID    string   `json:"companyId"`
+	CompanyID    int64    `json:"companyId"`
 	Title        string   `json:"title"`
 	Description  string   `json:"description"`
 	Requirements []string `json:"requirements"`
-}
-
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
 }
 
 type NewUser struct {
@@ -86,10 +86,10 @@ type Query struct {
 }
 
 type User struct {
-	ID        string    `json:"id"`
-	Username  string    `json:"username"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt time.Time `json:"deleted_at"`
+	ID        int64      `json:"id"`
+	Username  string     `json:"username"`
+	Name      string     `json:"name"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 }

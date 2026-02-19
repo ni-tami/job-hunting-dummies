@@ -38,45 +38,50 @@ type User {
   name:       String!
   created_at: Time!
   updated_at: Time!
-  deleted_at: Time!
+  deleted_at: Time
 }
 
 type Applicant {
   id:        ID!
+  userId:       ID!
   user:      User!
   createdAt: Time!
   updatedAt: Time!
-  deletedAt: Time!
+  deletedAt: Time
 }
 
 type Company {
   id:           ID!
+  userId:       ID!
   user:         User!
   companyName:  String!
   website:      String!
   description:  String!
   createdAt:    Time!
   updatedAt:    Time!
-  deletedAt:    Time!
+  deletedAt:    Time
 }
 
 type Job {
   id:           ID!
+  companyId:    ID!
   company:      Company!
   title:        String!
   description:  String!
   requirements: [String!]!
   createdAt:    Time!
   updatedAt:    Time!
-  deletedAt:    Time!
+  deletedAt:    Time
 }
 
 type Application {
   id:          ID!
+  applicantId: ID!
   applicant:   Applicant!
+  jobId:       ID!
   job:         Job!
   status:      String!
   createdAt:   Time!
   updatedAt:   Time!
-  deletedAt:   Time!
+  deletedAt:   Time
 }
