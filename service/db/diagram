@@ -1,0 +1,72 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Enum ApplicationStatus {
+  APPLIED
+  REVIEWED
+  PENDING_INTERVIEW
+  INTERVIEW_SCHEDULED
+  PENDING_RESULT
+  ACCEPTED
+  REJECTED
+}
+
+Table users {
+  id integer [primary key]
+  username varchar
+  name varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table applicants {
+  id integer [primary key]
+  user_id integer
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table companies {
+  id integer [primary key]
+  user_id integer
+  company_name varchar
+  website varchar
+  description varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table jobs {
+  id integer [primary key]
+  company_id integer
+  title integer
+  description varchar
+  requirements array
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table applications {
+  id integer [primary key]
+  applicant_id integer
+  job_id integer
+  status ApplicationStatus
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Ref company_jobs: jobs.company_id > companies.id // many-to-one
+
+Ref: applications.applicant_id > applicants.id
+
+Ref: applications.job_id > jobs.id
+
+Ref: users.id < applicants.user_id
+
+Ref: users.id < companies.user_id
+
