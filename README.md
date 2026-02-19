@@ -5,7 +5,7 @@ A job search app for dummy HR and dummy job hunters
 [DB Diagram file](./service/docs/diagram)
 
 - User
-> ID  
+> Id  
 > Username  
 > Name  
 > CreatedAt  
@@ -13,7 +13,7 @@ A job search app for dummy HR and dummy job hunters
 > DeletedAt  
 
 - Company
-> ID  
+> Id  
 > User  
 > CompanyName  
 > Description  
@@ -22,14 +22,14 @@ A job search app for dummy HR and dummy job hunters
 > DeletedAt  
 
 - Applicant
-> ID  
+> Id  
 > User  
 > CreatedAt  
 > UpdatedAt  
 > DeletedAt  
 
 - Application
-> ID  
+> Id  
 > Applicant  
 > Job  
 > Status
@@ -38,7 +38,7 @@ A job search app for dummy HR and dummy job hunters
 > DeletedAt  
 
 - Job
-> ID  
+> Id  
 > Company  
 > Title  
 > Description  

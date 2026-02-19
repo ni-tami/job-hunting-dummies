@@ -4,15 +4,15 @@ schema:
 
 # Where should the generated server code go?
 exec:
-  package: graphql
-  layout: single-file # Only other option is "follow-schema," ie multi-file.
+  package: model
+  layout: follow-schema # Only other option is "follow-schema," ie multi-file.
 
   # Only for single-file layout:
-  filename: internal/graphql/generated.go
+  # filename: internal/graphql/generated.go
 
   # Only for follow-schema layout:
-  # dir: graph
-  # filename_template: "{name}.generated.go"
+  dir: internal/graphql/model
+  filename_template: "generated.{name}.go"
 
   # Optional: Maximum number of goroutines in concurrency to use per child resolvers(default: unlimited)
   # worker_limit: 1000
@@ -27,7 +27,7 @@ exec:
 
 # Where should any generated models go?
 model:
-  filename: internal/graphql/model/models_gen.go
+  filename: internal/graphql/model/generated.models.go
   package: model
 
   # Optional: Pass in a path to a new gotpl template to use for generating the models
@@ -140,7 +140,9 @@ models:
   UUID:
     model:
       - github.com/99designs/gqlgen/graphql.UUID
-
+  Time:
+    model:
+      - github.com/99designs/gqlgen/graphql.Time
   # The GraphQL spec explicitly states that the Int type is a signed 32-bit
   # integer. Using Go int or int64 to represent it can lead to unexpected
   # behavior, and some GraphQL tools like Apollo Router will fail when
@@ -158,6 +160,24 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
   Todo:
+    fields:
+      user:
+        resolver: true
+  Job:
+    fields:
+      company:
+        resolver: true
+  Application:
+    fields:
+      applicant:
+        resolver: true
+      job:
+        resolver: true
+  Applicant:
+    fields:
+      user:
+        resolver: true
+  Company:
     fields:
       user:
         resolver: true

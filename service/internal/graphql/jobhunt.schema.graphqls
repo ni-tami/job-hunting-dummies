@@ -1,0 +1,82 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+scalar Time
+
+input NewJob {
+  companyId:     ID!
+  title:         String!
+  description:   String!
+  requirements:  [String!]!
+}
+
+input NewCompany {
+  userId:       ID!
+  companyName:  String!
+  description:  String!
+  website:      String!
+}
+
+input NewApplicant {
+  userId: ID!
+}
+
+input NewApplication {
+  applicantId: 	ID!		
+  jobId: 			  ID!		
+}
+
+input NewUser {
+  username: String!
+  name:     String!
+}
+
+type User {
+  id:         ID!
+  username:   String!
+  name:       String!
+  created_at: Time!
+  updated_at: Time!
+  deleted_at: Time!
+}
+
+type Applicant {
+  id:        ID!
+  user:      User!
+  createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time!
+}
+
+type Company {
+  id:           ID!
+  user:         User!
+  companyName:  String!
+  website:      String!
+  description:  String!
+  createdAt:    Time!
+  updatedAt:    Time!
+  deletedAt:    Time!
+}
+
+type Job {
+  id:           ID!
+  company:      Company!
+  title:        String!
+  description:  String!
+  requirements: [String!]!
+  createdAt:    Time!
+  updatedAt:    Time!
+  deletedAt:    Time!
+}
+
+type Application {
+  id:          ID!
+  applicant:   Applicant!
+  job:         Job!
+  status:      String!
+  createdAt:   Time!
+  updatedAt:   Time!
+  deletedAt:   Time!
+}
