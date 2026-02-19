@@ -114,6 +114,12 @@ func (r *queryResolver) Applications(ctx context.Context) ([]*model.Application,
 	return r.applications, nil
 }
 
+// Users is the resolver for the users field.
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	// TODO: refactor
+	return r.users, nil
+}
+
 // Mutation returns model.MutationResolver implementation.
 func (r *Resolver) Mutation() model.MutationResolver { return &mutationResolver{r} }
 

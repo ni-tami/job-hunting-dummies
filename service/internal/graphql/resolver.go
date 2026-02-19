@@ -13,4 +13,5 @@ type Resolver struct {
 	companies []*model.Company
 	applicants []*model.Applicant
 	jobs []*model.Job
+	users []*model.User
 }

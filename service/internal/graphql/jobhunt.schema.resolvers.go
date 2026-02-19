@@ -7,34 +7,73 @@ package graphql
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/ni-tami/service/internal/graphql/model"
 )
 
 // User is the resolver for the user field.
 func (r *applicantResolver) User(ctx context.Context, obj *model.Applicant) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	return &model.User{
+		ID:        obj.User.ID,
+		Name:      obj.User.Name,
+		Username:  obj.User.Username,
+		CreatedAt: obj.User.CreatedAt,
+		UpdatedAt: obj.User.UpdatedAt,
+		DeletedAt: obj.User.DeletedAt,
+	}, nil
 }
 
 // Applicant is the resolver for the applicant field.
 func (r *applicationResolver) Applicant(ctx context.Context, obj *model.Application) (*model.Applicant, error) {
-	panic(fmt.Errorf("not implemented: Applicant - applicant"))
+	return &model.Applicant{
+		ID: obj.Applicant.ID,
+		User: &model.User{
+			ID:       obj.Applicant.User.ID,
+			Username: obj.Applicant.User.Username,
+		},
+		CreatedAt: obj.CreatedAt,
+		UpdatedAt: obj.UpdatedAt,
+		DeletedAt: obj.DeletedAt,
+	}, nil
 }
 
 // Job is the resolver for the job field.
 func (r *applicationResolver) Job(ctx context.Context, obj *model.Application) (*model.Job, error) {
-	panic(fmt.Errorf("not implemented: Job - job"))
+	return &model.Job{
+		ID:        obj.Job.ID,
+		Title:     obj.Job.Title,
+		CreatedAt: obj.CreatedAt,
+		UpdatedAt: obj.UpdatedAt,
+		DeletedAt: obj.DeletedAt,
+	}, nil
 }
 
 // User is the resolver for the user field.
 func (r *companyResolver) User(ctx context.Context, obj *model.Company) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	return &model.User{
+		ID:        obj.User.ID,
+		Name:      obj.User.Name,
+		Username:  obj.User.Username,
+		CreatedAt: obj.User.CreatedAt,
+		UpdatedAt: obj.User.UpdatedAt,
+		DeletedAt: obj.User.DeletedAt,
+	}, nil
 }
 
 // Company is the resolver for the company field.
 func (r *jobResolver) Company(ctx context.Context, obj *model.Job) (*model.Company, error) {
-	panic(fmt.Errorf("not implemented: Company - company"))
+	return &model.Company{
+		ID: obj.Company.ID,
+		User: &model.User{
+			ID: obj.Company.User.ID,
+		},
+		CompanyName: obj.Company.CompanyName,
+		Website:     obj.Company.Website,
+		Description: obj.Company.Description,
+		CreatedAt:   obj.Company.CreatedAt,
+		UpdatedAt:   obj.Company.UpdatedAt,
+		DeletedAt:   obj.Company.DeletedAt,
+	}, nil
 }
 
 // Applicant returns model.ApplicantResolver implementation.

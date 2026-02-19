@@ -102,6 +102,7 @@ type ComplexityRoot struct {
 		Applications func(childComplexity int) int
 		Companies    func(childComplexity int) int
 		Jobs         func(childComplexity int) int
+		Users        func(childComplexity int) int
 	}
 
 	User struct {
@@ -452,6 +453,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Jobs(childComplexity), true
 
+	case "Query.users":
+		if e.complexity.Query.Users == nil {
+			break
+		}
+
+		return e.complexity.Query.Users(childComplexity), true
+
 	case "User.created_at":
 		if e.complexity.User.CreatedAt == nil {
 			break
@@ -622,6 +630,7 @@ type Query {
   companies: [Company!]!
   applicants: [Applicant!]!
   applications: [Application!]!  
+  users: [User!]!
 }
 `, BuiltIn: false},
 	{Name: "../jobhunt.schema.graphqls", Input: `# GraphQL schema example

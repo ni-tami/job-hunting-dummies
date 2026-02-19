@@ -16,4 +16,5 @@ type Query {
   companies: [Company!]!
   applicants: [Applicant!]!
   applications: [Application!]!  
+  users: [User!]!
 }
