@@ -3,6 +3,7 @@ package model
 import "time"
 
 type ApplicationStatus int
+
 const (
 	Applied ApplicationStatus = iota
 	Reviewed
@@ -13,22 +14,9 @@ const (
 	Rejected
 )
 
-var applicationStatus = map[ApplicationStatus]string{
-	Applied: "applied",
-	Reviewed: "reviewed",
-	PendingInterview: "pending_interview",
-	InterviewScheduled: "interview_scheduled",
-	PendingResult: "pending_result",
-	Accepted: "accepted",
-	Rejected: "rejected",
-}
-
-func (s ApplicationStatus) String() string {
-    return applicationStatus[s]
-}
-
+// nolint
 type (
-    Users struct {
+  Users struct {
     id int
     username string
     name string
