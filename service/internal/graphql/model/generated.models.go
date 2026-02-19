@@ -8,7 +8,6 @@ import (
 
 type Applicant struct {
 	ID        int64      `json:"id"`
-	UserID    int64      `json:"userId"`
 	User      *User      `json:"user"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
@@ -16,20 +15,17 @@ type Applicant struct {
 }
 
 type Application struct {
-	ID          int64      `json:"id"`
-	ApplicantID int64      `json:"applicantId"`
-	Applicant   *Applicant `json:"applicant"`
-	JobID       int64      `json:"jobId"`
-	Job         *Job       `json:"job"`
-	Status      string     `json:"status"`
-	CreatedAt   time.Time  `json:"createdAt"`
-	UpdatedAt   time.Time  `json:"updatedAt"`
-	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+	ID        int64      `json:"id"`
+	Applicant *Applicant `json:"applicant"`
+	Job       *Job       `json:"job"`
+	Status    string     `json:"status"`
+	CreatedAt time.Time  `json:"createdAt"`
+	UpdatedAt time.Time  `json:"updatedAt"`
+	DeletedAt *time.Time `json:"deletedAt,omitempty"`
 }
 
 type Company struct {
 	ID          int64      `json:"id"`
-	UserID      int64      `json:"userId"`
 	User        *User      `json:"user"`
 	CompanyName string     `json:"companyName"`
 	Website     string     `json:"website"`
@@ -41,7 +37,6 @@ type Company struct {
 
 type Job struct {
 	ID           int64      `json:"id"`
-	CompanyID    int64      `json:"companyId"`
 	Company      *Company   `json:"company"`
 	Title        string     `json:"title"`
 	Description  string     `json:"description"`
@@ -83,6 +78,30 @@ type NewUser struct {
 }
 
 type Query struct {
+}
+
+type UpdateApplication struct {
+	ID     int64  `json:"id"`
+	Status string `json:"status"`
+}
+
+type UpdateCompany struct {
+	ID          int64  `json:"id"`
+	CompanyName string `json:"companyName"`
+	Description string `json:"description"`
+	Website     string `json:"website"`
+}
+
+type UpdateJob struct {
+	ID           int64    `json:"id"`
+	Title        string   `json:"title"`
+	Description  string   `json:"description"`
+	Requirements []string `json:"requirements"`
+}
+
+type UpdateUser struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 type User struct {

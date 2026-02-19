@@ -7,6 +7,7 @@ package graphql
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/ni-tami/service/internal/graphql/model"
@@ -15,9 +16,19 @@ import (
 // CreateJob is the resolver for the createJob field.
 func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*model.Job, error) {
 	id := time.Now().UnixMicro()
+	var company *model.Company
+	for _, u := range r.companies {
+		if u.ID == input.CompanyID {
+			company = u
+			break
+		}
+	}
+	if company == nil {
+		log.Fatal("Applicant not found")
+	}
 	job := &model.Job{
 		ID:           id,
-		CompanyID:    input.CompanyID,
+		Company:      company,
 		Title:        input.Title,
 		Description:  input.Description,
 		Requirements: input.Requirements,
@@ -32,9 +43,19 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*
 // CreateCompany is the resolver for the createCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCompany) (*model.Company, error) {
 	id := time.Now().UnixMicro()
+	var user *model.User
+	for _, u := range r.users {
+		if u.ID == input.UserID {
+			user = u
+			break
+		}
+	}
+	if user == nil {
+		log.Fatal("Applicant not found")
+	}
 	company := &model.Company{
 		ID:          id,
-		UserID:      input.UserID,
+		User:        user,
 		CompanyName: input.CompanyName,
 		Website:     input.Website,
 		Description: input.Description,
@@ -49,9 +70,19 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCom
 // CreateApplicant is the resolver for the createApplicant field.
 func (r *mutationResolver) CreateApplicant(ctx context.Context, input model.NewApplicant) (*model.Applicant, error) {
 	id := time.Now().UnixMicro()
+	var user *model.User
+	for _, u := range r.users {
+		if u.ID == input.UserID {
+			user = u
+			break
+		}
+	}
+	if user == nil {
+		log.Fatal("Applicant not found")
+	}
 	applicant := &model.Applicant{
 		ID:        id,
-		UserID:    input.UserID,
+		User:      user,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
@@ -77,17 +108,133 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 // CreateApplication is the resolver for the createApplication field.
 func (r *mutationResolver) CreateApplication(ctx context.Context, input model.NewApplication) (*model.Application, error) {
 	id := time.Now().UnixMicro()
+	// TODO refactor
+	var (
+		applicant *model.Applicant
+		job       *model.Job
+	)
+	for _, a := range r.applicants {
+		if a.ID == input.ApplicantID {
+			applicant = a
+			break
+		}
+	}
+	if applicant == nil {
+		log.Fatal("Applicant not found")
+	}
+	for _, j := range r.jobs {
+		if j.ID == input.JobID {
+			job = j
+			break
+		}
+	}
+	if job == nil {
+		log.Fatal("Job not found")
+	}
 	application := &model.Application{
-		ID:          id,
-		ApplicantID: input.ApplicantID,
-		JobID:       input.JobID,
-		Status:      "APPLIED",
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
-		DeletedAt:   nil,
+		ID:        id,
+		Applicant: applicant,
+		Job:       job,
+		Status:    "APPLIED",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
 	}
 	r.applications = append(r.applications, application)
 	return application, nil
+}
+
+// UpdateJobByID is the resolver for the updateJobById field.
+func (r *mutationResolver) UpdateJobByID(ctx context.Context, input model.UpdateJob) (*model.Job, error) {
+	var updatedJob *model.Job
+	for _, j := range r.jobs {
+		if j.ID == input.ID && j.DeletedAt == nil {
+			updatedJob = &model.Job{
+				ID:           j.ID,
+				Company:      j.Company,
+				Title:        input.Title,
+				Description:  input.Description,
+				Requirements: input.Requirements,
+				CreatedAt:    j.CreatedAt,
+				UpdatedAt:    time.Now(),
+				DeletedAt:    nil,
+			}
+			break
+		}
+	}
+	if updatedJob == nil {
+		log.Print("Job not found. Skip update.")
+	}
+	return updatedJob, nil
+}
+
+// UpdateCompanyByID is the resolver for the updateCompanyById field.
+func (r *mutationResolver) UpdateCompanyByID(ctx context.Context, input model.UpdateCompany) (*model.Company, error) {
+	var updatedCompany *model.Company
+	for _, c := range r.companies {
+		if c.ID == input.ID && c.DeletedAt == nil {
+			updatedCompany = &model.Company{
+				ID:          c.ID,
+				User:        c.User,
+				CompanyName: input.CompanyName,
+				Description: input.Description,
+				Website:     input.Website,
+				CreatedAt:   c.CreatedAt,
+				UpdatedAt:   time.Now(),
+				DeletedAt:   nil,
+			}
+			break
+		}
+	}
+	if updatedCompany == nil {
+		log.Print("Company not found. Skip update.")
+	}
+	return updatedCompany, nil
+}
+
+// UpdateUserByID is the resolver for the updateUserById field.
+func (r *mutationResolver) UpdateUserByID(ctx context.Context, input model.UpdateUser) (*model.User, error) {
+	var updatedUser *model.User
+	for _, u := range r.users {
+		if u.ID == input.ID && u.DeletedAt == nil {
+			updatedUser = &model.User{
+				ID:        u.ID,
+				Username:  u.Username,
+				Name:      input.Name,
+				CreatedAt: u.CreatedAt,
+				UpdatedAt: time.Now(),
+				DeletedAt: nil,
+			}
+			break
+		}
+	}
+	if updatedUser == nil {
+		log.Print("User not found. Skip update.")
+	}
+	return updatedUser, nil
+}
+
+// UpdateApplicationByID is the resolver for the updateApplicationById field.
+func (r *mutationResolver) UpdateApplicationByID(ctx context.Context, input model.UpdateApplication) (*model.Application, error) {
+	var updatedApplication *model.Application
+	for _, a := range r.applications {
+		if a.ID == input.ID && a.DeletedAt == nil {
+			updatedApplication = &model.Application{
+				ID:        a.ID,
+				Applicant: a.Applicant,
+				Job:       a.Job,
+				Status:    input.Status,
+				CreatedAt: a.CreatedAt,
+				UpdatedAt: time.Now(),
+				DeletedAt: nil,
+			}
+			break
+		}
+	}
+	if updatedApplication == nil {
+		log.Print("Application not found. Skip update.")
+	}
+	return updatedApplication, nil
 }
 
 // Jobs is the resolver for the jobs field.

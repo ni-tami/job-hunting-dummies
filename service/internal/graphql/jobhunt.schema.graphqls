@@ -32,6 +32,34 @@ input NewUser {
   name:     String!
 }
 
+
+
+input UpdateJob {
+  id:           ID!
+  title:        String!
+  description:  String!
+  requirements: [String!]!
+}
+
+input UpdateCompany {
+  id:          ID!
+  companyName: String!
+  description: String!
+  website:     String!
+}
+
+input UpdateApplication {
+  id:     ID!
+  status: String!
+}
+
+input UpdateUser {
+  id:   ID!
+  name: String!
+}
+
+
+
 type User {
   id:         ID!
   username:   String!
@@ -43,7 +71,6 @@ type User {
 
 type Applicant {
   id:        ID!
-  userId:       ID!
   user:      User!
   createdAt: Time!
   updatedAt: Time!
@@ -52,7 +79,6 @@ type Applicant {
 
 type Company {
   id:           ID!
-  userId:       ID!
   user:         User!
   companyName:  String!
   website:      String!
@@ -64,7 +90,6 @@ type Company {
 
 type Job {
   id:           ID!
-  companyId:    ID!
   company:      Company!
   title:        String!
   description:  String!
@@ -76,9 +101,7 @@ type Job {
 
 type Application {
   id:          ID!
-  applicantId: ID!
   applicant:   Applicant!
-  jobId:       ID!
   job:         Job!
   status:      String!
   createdAt:   Time!

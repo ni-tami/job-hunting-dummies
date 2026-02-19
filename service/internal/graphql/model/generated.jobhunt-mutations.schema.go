@@ -20,6 +20,10 @@ type MutationResolver interface {
 	CreateApplicant(ctx context.Context, input NewApplicant) (*Applicant, error)
 	CreateUser(ctx context.Context, input NewUser) (*User, error)
 	CreateApplication(ctx context.Context, input NewApplication) (*Application, error)
+	UpdateJobByID(ctx context.Context, input UpdateJob) (*Job, error)
+	UpdateCompanyByID(ctx context.Context, input UpdateCompany) (*Company, error)
+	UpdateUserByID(ctx context.Context, input UpdateUser) (*User, error)
+	UpdateApplicationByID(ctx context.Context, input UpdateApplication) (*Application, error)
 }
 type QueryResolver interface {
 	Jobs(ctx context.Context) ([]*Job, error)
@@ -88,6 +92,50 @@ func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, 
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_updateApplicationById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateApplication2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateApplication)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateCompanyById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateCompany2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateCompany)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateJobById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateJob2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateJob)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateUserById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateUser2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateUser)
+	if err != nil {
+		return nil, err
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -134,8 +182,6 @@ func (ec *executionContext) fieldContext_Mutation_createJob(ctx context.Context,
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Job_id(ctx, field)
-			case "companyId":
-				return ec.fieldContext_Job_companyId(ctx, field)
 			case "company":
 				return ec.fieldContext_Job_company(ctx, field)
 			case "title":
@@ -195,8 +241,6 @@ func (ec *executionContext) fieldContext_Mutation_createCompany(ctx context.Cont
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Company_id(ctx, field)
-			case "userId":
-				return ec.fieldContext_Company_userId(ctx, field)
 			case "user":
 				return ec.fieldContext_Company_user(ctx, field)
 			case "companyName":
@@ -256,8 +300,6 @@ func (ec *executionContext) fieldContext_Mutation_createApplicant(ctx context.Co
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Applicant_id(ctx, field)
-			case "userId":
-				return ec.fieldContext_Applicant_userId(ctx, field)
 			case "user":
 				return ec.fieldContext_Applicant_user(ctx, field)
 			case "createdAt":
@@ -366,12 +408,8 @@ func (ec *executionContext) fieldContext_Mutation_createApplication(ctx context.
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Application_id(ctx, field)
-			case "applicantId":
-				return ec.fieldContext_Application_applicantId(ctx, field)
 			case "applicant":
 				return ec.fieldContext_Application_applicant(ctx, field)
-			case "jobId":
-				return ec.fieldContext_Application_jobId(ctx, field)
 			case "job":
 				return ec.fieldContext_Application_job(ctx, field)
 			case "status":
@@ -394,6 +432,236 @@ func (ec *executionContext) fieldContext_Mutation_createApplication(ctx context.
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_createApplication_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateJobById(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateJobById,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateJobByID(ctx, fc.Args["input"].(UpdateJob))
+		},
+		nil,
+		ec.marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateJobById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Job_id(ctx, field)
+			case "company":
+				return ec.fieldContext_Job_company(ctx, field)
+			case "title":
+				return ec.fieldContext_Job_title(ctx, field)
+			case "description":
+				return ec.fieldContext_Job_description(ctx, field)
+			case "requirements":
+				return ec.fieldContext_Job_requirements(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Job_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Job_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Job_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Job", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateJobById_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateCompanyById(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateCompanyById,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateCompanyByID(ctx, fc.Args["input"].(UpdateCompany))
+		},
+		nil,
+		ec.marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateCompanyById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Company_id(ctx, field)
+			case "user":
+				return ec.fieldContext_Company_user(ctx, field)
+			case "companyName":
+				return ec.fieldContext_Company_companyName(ctx, field)
+			case "website":
+				return ec.fieldContext_Company_website(ctx, field)
+			case "description":
+				return ec.fieldContext_Company_description(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Company_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Company_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateCompanyById_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateUserById(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateUserById,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateUserByID(ctx, fc.Args["input"].(UpdateUser))
+		},
+		nil,
+		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateUserById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_User_id(ctx, field)
+			case "username":
+				return ec.fieldContext_User_username(ctx, field)
+			case "name":
+				return ec.fieldContext_User_name(ctx, field)
+			case "created_at":
+				return ec.fieldContext_User_created_at(ctx, field)
+			case "updated_at":
+				return ec.fieldContext_User_updated_at(ctx, field)
+			case "deleted_at":
+				return ec.fieldContext_User_deleted_at(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateUserById_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateApplicationById(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Mutation_updateApplicationById,
+		func(ctx context.Context) (any, error) {
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Mutation().UpdateApplicationByID(ctx, fc.Args["input"].(UpdateApplication))
+		},
+		nil,
+		ec.marshalOApplication2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplication,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateApplicationById(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Application_id(ctx, field)
+			case "applicant":
+				return ec.fieldContext_Application_applicant(ctx, field)
+			case "job":
+				return ec.fieldContext_Application_job(ctx, field)
+			case "status":
+				return ec.fieldContext_Application_status(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Application_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Application_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Application_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Application", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateApplicationById_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -426,8 +694,6 @@ func (ec *executionContext) fieldContext_Query_jobs(_ context.Context, field gra
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Job_id(ctx, field)
-			case "companyId":
-				return ec.fieldContext_Job_companyId(ctx, field)
 			case "company":
 				return ec.fieldContext_Job_company(ctx, field)
 			case "title":
@@ -475,8 +741,6 @@ func (ec *executionContext) fieldContext_Query_companies(_ context.Context, fiel
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Company_id(ctx, field)
-			case "userId":
-				return ec.fieldContext_Company_userId(ctx, field)
 			case "user":
 				return ec.fieldContext_Company_user(ctx, field)
 			case "companyName":
@@ -524,8 +788,6 @@ func (ec *executionContext) fieldContext_Query_applicants(_ context.Context, fie
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Applicant_id(ctx, field)
-			case "userId":
-				return ec.fieldContext_Applicant_userId(ctx, field)
 			case "user":
 				return ec.fieldContext_Applicant_user(ctx, field)
 			case "createdAt":
@@ -567,12 +829,8 @@ func (ec *executionContext) fieldContext_Query_applications(_ context.Context, f
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Application_id(ctx, field)
-			case "applicantId":
-				return ec.fieldContext_Application_applicantId(ctx, field)
 			case "applicant":
 				return ec.fieldContext_Application_applicant(ctx, field)
-			case "jobId":
-				return ec.fieldContext_Application_jobId(ctx, field)
 			case "job":
 				return ec.fieldContext_Application_job(ctx, field)
 			case "status":
@@ -791,6 +1049,22 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "createApplication":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createApplication(ctx, field)
+			})
+		case "updateJobById":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateJobById(ctx, field)
+			})
+		case "updateCompanyById":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateCompanyById(ctx, field)
+			})
+		case "updateUserById":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateUserById(ctx, field)
+			})
+		case "updateApplicationById":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateApplicationById(ctx, field)
 			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

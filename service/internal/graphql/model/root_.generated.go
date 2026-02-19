@@ -50,19 +50,16 @@ type ComplexityRoot struct {
 		ID        func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 		User      func(childComplexity int) int
-		UserID    func(childComplexity int) int
 	}
 
 	Application struct {
-		Applicant   func(childComplexity int) int
-		ApplicantID func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		DeletedAt   func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Job         func(childComplexity int) int
-		JobID       func(childComplexity int) int
-		Status      func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
+		Applicant func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		DeletedAt func(childComplexity int) int
+		ID        func(childComplexity int) int
+		Job       func(childComplexity int) int
+		Status    func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
 	}
 
 	Company struct {
@@ -73,13 +70,11 @@ type ComplexityRoot struct {
 		ID          func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
 		User        func(childComplexity int) int
-		UserID      func(childComplexity int) int
 		Website     func(childComplexity int) int
 	}
 
 	Job struct {
 		Company      func(childComplexity int) int
-		CompanyID    func(childComplexity int) int
 		CreatedAt    func(childComplexity int) int
 		DeletedAt    func(childComplexity int) int
 		Description  func(childComplexity int) int
@@ -90,11 +85,15 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateApplicant   func(childComplexity int, input NewApplicant) int
-		CreateApplication func(childComplexity int, input NewApplication) int
-		CreateCompany     func(childComplexity int, input NewCompany) int
-		CreateJob         func(childComplexity int, input NewJob) int
-		CreateUser        func(childComplexity int, input NewUser) int
+		CreateApplicant       func(childComplexity int, input NewApplicant) int
+		CreateApplication     func(childComplexity int, input NewApplication) int
+		CreateCompany         func(childComplexity int, input NewCompany) int
+		CreateJob             func(childComplexity int, input NewJob) int
+		CreateUser            func(childComplexity int, input NewUser) int
+		UpdateApplicationByID func(childComplexity int, input UpdateApplication) int
+		UpdateCompanyByID     func(childComplexity int, input UpdateCompany) int
+		UpdateJobByID         func(childComplexity int, input UpdateJob) int
+		UpdateUserByID        func(childComplexity int, input UpdateUser) int
 	}
 
 	Query struct {
@@ -169,26 +168,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Applicant.User(childComplexity), true
 
-	case "Applicant.userId":
-		if e.complexity.Applicant.UserID == nil {
-			break
-		}
-
-		return e.complexity.Applicant.UserID(childComplexity), true
-
 	case "Application.applicant":
 		if e.complexity.Application.Applicant == nil {
 			break
 		}
 
 		return e.complexity.Application.Applicant(childComplexity), true
-
-	case "Application.applicantId":
-		if e.complexity.Application.ApplicantID == nil {
-			break
-		}
-
-		return e.complexity.Application.ApplicantID(childComplexity), true
 
 	case "Application.createdAt":
 		if e.complexity.Application.CreatedAt == nil {
@@ -217,13 +202,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Application.Job(childComplexity), true
-
-	case "Application.jobId":
-		if e.complexity.Application.JobID == nil {
-			break
-		}
-
-		return e.complexity.Application.JobID(childComplexity), true
 
 	case "Application.status":
 		if e.complexity.Application.Status == nil {
@@ -288,13 +266,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Company.User(childComplexity), true
 
-	case "Company.userId":
-		if e.complexity.Company.UserID == nil {
-			break
-		}
-
-		return e.complexity.Company.UserID(childComplexity), true
-
 	case "Company.website":
 		if e.complexity.Company.Website == nil {
 			break
@@ -308,13 +279,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Job.Company(childComplexity), true
-
-	case "Job.companyId":
-		if e.complexity.Job.CompanyID == nil {
-			break
-		}
-
-		return e.complexity.Job.CompanyID(childComplexity), true
 
 	case "Job.createdAt":
 		if e.complexity.Job.CreatedAt == nil {
@@ -425,6 +389,54 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(NewUser)), true
 
+	case "Mutation.updateApplicationById":
+		if e.complexity.Mutation.UpdateApplicationByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateApplicationById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateApplicationByID(childComplexity, args["input"].(UpdateApplication)), true
+
+	case "Mutation.updateCompanyById":
+		if e.complexity.Mutation.UpdateCompanyByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateCompanyById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateCompanyByID(childComplexity, args["input"].(UpdateCompany)), true
+
+	case "Mutation.updateJobById":
+		if e.complexity.Mutation.UpdateJobByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateJobById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateJobByID(childComplexity, args["input"].(UpdateJob)), true
+
+	case "Mutation.updateUserById":
+		if e.complexity.Mutation.UpdateUserByID == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateUserById_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateUserByID(childComplexity, args["input"].(UpdateUser)), true
+
 	case "Query.applicants":
 		if e.complexity.Query.Applicants == nil {
 			break
@@ -515,6 +527,10 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewCompany,
 		ec.unmarshalInputNewJob,
 		ec.unmarshalInputNewUser,
+		ec.unmarshalInputUpdateApplication,
+		ec.unmarshalInputUpdateCompany,
+		ec.unmarshalInputUpdateJob,
+		ec.unmarshalInputUpdateUser,
 	)
 	first := true
 
@@ -623,6 +639,11 @@ type Mutation {
   createApplicant(input: NewApplicant!): Applicant
   createUser(input: NewUser!): User
   createApplication(input: NewApplication!): Application
+
+  updateJobById(input: UpdateJob!): Job
+  updateCompanyById(input: UpdateCompany!): Company
+  updateUserById(input: UpdateUser!): User
+  updateApplicationById(input: UpdateApplication!): Application
 }
 
 type Query {
@@ -667,6 +688,34 @@ input NewUser {
   name:     String!
 }
 
+
+
+input UpdateJob {
+  id:           ID!
+  title:        String!
+  description:  String!
+  requirements: [String!]!
+}
+
+input UpdateCompany {
+  id:          ID!
+  companyName: String!
+  description: String!
+  website:     String!
+}
+
+input UpdateApplication {
+  id:     ID!
+  status: String!
+}
+
+input UpdateUser {
+  id:   ID!
+  name: String!
+}
+
+
+
 type User {
   id:         ID!
   username:   String!
@@ -678,7 +727,6 @@ type User {
 
 type Applicant {
   id:        ID!
-  userId:       ID!
   user:      User!
   createdAt: Time!
   updatedAt: Time!
@@ -687,7 +735,6 @@ type Applicant {
 
 type Company {
   id:           ID!
-  userId:       ID!
   user:         User!
   companyName:  String!
   website:      String!
@@ -699,7 +746,6 @@ type Company {
 
 type Job {
   id:           ID!
-  companyId:    ID!
   company:      Company!
   title:        String!
   description:  String!
@@ -711,9 +757,7 @@ type Job {
 
 type Application {
   id:          ID!
-  applicantId: ID!
   applicant:   Applicant!
-  jobId:       ID!
   job:         Job!
   status:      String!
   createdAt:   Time!
