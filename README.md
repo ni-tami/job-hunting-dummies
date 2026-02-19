@@ -2,7 +2,7 @@
 A job search app for dummy HR and dummy job hunters
 
 ## Entities
-[DB Diagram file](./service/db/diagram)
+[DB Diagram file](./service/docs/diagram)
 
 - User
 > ID  

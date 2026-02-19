@@ -1,4 +1,4 @@
-package graph
+package graphql
 
 // This file will be automatically regenerated based on the schema, any resolver
 // implementations
@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ni-tami/service/graph/model"
+	"github.com/ni-tami/service/internal/graphql/model"
 )
 
 // CreateTodo is the resolver for the createTodo field.

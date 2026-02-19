@@ -1,6 +1,6 @@
-package graph
+package graphql
 
-import "github.com/ni-tami/service/graph/model"
+import "github.com/ni-tami/service/internal/graphql/model"
 
 // This file will not be regenerated automatically.
 //
