@@ -5,7 +5,12 @@ const typeDefs = /* GraphQL */ `
     users: [User!]!
   }
   type User {
+    id: Integer
     name: String
+  }
+  type Job {
+    id: Integer
+    title: String
   }
 `;
 

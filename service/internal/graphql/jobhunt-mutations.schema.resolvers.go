@@ -52,7 +52,7 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCom
 		}
 	}
 	if user == nil {
-		log.Fatal("Applicant not found")
+		log.Fatal("User not found")
 	}
 	company := &model.Company{
 		ID:          id,
@@ -103,6 +103,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
 	}
+	r.users = append(r.users, user)
 	return user, nil
 }
 
@@ -148,7 +149,7 @@ func (r *mutationResolver) CreateApplication(ctx context.Context, input model.Ne
 // UpdateJobByID is the resolver for the updateJobById field.
 func (r *mutationResolver) UpdateJobByID(ctx context.Context, input model.UpdateJob) (*model.Job, error) {
 	var updatedJob *model.Job
-	for _, j := range r.jobs {
+	for index, j := range r.jobs {
 		if j.ID == input.ID && j.DeletedAt == nil {
 			updatedJob = &model.Job{
 				ID:           j.ID,
@@ -160,6 +161,7 @@ func (r *mutationResolver) UpdateJobByID(ctx context.Context, input model.Update
 				UpdatedAt:    time.Now(),
 				DeletedAt:    nil,
 			}
+			r.jobs[index] = updatedJob
 			break
 		}
 	}
@@ -172,7 +174,7 @@ func (r *mutationResolver) UpdateJobByID(ctx context.Context, input model.Update
 // UpdateCompanyByID is the resolver for the updateCompanyById field.
 func (r *mutationResolver) UpdateCompanyByID(ctx context.Context, input model.UpdateCompany) (*model.Company, error) {
 	var updatedCompany *model.Company
-	for _, c := range r.companies {
+	for index, c := range r.companies {
 		if c.ID == input.ID && c.DeletedAt == nil {
 			updatedCompany = &model.Company{
 				ID:          c.ID,
@@ -184,6 +186,7 @@ func (r *mutationResolver) UpdateCompanyByID(ctx context.Context, input model.Up
 				UpdatedAt:   time.Now(),
 				DeletedAt:   nil,
 			}
+			r.companies[index] = updatedCompany
 			break
 		}
 	}
@@ -196,7 +199,7 @@ func (r *mutationResolver) UpdateCompanyByID(ctx context.Context, input model.Up
 // UpdateUserByID is the resolver for the updateUserById field.
 func (r *mutationResolver) UpdateUserByID(ctx context.Context, input model.UpdateUser) (*model.User, error) {
 	var updatedUser *model.User
-	for _, u := range r.users {
+	for index, u := range r.users {
 		if u.ID == input.ID && u.DeletedAt == nil {
 			updatedUser = &model.User{
 				ID:        u.ID,
@@ -206,6 +209,7 @@ func (r *mutationResolver) UpdateUserByID(ctx context.Context, input model.Updat
 				UpdatedAt: time.Now(),
 				DeletedAt: nil,
 			}
+			r.users[index] = updatedUser
 			break
 		}
 	}
@@ -218,7 +222,7 @@ func (r *mutationResolver) UpdateUserByID(ctx context.Context, input model.Updat
 // UpdateApplicationByID is the resolver for the updateApplicationById field.
 func (r *mutationResolver) UpdateApplicationByID(ctx context.Context, input model.UpdateApplication) (*model.Application, error) {
 	var updatedApplication *model.Application
-	for _, a := range r.applications {
+	for index, a := range r.applications {
 		if a.ID == input.ID && a.DeletedAt == nil {
 			updatedApplication = &model.Application{
 				ID:        a.ID,
@@ -229,6 +233,7 @@ func (r *mutationResolver) UpdateApplicationByID(ctx context.Context, input mode
 				UpdatedAt: time.Now(),
 				DeletedAt: nil,
 			}
+			r.applications[index] = updatedApplication
 			break
 		}
 	}
@@ -246,7 +251,7 @@ func (r *mutationResolver) DeleteJobByID(ctx context.Context, input int64) (*mod
 // DeleteCompanyByID is the resolver for the deleteCompanyById field.
 func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
 	var deletedCompany *model.Company
-	for _, c := range r.companies {
+	for index, c := range r.companies {
 		if c.ID == input && c.DeletedAt == nil {
 			userMutation, _ := r.DeleteUserByID(ctx, c.User.ID)
 			if userMutation.Data == nil {
@@ -254,6 +259,7 @@ func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, input int64) (
 			}
 			now := time.Now()
 			c.DeletedAt = &now
+			r.companies[index] = c
 			break
 		}
 	}
@@ -269,16 +275,37 @@ func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, input int64) (
 
 // DeleteApplicantByID is the resolver for the deleteApplicantById field.
 func (r *mutationResolver) DeleteApplicantByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	panic(fmt.Errorf("not implemented: DeleteApplicantByID - deleteApplicantById"))
+	var deletedApplicant *model.Applicant
+	for index, a := range r.applicants {
+		if a.ID == input && a.DeletedAt == nil {
+			userMutation, _ := r.DeleteUserByID(ctx, a.User.ID)
+			if userMutation.Data == nil {
+				break
+			}
+			now := time.Now()
+			a.DeletedAt = &now
+			r.applicants[index] = a
+			break
+		}
+	}
+	if deletedApplicant == nil {
+		log.Print("Applicant not found. Skip delete.")
+	}
+	return &model.DeletionStatus{
+		Status: "OK",
+		Data:   deletedApplicant,
+		Error:  nil,
+	}, nil
 }
 
 // DeleteUserByID is the resolver for the deleteUserById field.
 func (r *mutationResolver) DeleteUserByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
 	var deletedUser *model.User
-	for _, u := range r.users {
+	for index, u := range r.users {
 		if u.ID == input && u.DeletedAt == nil {
 			now := time.Now()
 			u.DeletedAt = &now
+			r.users[index] = u
 			break
 		}
 	}
@@ -299,26 +326,7 @@ func (r *mutationResolver) DeleteUserByID(ctx context.Context, input int64) (*mo
 
 // DeleteApplicationByID is the resolver for the deleteApplicationById field.
 func (r *mutationResolver) DeleteApplicationByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	var deletedApplicant *model.Applicant
-	for _, a := range r.applicants {
-		if a.ID == input && a.DeletedAt == nil {
-			userMutation, _ := r.DeleteUserByID(ctx, a.User.ID)
-			if userMutation.Data == nil {
-				break
-			}
-			now := time.Now()
-			a.DeletedAt = &now
-			break
-		}
-	}
-	if deletedApplicant == nil {
-		log.Print("Applicant not found. Skip delete.")
-	}
-	return &model.DeletionStatus{
-		Status: "OK",
-		Data:   deletedApplicant,
-		Error:  nil,
-	}, nil
+	panic(fmt.Errorf("not implemented: DeleteApplicationByID - deleteApplicationById"))
 }
 
 // Jobs is the resolver for the jobs field.
