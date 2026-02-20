@@ -10,14 +10,15 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/ni-tami/service/internal/graphql"
-	"github.com/ni-tami/service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
 const defaultPort = "8080"
 
-func main() {
+
+func Run() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

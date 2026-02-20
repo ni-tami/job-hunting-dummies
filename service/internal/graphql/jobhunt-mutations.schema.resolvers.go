@@ -11,7 +11,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/ni-tami/service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 )
 
 // CreateJob is the resolver for the createJob field.

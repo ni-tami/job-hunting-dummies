@@ -45,7 +45,7 @@ type QueryResolver interface {
 func (ec *executionContext) field_Mutation_createApplicant_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewApplicant2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐNewApplicant)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewApplicant2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewApplicant)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (ec *executionContext) field_Mutation_createApplicant_args(ctx context.Cont
 func (ec *executionContext) field_Mutation_createApplication_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewApplication2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐNewApplication)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewApplication2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewApplication)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (ec *executionContext) field_Mutation_createApplication_args(ctx context.Co
 func (ec *executionContext) field_Mutation_createCompany_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewCompany2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐNewCompany)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewCompany2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewCompany)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (ec *executionContext) field_Mutation_createCompany_args(ctx context.Contex
 func (ec *executionContext) field_Mutation_createJob_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewJob2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐNewJob)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewJob2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewJob)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (ec *executionContext) field_Mutation_createJob_args(ctx context.Context, r
 func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewUser2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐNewUser)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNNewUser2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewUser)
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +155,7 @@ func (ec *executionContext) field_Mutation_deleteUserById_args(ctx context.Conte
 func (ec *executionContext) field_Mutation_updateApplicationById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateApplication2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateApplication)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateApplication2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateApplication)
 	if err != nil {
 		return nil, err
 	}
@@ -166,7 +166,7 @@ func (ec *executionContext) field_Mutation_updateApplicationById_args(ctx contex
 func (ec *executionContext) field_Mutation_updateCompanyById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateCompany2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateCompany)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateCompany2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateCompany)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +177,7 @@ func (ec *executionContext) field_Mutation_updateCompanyById_args(ctx context.Co
 func (ec *executionContext) field_Mutation_updateJobById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateJob2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateJob)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateJob2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateJob)
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +188,7 @@ func (ec *executionContext) field_Mutation_updateJobById_args(ctx context.Contex
 func (ec *executionContext) field_Mutation_updateUserById_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
-	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateUser2githubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateUser)
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "input", ec.unmarshalNUpdateUser2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateUser)
 	if err != nil {
 		return nil, err
 	}
@@ -226,7 +226,7 @@ func (ec *executionContext) _Mutation_createJob(ctx context.Context, field graph
 			return ec.resolvers.Mutation().CreateJob(ctx, fc.Args["input"].(NewJob))
 		},
 		nil,
-		ec.marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
+		ec.marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
 		true,
 		false,
 	)
@@ -285,7 +285,7 @@ func (ec *executionContext) _Mutation_createCompany(ctx context.Context, field g
 			return ec.resolvers.Mutation().CreateCompany(ctx, fc.Args["input"].(NewCompany))
 		},
 		nil,
-		ec.marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
+		ec.marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
 		true,
 		false,
 	)
@@ -344,7 +344,7 @@ func (ec *executionContext) _Mutation_createApplicant(ctx context.Context, field
 			return ec.resolvers.Mutation().CreateApplicant(ctx, fc.Args["input"].(NewApplicant))
 		},
 		nil,
-		ec.marshalOApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant,
+		ec.marshalOApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant,
 		true,
 		false,
 	)
@@ -397,7 +397,7 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 			return ec.resolvers.Mutation().CreateUser(ctx, fc.Args["input"].(NewUser))
 		},
 		nil,
-		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
+		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
 		true,
 		false,
 	)
@@ -452,7 +452,7 @@ func (ec *executionContext) _Mutation_createApplication(ctx context.Context, fie
 			return ec.resolvers.Mutation().CreateApplication(ctx, fc.Args["input"].(NewApplication))
 		},
 		nil,
-		ec.marshalOApplication2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplication,
+		ec.marshalOApplication2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplication,
 		true,
 		false,
 	)
@@ -509,7 +509,7 @@ func (ec *executionContext) _Mutation_updateJobById(ctx context.Context, field g
 			return ec.resolvers.Mutation().UpdateJobByID(ctx, fc.Args["input"].(UpdateJob))
 		},
 		nil,
-		ec.marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
+		ec.marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
 		true,
 		false,
 	)
@@ -568,7 +568,7 @@ func (ec *executionContext) _Mutation_updateCompanyById(ctx context.Context, fie
 			return ec.resolvers.Mutation().UpdateCompanyByID(ctx, fc.Args["input"].(UpdateCompany))
 		},
 		nil,
-		ec.marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
+		ec.marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
 		true,
 		false,
 	)
@@ -627,7 +627,7 @@ func (ec *executionContext) _Mutation_updateUserById(ctx context.Context, field 
 			return ec.resolvers.Mutation().UpdateUserByID(ctx, fc.Args["input"].(UpdateUser))
 		},
 		nil,
-		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
+		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
 		true,
 		false,
 	)
@@ -682,7 +682,7 @@ func (ec *executionContext) _Mutation_updateApplicationById(ctx context.Context,
 			return ec.resolvers.Mutation().UpdateApplicationByID(ctx, fc.Args["input"].(UpdateApplication))
 		},
 		nil,
-		ec.marshalOApplication2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplication,
+		ec.marshalOApplication2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplication,
 		true,
 		false,
 	)
@@ -739,7 +739,7 @@ func (ec *executionContext) _Mutation_deleteJobById(ctx context.Context, field g
 			return ec.resolvers.Mutation().DeleteJobByID(ctx, fc.Args["input"].(int64))
 		},
 		nil,
-		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
+		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
 		true,
 		false,
 	)
@@ -788,7 +788,7 @@ func (ec *executionContext) _Mutation_deleteCompanyById(ctx context.Context, fie
 			return ec.resolvers.Mutation().DeleteCompanyByID(ctx, fc.Args["input"].(int64))
 		},
 		nil,
-		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
+		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
 		true,
 		false,
 	)
@@ -837,7 +837,7 @@ func (ec *executionContext) _Mutation_deleteApplicantById(ctx context.Context, f
 			return ec.resolvers.Mutation().DeleteApplicantByID(ctx, fc.Args["input"].(int64))
 		},
 		nil,
-		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
+		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
 		true,
 		false,
 	)
@@ -886,7 +886,7 @@ func (ec *executionContext) _Mutation_deleteUserById(ctx context.Context, field 
 			return ec.resolvers.Mutation().DeleteUserByID(ctx, fc.Args["input"].(int64))
 		},
 		nil,
-		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
+		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
 		true,
 		false,
 	)
@@ -935,7 +935,7 @@ func (ec *executionContext) _Mutation_deleteApplicationById(ctx context.Context,
 			return ec.resolvers.Mutation().DeleteApplicationByID(ctx, fc.Args["input"].(int64))
 		},
 		nil,
-		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
+		ec.marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus,
 		true,
 		false,
 	)
@@ -983,7 +983,7 @@ func (ec *executionContext) _Query_jobs(ctx context.Context, field graphql.Colle
 			return ec.resolvers.Query().Jobs(ctx)
 		},
 		nil,
-		ec.marshalNJob2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐJobᚄ,
+		ec.marshalNJob2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJobᚄ,
 		true,
 		true,
 	)
@@ -1030,7 +1030,7 @@ func (ec *executionContext) _Query_companies(ctx context.Context, field graphql.
 			return ec.resolvers.Query().Companies(ctx)
 		},
 		nil,
-		ec.marshalNCompany2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐCompanyᚄ,
+		ec.marshalNCompany2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompanyᚄ,
 		true,
 		true,
 	)
@@ -1077,7 +1077,7 @@ func (ec *executionContext) _Query_applicants(ctx context.Context, field graphql
 			return ec.resolvers.Query().Applicants(ctx)
 		},
 		nil,
-		ec.marshalNApplicant2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicantᚄ,
+		ec.marshalNApplicant2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicantᚄ,
 		true,
 		true,
 	)
@@ -1118,7 +1118,7 @@ func (ec *executionContext) _Query_applications(ctx context.Context, field graph
 			return ec.resolvers.Query().Applications(ctx)
 		},
 		nil,
-		ec.marshalNApplication2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐApplicationᚄ,
+		ec.marshalNApplication2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicationᚄ,
 		true,
 		true,
 	)
@@ -1163,7 +1163,7 @@ func (ec *executionContext) _Query_users(ctx context.Context, field graphql.Coll
 			return ec.resolvers.Query().Users(ctx)
 		},
 		nil,
-		ec.marshalNUser2ᚕᚖgithubᚗcomᚋniᚑtamiᚋserviceᚋinternalᚋgraphqlᚋmodelᚐUserᚄ,
+		ec.marshalNUser2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUserᚄ,
 		true,
 		true,
 	)

@@ -1,7 +1,7 @@
 // nolint:gci
 package graphql
 
-import "github.com/ni-tami/service/internal/graphql/model"
+import "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 
 // This file will not be regenerated automatically.
 //

@@ -8,7 +8,7 @@ package graphql
 import (
 	"context"
 
-	"github.com/ni-tami/service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 )
 
 // User is the resolver for the user field.
