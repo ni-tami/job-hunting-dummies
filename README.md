@@ -1,5 +1,5 @@
 # job-hunting-dummies
-A job search app for dummy HR and dummy job hunters
+A job search app for dummy HR and dummy job hunters. This is planned to be a sim game fingers crossed.
 
 ## Entities
 [DB Diagram file](./service/docs/diagram)

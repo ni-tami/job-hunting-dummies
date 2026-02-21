@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HiUser, HiOfficeBuilding, HiDotsHorizontal } from "react-icons/hi";
-import { CreateUserMutationTmpl, CreateApplicantMutationTmpl } from "../src/utils/graphql";
+import { CreateUserMutationTmpl, CreateApplicantMutationTmpl, CreateCompanyMutationTmpl } from "../src/utils/graphql";
 
 const fetcher = (query: string) =>
   fetch("/api/graphql", {
@@ -109,6 +109,35 @@ const fetchCreateApplicant = async (userFormData: FormValues) => {
   .then((json) => json.data);
 }
 
+
+const fetchCreateCompany = async (userFormData: FormValues) => {
+  if (!userFormData?.userData.companyData) {
+    // FIXME
+    console.log("Empty company data: ", userFormData);
+  }
+  const response = await fetchCreateUser(userFormData);
+  console.log("User created:", response.createUser);
+  const companyData = userFormData.userData.companyData
+  const createCompanyQuery = CreateCompanyMutationTmpl(
+    companyData.companyName,
+    response.createUser.id!,
+    companyData.description,
+    companyData.website,
+  );
+  return fetch("http://localhost:8080/query", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      query: createCompanyQuery,
+      operationName: "createCompany",
+    }),
+  })
+    .then((res) => res.json())
+    .then((json) => json.data);
+};
+
 const HomePage = () => {
   const {
     register,
@@ -138,6 +167,14 @@ const HomePage = () => {
     fetchCreateApplicant(formSubmitData)
       .then((applicantData) => console.log("applicantData: ", applicantData));
   });
+
+  const onCompanySubmit = handleSubmit((formSubmitData: FormValues) => {
+    console.log("submitted data: ", formSubmitData);
+    fetchCreateCompany(formSubmitData).then((companyData) =>
+      console.log("companyData: ", companyData),
+    );
+  });
+
 
   const [userTabType, setUserTabType] = useState<string>("applicant");
   const onTabSwitched = (details: Tabs.TabsValueChangeDetails) => {
@@ -203,7 +240,7 @@ const HomePage = () => {
         <Tabs.Content value="company">
           <Heading size="xl">Create Company</Heading>
 
-          <form onSubmit={onApplicantSubmit}>
+          <form onSubmit={onCompanySubmit}>
             <Stack gap="4" align="flex-start" maxW="sm">
               <Input
                 hidden
