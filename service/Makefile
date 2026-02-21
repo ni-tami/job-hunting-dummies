@@ -55,4 +55,10 @@ gqlgen:
 	@go tool gqlgen generate
 	@echo "Done."
 
+runserver:
+	go run server.go
+
+rundev:
+	go tool air
+
 .PHONY: proto proto-go clean help gqlgen

@@ -13,6 +13,18 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HiUser, HiOfficeBuilding, HiDotsHorizontal } from "react-icons/hi";
+import { CreateUserMutationTmpl, CreateApplicantMutationTmpl } from "../src/utils/graphql";
+
+const fetcher = (query: string) =>
+  fetch("/api/graphql", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ query }),
+  })
+    .then((res) => res.json())
+    .then((json) => json.data);
 
 type userTabTypedData = {
   applicantData: {
@@ -33,10 +45,69 @@ interface FormValues {
   userType: string;
 }
 
+type CreateUserResponse = {
+    id: number
+    username: string
+    name: string
+    created_at: string
+}
+
+type CreateApplicantResponse = {
+  id: number;
+  user: {
+    id: number
+    name: string
+  }
+  created_at: string;
+};
+
 const userTabTypes = [
   { label: "Applicant", value: "applicant" },
   { label: "Company", value: "company" },
 ];
+
+const fetchCreateUser = (userFormData: FormValues) => {
+  const applicantData = userFormData.userData.applicantData;
+  const createUserQuery = CreateUserMutationTmpl(
+    applicantData.name,
+    applicantData.username,
+  );
+
+  return fetch("http://localhost:8080/query", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({ query: createUserQuery, operationName: "createUser" }),
+  })
+    .then((res) => res.json())
+    .then((json) => json.data);
+}
+
+const fetchCreateApplicant = async (userFormData: FormValues) => {
+  if (!userFormData?.userData.applicantData) {
+    // FIXME
+    console.log("Empty applicant data: ", userFormData)
+  }
+  const response = await fetchCreateUser(userFormData);
+  console.log("User created:", response.createUser);
+
+  const createApplicantQuery = CreateApplicantMutationTmpl(
+    response.createUser.id!,
+  );
+  return fetch("http://localhost:8080/query", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      query: createApplicantQuery,
+      operationName: "createApplicant",
+    }),
+  })
+  .then((res) => res.json())
+  .then((json) => json.data);
+}
 
 const HomePage = () => {
   const {
@@ -61,9 +132,13 @@ const HomePage = () => {
       },
     },
   });
-  const onSubmit = handleSubmit((data) => {
-    console.log("submitted data: ", data);
+
+  const onApplicantSubmit = handleSubmit((formSubmitData: FormValues) => {
+    console.log("submitted data: ", formSubmitData);
+    fetchCreateApplicant(formSubmitData)
+      .then((applicantData) => console.log("applicantData: ", applicantData));
   });
+
   const [userTabType, setUserTabType] = useState<string>("applicant");
   const onTabSwitched = (details: Tabs.TabsValueChangeDetails) => {
     // TODO: may be related to controller, do not reset if partially filled
@@ -97,7 +172,7 @@ const HomePage = () => {
         <Tabs.Content value="applicant">
           <Heading size="xl">Create Applicant</Heading>
 
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onApplicantSubmit}>
             <Stack gap="4" align="flex-start" maxW="sm">
               <Input
                 hidden
@@ -128,7 +203,7 @@ const HomePage = () => {
         <Tabs.Content value="company">
           <Heading size="xl">Create Company</Heading>
 
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onApplicantSubmit}>
             <Stack gap="4" align="flex-start" maxW="sm">
               <Input
                 hidden

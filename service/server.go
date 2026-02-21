@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/go-chi/chi"
+	"github.com/rs/cors"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/lru"
@@ -18,11 +20,22 @@ import (
 const defaultPort = "8080"
 
 
-func Run() {
+func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
+
+	router := chi.NewRouter()
+	router.Use(cors.New(cors.Options{
+		AllowedOrigins:   []string{
+			"http://localhost:8080",
+			"http://localhost:3000",
+		},
+		AllowCredentials: true,
+		Debug:            true,
+	}).Handler)
+	// router.Use(auth.Middleware())
 
 	srv := handler.New(model.NewExecutableSchema(model.Config{Resolvers: &graphql.Resolver{}}))
 
@@ -31,15 +44,14 @@ func Run() {
 	srv.AddTransport(transport.POST{})
 
 	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
-
 	srv.Use(extension.Introspection{})
 	srv.Use(extension.AutomaticPersistedQuery{
 		Cache: lru.New[string](100),
 	})
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	router.Handle("/query", srv)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }

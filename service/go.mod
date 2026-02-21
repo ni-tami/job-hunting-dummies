@@ -9,6 +9,8 @@ tool (
 
 require (
 	github.com/99designs/gqlgen v0.17.86
+	github.com/go-chi/chi v1.5.5
+	github.com/rs/cors v1.11.1
 	github.com/vektah/gqlparser/v2 v2.5.31
 	google.golang.org/grpc v1.79.1
 	google.golang.org/protobuf v1.36.11
