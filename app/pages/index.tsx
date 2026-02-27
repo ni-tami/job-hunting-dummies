@@ -13,18 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { HiUser, HiOfficeBuilding, HiDotsHorizontal } from "react-icons/hi";
-import { CreateUserMutationTmpl, CreateApplicantMutationTmpl, CreateCompanyMutationTmpl } from "../src/utils/graphql";
+import { CreateUserMutationTmpl, CreateApplicantMutationTmpl, CreateCompanyMutationTmpl } from "@/utils/graphql";
 
-const fetcher = (query: string) =>
-  fetch("/api/graphql", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ query }),
-  })
-    .then((res) => res.json())
-    .then((json) => json.data);
 
 type userTabTypedData = {
   applicantData: {
@@ -66,7 +56,7 @@ const userTabTypes = [
   { label: "Company", value: "company" },
 ];
 
-const fetchCreateUser = (userFormData: FormValues) => {
+const fetchCreateUser = async (userFormData: FormValues) => {
   const applicantData = userFormData.userData.applicantData;
   const createUserQuery = CreateUserMutationTmpl(
     applicantData.name,
@@ -170,8 +160,8 @@ const HomePage = () => {
 
   const onCompanySubmit = handleSubmit((formSubmitData: FormValues) => {
     console.log("submitted data: ", formSubmitData);
-    fetchCreateCompany(formSubmitData).then((companyData) =>
-      console.log("companyData: ", companyData),
+    fetchCreateCompany(formSubmitData)
+      .then((companyData) => console.log("companyData: ", companyData),
     );
   });
 
