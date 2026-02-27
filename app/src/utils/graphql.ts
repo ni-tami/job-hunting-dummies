@@ -38,3 +38,62 @@ export const CreateCompanyMutationTmpl = (
   }
 }
 `;
+
+export const UpdateCompanyMutationTmpl = (
+  id: number,
+  companyName: string,
+  description: string,
+  website: string,
+) => `mutation updateCompany {
+  updateCompany(input: { id: ${id}, website: "${website}", companyName: "${companyName}", description: "${description}" }) {
+    companyName
+    website
+    description
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+export const UpdateApplicationMutationTmpl = (
+  id: number,
+  status: string,
+) => `mutation updateApplication {
+  updateApplication(input: { id: ${id}, status: "${status}" }) {
+    applicant {
+      user {
+        name
+        username
+      }
+    }
+    job {
+      title
+      company {
+        companyName
+      }
+      description
+    }
+    status
+    createdAt
+    updatedAt
+  }
+}
+`;
+
+export const UpdateJobMutationTmpl = (
+  id: number,
+  title: string,
+  description: string,
+  requirements: string[],
+) => `mutation updateJob {
+  updateJob(input: { id: ${id}, title: "${title}", description: "${description}", requirements: "${requirements}" }) {
+    title
+    company {
+      companyName
+    }
+    description
+    requirements
+    createdAt
+    updatedAt
+}
+`;
