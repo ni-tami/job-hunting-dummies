@@ -15,7 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { HiIdentification, HiOfficeBuilding, HiBriefcase } from "react-icons/hi";
 import { UpdateCompanyMutationTmpl, UpdateApplicationMutationTmpl, UpdateJobMutationTmpl } from "@/utils/graphql";
-
+import { applicationStatusTypes } from "@/constants";
 
 type applicationData = {
   id: number,
@@ -50,16 +50,6 @@ const userTabTypes = [
   { label: "Company", value: "company" },
   { label: "Job", value: "job" },
 ];
-
-const applicationStatusTypes = [
-  { label: "Applied", value: "APPLIED" },
-  { label: "Reviewed", value: "REVIEWED" },
-  { label: "Pending Interview", value: "PENDING_INTERVIEW" },
-  { label: "Interview Scheduled", value: "INTERVIEW_SCHEDULED" },
-  { label: "Pending Result", value: "PENDING_RESULT" },
-  { label: "Accepted", value: "ACCEPTED" },
-  { label: "Rejected", value: "REJECTED" },
-]
 
 const fetchUpdateCompany = async (userFormData: FormValues) => {
   const companyData = userFormData.updateData.companyData;

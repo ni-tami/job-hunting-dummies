@@ -12,77 +12,26 @@ import {
   Collapsible,
   List,
   TabsContent,
+  Editable,
+  IconButton,
+  Field,
+  NativeSelect,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
   LuBox,
-  LuUser
+  LuPencilLine,
+  LuX,
+  LuCheck,
 } from "react-icons/lu";
 import {
-  UpdateCompanyMutationTmpl,
-  UpdateApplicationMutationTmpl,
-  UpdateJobMutationTmpl,
-} from "@/utils/graphql";
+  dummyApplications,
+  dummyCompanies,
+  dummyJobs,
+} from "@/utils/dummies";
+import { Company, Application, Job } from "@/types";
+import { applicationStatusTypes } from "@/constants";
 
-type Application = {
-  id: number;
-  status: string;
-};
-
-type Company = {
-  id: number;
-  companyName: string;
-  website: string;
-  description: string;
-};
-
-type Job = {
-  id: number;
-  title: string;
-  description: string;
-  requirements: string[];
-};
-
-const dummyCompanies: Company[] = [
-  {
-    id: 123,
-    companyName: "hehe",
-    description: "hehe is a well-known good company",
-    website: "https://www.hehe.com",
-  },
-  {
-    id: 456,
-    companyName: "hoho",
-    description: "hoho is a healthy company",
-    website: "https://www.hoho.com",
-  },
-];
-
-const dummyApplications: Application[] = [
-  {
-    id: 34820813,
-    status: "APPLIED",
-  },
-  {
-    id: 10239035,
-    status: "ACCEPTED",
-  },
-];
-
-const dummyJobs: Job[] = [
-  {
-    id: 12315,
-    title: "Data Wrangling",
-    description: "Help get insights from given dataset",
-    requirements: ["Clean data", "Visualize data", "Gain insights"],
-  },
-  {
-    id: 24593,
-    title: "Draw Fishies",
-    description: "Paint smol fishies for room decor",
-    requirements: ["Can paint with water colors"],
-  },
-];
 
 const TabComponentMapping = [
   {
@@ -192,7 +141,7 @@ const TabComponentMapping = [
 const CompanyDashboardPage = () => {
   return (
     <Container>
-      <Tabs.Root defaultValue="members" variant="plain">
+      <Tabs.Root defaultValue="application" variant="plain">
         <Tabs.List bg="bg.muted" rounded="l3" p="1">
           <For each={TabComponentMapping}>
             {(tabComponent, _) => (
