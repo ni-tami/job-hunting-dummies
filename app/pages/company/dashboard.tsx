@@ -54,7 +54,39 @@ const TabComponentMapping = [
           {(appl: Application, applIdx: number) => (
             <Box borderWidth="1px" key={applIdx} p="4">
               <Text fontWeight="bold">{appl.id}</Text>
-              <Text fontWeight="bold">{appl.status}</Text>
+              <Editable.Root defaultValue={appl.status} activationMode="none">
+                <NativeSelect.Root size="sm" width="240px">
+                  <NativeSelect.Field
+                    defaultValue={appl.status}
+                  >
+                    <For each={applicationStatusTypes}>
+                      {(item, index) => (
+                        <option key={index} value={item.value}>
+                          {item.label}
+                        </option>
+                      )}
+                    </For>
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
+                <Editable.Control>
+                  <Editable.EditTrigger asChild>
+                    <IconButton variant="ghost" size="xs">
+                      <LuPencilLine />
+                    </IconButton>
+                  </Editable.EditTrigger>
+                  <Editable.CancelTrigger asChild>
+                    <IconButton variant="outline" size="xs">
+                      <LuX />
+                    </IconButton>
+                  </Editable.CancelTrigger>
+                  <Editable.SubmitTrigger asChild>
+                    <IconButton variant="outline" size="xs">
+                      <LuCheck />
+                    </IconButton>
+                  </Editable.SubmitTrigger>
+                </Editable.Control>
+              </Editable.Root>
             </Box>
           )}
         </For>
@@ -110,7 +142,7 @@ const TabComponentMapping = [
             </VStack>
           }
         >
-          {(job, jobIdx) => (
+          {(job: Job, jobIdx: number) => (
             <Box borderWidth="1px" key={jobIdx} p="4">
               <Text fontWeight="bold">
                 JobID: {job.id} - {job.title}
