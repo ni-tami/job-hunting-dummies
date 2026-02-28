@@ -49,8 +49,8 @@ func main() {
 
 	db := NewCrdbConn()
 	repo := NewJobPortalRepository(db)
-	srv = client.Middleware(repo, h)
-
+	usecase := NewJobPortalUsecase(repo)
+	graphql.SetUsecase(usecase)
 
 	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
 	srv.Use(extension.Introspection{})
