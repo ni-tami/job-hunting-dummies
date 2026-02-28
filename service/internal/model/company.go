@@ -4,7 +4,8 @@ import "time"
 
 type Company struct {
 	ID          int64      `json:"id"`
-	User        *User      `json:"user"`
+	UserID 		int64 	   `json:"user_id"`
+	User        *User      `json:"user" gorm:"-;foreignKey:user_id;constraint:OnUpdate:CASCADE,OnDELETE:CASCADE"`
 	CompanyName string     `json:"companyName"`
 	Website     string     `json:"website"`
 	Description string     `json:"description"`

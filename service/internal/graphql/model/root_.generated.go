@@ -108,11 +108,14 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Applicants   func(childComplexity int) int
-		Applications func(childComplexity int) int
-		Companies    func(childComplexity int) int
-		Jobs         func(childComplexity int) int
-		Users        func(childComplexity int) int
+		Applicants                func(childComplexity int) int
+		Applications              func(childComplexity int) int
+		ApplicationsByApplicantID func(childComplexity int) int
+		ApplicationsByJobID       func(childComplexity int) int
+		Companies                 func(childComplexity int) int
+		Jobs                      func(childComplexity int) int
+		JobsByCompanyID           func(childComplexity int) int
+		Users                     func(childComplexity int) int
 	}
 
 	User struct {
@@ -543,6 +546,20 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Query.Applications(childComplexity), true
 
+	case "Query.applicationsByApplicantId":
+		if e.complexity.Query.ApplicationsByApplicantID == nil {
+			break
+		}
+
+		return e.complexity.Query.ApplicationsByApplicantID(childComplexity), true
+
+	case "Query.applicationsByJobId":
+		if e.complexity.Query.ApplicationsByJobID == nil {
+			break
+		}
+
+		return e.complexity.Query.ApplicationsByJobID(childComplexity), true
+
 	case "Query.companies":
 		if e.complexity.Query.Companies == nil {
 			break
@@ -556,6 +573,13 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Query.Jobs(childComplexity), true
+
+	case "Query.jobsByCompanyId":
+		if e.complexity.Query.JobsByCompanyID == nil {
+			break
+		}
+
+		return e.complexity.Query.JobsByCompanyID(childComplexity), true
 
 	case "Query.users":
 		if e.complexity.Query.Users == nil {
@@ -748,8 +772,11 @@ type Query {
   jobs: [Job!]!
   companies: [Company!]!
   applicants: [Applicant!]!
-  applications: [Application!]!  
+  applications: [Application!]!
   users: [User!]!
+  applicationsByApplicantId: [Application!]!
+  applicationsByJobId: [Application!]!
+  jobsByCompanyId: [Job!]!
 }
 `, BuiltIn: false},
 	{Name: "../jobhunt.schema.graphqls", Input: `# GraphQL schema example
@@ -758,35 +785,10 @@ type Query {
 
 scalar Time
 scalar Any
-
-input NewJob {
-  companyId:     ID!
-  title:         String!
-  description:   String!
-  requirements:  [String!]!
-}
-
-input NewCompany {
-  userId:       ID!
-  companyName:  String!
-  description:  String!
-  website:      String!
-}
-
-input NewApplicant {
-  userId: ID!
-}
-
-input NewApplication {
-  applicantId: 	ID!		
-  jobId: 			  ID!		
-}
-
-input NewUser {
-  username: String!
-  name:     String!
-}
-
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 
 input UpdateJob {
@@ -813,20 +815,18 @@ input UpdateUser {
   name: String!
 }
 
-
-
 type User {
-  id:         ID!
-  username:   String!
-  name:       String!
+  id: ID!
+  username: String!
+  name: String!
   created_at: Time!
   updated_at: Time!
   deleted_at: Time
 }
 
 type Applicant {
-  id:        ID!
-  user:      User!
+  id: ID!
+  user: User!
   createdAt: Time!
   updatedAt: Time!
   deletedAt: Time
@@ -868,6 +868,35 @@ type DeletionStatus {
   status: String!
   data: Any
   error: String
+}
+
+
+input NewJob {
+  companyId: ID!
+  title: String!
+  description: String!
+  requirements: [String!]!
+}
+
+input NewCompany {
+  user: NewUser!
+  companyName: String!
+  description: String!
+  website: String!
+}
+
+input NewApplicant {
+  user: NewUser!
+}
+
+input NewApplication {
+  applicantId: ID!
+  jobId: ID!
+}
+
+input NewUser {
+  username: String!
+  name: String!
 }
 `, BuiltIn: false},
 }

@@ -5,6 +5,7 @@ import (
 	"context"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/model"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
+	gql_model "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 )
 
 type JobPortalUsecase interface {
@@ -49,24 +50,102 @@ func NewJobPortalUsecase(repo repository.JobPortalRepository) JobPortalUsecase {
 	}
 }
 
-func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob model.Job) (model.Job, error) {
-	return u.repo.CreateJob(ctx, newJob)
+func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob model.NewJob) (model.Job, error) {
+	company, err := u.GetCompanyByID(ctx, int(newJob.CompanyID))
+	if err != nil {
+		log.Fatal("Failed to get company for job")
+	}
+	if company == nil {
+		log.Fatal("Company not found for job")
+	}
+	id := time.Now().UnixMicro()
+	job := &model.Job{
+		ID:           id,
+		Company:      &company,
+		Title:        newJob.Title,
+		Description:  newJob.Description,
+		Requirements: newJob.Requirements,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
+		DeletedAt:    nil,
+	}
+	return u.repo.CreateJob(ctx, job)
 }
 
-func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany model.Company) (model.Company, error) {
-	return u.repo.CreateCompany(ctx, newCompany)
+func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany model.NewCompany) (model.Company, error) {
+	user, err := u.CreateUser(ctx, company.User)
+	if err != nil {
+		log.Fatal("Failed to create user for company")
+	}
+	id := time.Now().UnixMicro()
+	company := &model.Company{
+		ID:          id,
+		User:        user,
+		CompanyName: newCompany.CompanyName,
+		Website:     newCompany.Website,
+		Description: newCompany.Description,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
+	}
+	return u.repo.CreateCompany(ctx, company)
 }
 
-func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant model.Applicant) (model.Applicant, error) {
-	return u.repo.CreateApplicant(ctx, newApplicant)
+func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant model.NewApplicant) (model.Applicant, error) {
+	id := time.Now().UnixMicro()
+	user, err := u.CreateUser(ctx, company.User)
+	if err != nil {
+		log.Fatal("Failed to create user for applicant")
+	}
+	applicant := &model.Applicant{
+		ID:        id,
+		User:      user,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
+	}
+	return u.repo.CreateApplicant(ctx, applicant)
 }
 
-func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication model.Application) (model.Application, error) {
-	return u.repo.CreateApplication(ctx, newApplication)
+func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication model.NewApplication) (model.Application, error) {
+	applicant, err := u.GetApplicantByID(ctx, int(newApplication.ApplicantID))
+	if err != nil {
+		log.Fatal("Failed to get applicant for application")
+	}
+	if applicant == nil {
+		log.Fatal("Applicant not found for application")
+	}
+	job, err := u.GetJobByID(ctx, int(newApplication.JobID))
+	if err != nil {
+		log.Fatal("Failed to get job for application")
+	}
+	if job == nil {
+		log.Fatal("Job not found for application")
+	}
+	id := time.Now().UnixMicro()
+	application := &model.Application{
+		ID:        id,
+		Applicant: &applicant,
+		Job:       &job,
+		Status:    "APPLIED",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
+	}
+	return u.repo.CreateApplication(ctx, application)
 }
 
-func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.User) (model.User, error) {
-	return u.repo.CreateUser(ctx, newUser)
+func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.NewUser) (model.User, error) {
+	id := time.Now().UnixMicro()
+	user := &model.User{
+		ID:        id,
+		Username:  newUser.Username,
+		Name:      newUser.Name,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		DeletedAt: nil,
+	}
+	return u.repo.CreateUser(ctx, user)
 }
 
 func (u jobPortalUsecase) GetJobByID(ctx context.Context, id int) (model.Job, error) {

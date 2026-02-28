@@ -55,10 +55,16 @@ gqlgen:
 	@go tool gqlgen generate
 	@echo "Done."
 
+dataloadgen:
+	@echo "Generating dataloaders"
+	@go run github.com/vektah/dataloaden UserLoader int
+	@go run github.com/vektah/dataloaden ApplicationLoader int
+	@echo "Done."
+
 runserver:
 	go run server.go
 
 rundev:
 	go tool air
 
-.PHONY: proto proto-go clean help gqlgen
+.PHONY: proto proto-go clean help gqlgen dataloadgen

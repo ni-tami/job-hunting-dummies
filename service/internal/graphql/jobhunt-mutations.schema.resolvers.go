@@ -12,20 +12,19 @@ import (
 	"time"
 
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/usecase"
 )
 
-// CreateJob is the resolver for the createJob field.
+// CreateJob is the resolver for the createJob field for existing company
 func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*model.Job, error) {
 	id := time.Now().UnixMicro()
 	var company *model.Company
-	for _, u := range r.companies {
-		if u.ID == input.CompanyID {
-			company = u
-			break
-		}
+	company, err := usecase.GetCompanyByID(ctx, int(input.CompanyID))
+	if err != nil {
+		log.Fatal("Failed to get company for job")
 	}
 	if company == nil {
-		log.Fatal("Applicant not found")
+		log.Fatal("Company not found")
 	}
 	job := &model.Job{
 		ID:           id,
@@ -37,24 +36,27 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*
 		UpdatedAt:    time.Now(),
 		DeletedAt:    nil,
 	}
-	r.jobs = append(r.jobs, job)
-	return job, nil
+	resp, err := usecase.CreateJob(ctx, job)
+	if err != nil {
+		log.Fatal("Failed to create job")
+	}
+	return resp, nil
 }
 
 // CreateCompany is the resolver for the createCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCompany) (*model.Company, error) {
 	id := time.Now().UnixMicro()
-	var user *model.User
-	for _, u := range r.users {
-		if u.ID == input.UserID {
-			user = u
-			break
-		}
+	user, err := usecase.CreateUser(ctx, &model.NewUser{
+		Username: input.User.Username,
+		Name:     input.User.Name,
+	})
+	if err != nil {
+		log.Fatal("Failed to create user for company")
 	}
 	if user == nil {
 		log.Fatal("User not found")
 	}
-	company := &model.Company{
+	resp, err := usecase.CreateCompany(ctx, &model.Company{
 		ID:          id,
 		User:        user,
 		CompanyName: input.CompanyName,
@@ -63,76 +65,71 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCom
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 		DeletedAt:   nil,
+	})
+	if err != nil {
+		log.Fatal("Failed to create company")
 	}
-	r.companies = append(r.companies, company)
-	return company, nil
+	return resp, nil
 }
 
 // CreateApplicant is the resolver for the createApplicant field.
 func (r *mutationResolver) CreateApplicant(ctx context.Context, input model.NewApplicant) (*model.Applicant, error) {
 	id := time.Now().UnixMicro()
-	var user *model.User
-	for _, u := range r.users {
-		if u.ID == input.UserID {
-			user = u
-			break
-		}
+	user, err := usecase.CreateUser(ctx, &model.NewUser{
+		Username: input.User.Username,
+		Name:     input.User.Name,
+	})
+	if err != nil {
+		log.Fatal("Failed to create user for applicant")
 	}
 	if user == nil {
-		log.Fatal("Applicant not found")
+		log.Fatal("User not found")
 	}
-	applicant := &model.Applicant{
+	resp, err := usecase.CreateApplicant(ctx, &model.Applicant{
 		ID:        id,
 		User:      user,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
+	})
+	if err != nil {
+		log.Fatal("Failed to create applicant")
 	}
-	r.applicants = append(r.applicants, applicant)
-	return applicant, nil
+	return resp, nil
 }
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	id := time.Now().UnixMicro()
-	user := &model.User{
-		ID:        id,
-		Username:  input.Username,
-		Name:      input.Name,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		DeletedAt: nil,
+	resp, err := usecase.CreateUser(ctx, input)
+	if err != nil {
+		log.Fatal("Failed to create user")
 	}
-	r.users = append(r.users, user)
-	return user, nil
+	return resp, nil
 }
 
 // CreateApplication is the resolver for the createApplication field.
 func (r *mutationResolver) CreateApplication(ctx context.Context, input model.NewApplication) (*model.Application, error) {
-	id := time.Now().UnixMicro()
 	// TODO refactor
 	var (
 		applicant *model.Applicant
 		job       *model.Job
 	)
-	for _, a := range r.applicants {
-		if a.ID == input.ApplicantID {
-			applicant = a
-			break
-		}
+	applicant, err := usecase.GetApplicantByID(ctx, int(input.ApplicantID))
+	if err != nil {
+		log.Fatal("Failed to get applicant for application")
 	}
 	if applicant == nil {
 		log.Fatal("Applicant not found")
 	}
-	for _, j := range r.jobs {
-		if j.ID == input.JobID {
-			job = j
-			break
-		}
+	job, err = usecase.GetJobByID(ctx, int(input.JobID))
+	if err != nil {
+		log.Fatal("Failed to get job for application")
 	}
 	if job == nil {
 		log.Fatal("Job not found")
 	}
+
+	id := time.Now().UnixMicro()
 	application := &model.Application{
 		ID:        id,
 		Applicant: applicant,
@@ -142,8 +139,11 @@ func (r *mutationResolver) CreateApplication(ctx context.Context, input model.Ne
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
 	}
-	r.applications = append(r.applications, application)
-	return application, nil
+	resp, err := usecase.CreateApplication(ctx, application)
+	if err != nil {
+		log.Fatal("Failed to create application")
+	}
+	return resp, nil
 }
 
 // UpdateJobByID is the resolver for the updateJobById field.
@@ -357,6 +357,21 @@ func (r *queryResolver) Applications(ctx context.Context) ([]*model.Application,
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	// TODO: refactor
 	return r.users, nil
+}
+
+// ApplicationsByApplicantID is the resolver for the applicationsByApplicantId field.
+func (r *queryResolver) ApplicationsByApplicantID(ctx context.Context) ([]*model.Application, error) {
+	panic(fmt.Errorf("not implemented: ApplicationsByApplicantID - applicationsByApplicantId"))
+}
+
+// ApplicationsByJobID is the resolver for the applicationsByJobId field.
+func (r *queryResolver) ApplicationsByJobID(ctx context.Context) ([]*model.Application, error) {
+	panic(fmt.Errorf("not implemented: ApplicationsByJobID - applicationsByJobId"))
+}
+
+// JobsByCompanyID is the resolver for the jobsByCompanyId field.
+func (r *queryResolver) JobsByCompanyID(ctx context.Context) ([]*model.Job, error) {
+	panic(fmt.Errorf("not implemented: JobsByCompanyID - jobsByCompanyId"))
 }
 
 // Mutation returns model.MutationResolver implementation.

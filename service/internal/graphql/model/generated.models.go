@@ -56,7 +56,7 @@ type Mutation struct {
 }
 
 type NewApplicant struct {
-	UserID int64 `json:"userId"`
+	User *NewUser `json:"user"`
 }
 
 type NewApplication struct {
@@ -65,10 +65,10 @@ type NewApplication struct {
 }
 
 type NewCompany struct {
-	UserID      int64  `json:"userId"`
-	CompanyName string `json:"companyName"`
-	Description string `json:"description"`
-	Website     string `json:"website"`
+	User        *NewUser `json:"user"`
+	CompanyName string   `json:"companyName"`
+	Description string   `json:"description"`
+	Website     string   `json:"website"`
 }
 
 type NewJob struct {

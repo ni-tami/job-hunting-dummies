@@ -1203,20 +1203,20 @@ func (ec *executionContext) unmarshalInputNewApplicant(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"userId"}
+	fieldsInOrder := [...]string{"user"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "userId":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			data, err := ec.unmarshalNID2int64(ctx, v)
+		case "user":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user"))
+			data, err := ec.unmarshalNNewUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewUser(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.UserID = data
+			it.User = data
 		}
 	}
 
@@ -1264,20 +1264,20 @@ func (ec *executionContext) unmarshalInputNewCompany(ctx context.Context, obj an
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"userId", "companyName", "description", "website"}
+	fieldsInOrder := [...]string{"user", "companyName", "description", "website"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "userId":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			data, err := ec.unmarshalNID2int64(ctx, v)
+		case "user":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("user"))
+			data, err := ec.unmarshalNNewUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewUser(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.UserID = data
+			it.User = data
 		case "companyName":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyName"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -2337,6 +2337,11 @@ func (ec *executionContext) unmarshalNNewJob2githubᚗcomᚋniᚑtamiᚋjobᚑhu
 func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewUser(ctx context.Context, v any) (NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNNewUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewUser(ctx context.Context, v any) (*NewUser, error) {
+	res, err := ec.unmarshalInputNewUser(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNTime2timeᚐTime(ctx context.Context, v any) (time.Time, error) {

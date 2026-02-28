@@ -26,6 +26,9 @@ type Query {
   jobs: [Job!]!
   companies: [Company!]!
   applicants: [Applicant!]!
-  applications: [Application!]!  
+  applications: [Application!]!
   users: [User!]!
+  applicationsByApplicantId: [Application!]!
+  applicationsByJobId: [Application!]!
+  jobsByCompanyId: [Job!]!
 }

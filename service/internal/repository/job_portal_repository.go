@@ -20,6 +20,10 @@ type JobPortalRepository interface {
 	GetJobByID(ctx context.Context, id int) (model.Job, error)
 	GetUserByID(ctx context.Context, id int) (model.User, error)
 
+	GetApplicationsByApplicantID(ctx context.Context, applicantId int64) ([]model.Applicant, error)
+	GetApplicationsByJobID(ctx context.Context, jobId int64) ([]model.Application, error)
+	GetJobsByCompanyID(ctx context.Context, companyId int64) ([]model.Job, error)
+
 	GetJobs(ctx context.Context) ([]model.Job, error)
 	GetCompanies(ctx context.Context) ([]model.Company, error)
 	GetApplicants(ctx context.Context) ([]model.Applicant, error)
@@ -103,6 +107,25 @@ func (r jobPortalRepository) GetUserByID(ctx context.Context, id int) (model.Use
 	err := r.db.WithContext(ctx).Where("id = ? AND deleted_at IS NULL", id).First(&user).Error
 	return user, err
 }
+
+func (r jobPortalRepository) GetApplicationsByApplicantID(ctx context.Context, applicantId int64) ([]model.Application, error) {
+	var applications []model.Application
+	err := r.db.WithContext(ctx).Where("deleted_at IS NULL AND applicant_id = ?", applicantId).Find(&applications).Error
+	return applications, err
+}
+
+func (r jobPortalRepository) GetApplicationsByJobID(ctx context.Context, jobId int64) ([]model.Application, error) {
+	var applications []model.Application
+	err := r.db.WithContext(ctx).Where("deleted_at IS NULL AND job_id = ?", jobId).Find(&applications).Error
+	return applications, err
+}
+
+func (r jobPortalRepository) GetJobsByCompanyID(ctx context.Context, companyId int64) ([]model.Job, error) {
+	var jobs []model.Job
+	err := r.db.WithContext(ctx).Where("deleted_at IS NULL AND company_id = ?", companyId).Find(&jobs).Error
+	return jobs, err
+}
+
 
 func (r jobPortalRepository) GetJobs(ctx context.Context) ([]model.Job, error) {
 	var jobs []model.Job

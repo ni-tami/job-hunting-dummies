@@ -14,6 +14,9 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/db"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/client"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -21,6 +24,7 @@ const defaultPort = "8080"
 
 
 func main() {
+	migration.MigrateTables()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
@@ -42,6 +46,11 @@ func main() {
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
 	srv.AddTransport(transport.POST{})
+
+	db := NewCrdbConn()
+	repo := NewJobPortalRepository(db)
+	srv = client.Middleware(repo, h)
+
 
 	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
 	srv.Use(extension.Introspection{})
