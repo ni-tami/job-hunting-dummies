@@ -91,11 +91,11 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateApplicant       func(childComplexity int, input NewApplicant) int
-		CreateApplication     func(childComplexity int, input NewApplication) int
-		CreateCompany         func(childComplexity int, input NewCompany) int
-		CreateJob             func(childComplexity int, input NewJob) int
-		CreateUser            func(childComplexity int, input NewUser) int
+		CreateApplicant       func(childComplexity int, input *NewApplicant) int
+		CreateApplication     func(childComplexity int, input *NewApplication) int
+		CreateCompany         func(childComplexity int, input *NewCompany) int
+		CreateJob             func(childComplexity int, input *NewJob) int
+		CreateUser            func(childComplexity int, input *NewUser) int
 		DeleteApplicantByID   func(childComplexity int, input int64) int
 		DeleteApplicationByID func(childComplexity int, input int64) int
 		DeleteCompanyByID     func(childComplexity int, input int64) int
@@ -374,7 +374,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateApplicant(childComplexity, args["input"].(NewApplicant)), true
+		return e.complexity.Mutation.CreateApplicant(childComplexity, args["input"].(*NewApplicant)), true
 
 	case "Mutation.createApplication":
 		if e.complexity.Mutation.CreateApplication == nil {
@@ -386,7 +386,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateApplication(childComplexity, args["input"].(NewApplication)), true
+		return e.complexity.Mutation.CreateApplication(childComplexity, args["input"].(*NewApplication)), true
 
 	case "Mutation.createCompany":
 		if e.complexity.Mutation.CreateCompany == nil {
@@ -398,7 +398,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateCompany(childComplexity, args["input"].(NewCompany)), true
+		return e.complexity.Mutation.CreateCompany(childComplexity, args["input"].(*NewCompany)), true
 
 	case "Mutation.createJob":
 		if e.complexity.Mutation.CreateJob == nil {
@@ -410,7 +410,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(NewJob)), true
+		return e.complexity.Mutation.CreateJob(childComplexity, args["input"].(*NewJob)), true
 
 	case "Mutation.createUser":
 		if e.complexity.Mutation.CreateUser == nil {
@@ -422,7 +422,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(NewUser)), true
+		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(*NewUser)), true
 
 	case "Mutation.deleteApplicantById":
 		if e.complexity.Mutation.DeleteApplicantByID == nil {
@@ -750,11 +750,11 @@ var sources = []*ast.Source{
 
 
 type Mutation {
-  createJob(input: NewJob!): Job
-  createCompany(input: NewCompany!): Company
-  createApplicant(input: NewApplicant!): Applicant
-  createUser(input: NewUser!): User
-  createApplication(input: NewApplication!): Application
+  createJob(input: NewJob): Job
+  createCompany(input: NewCompany): Company
+  createApplicant(input: NewApplicant): Applicant
+  createUser(input: NewUser): User
+  createApplication(input: NewApplication): Application
 
   updateJobById(input: UpdateJob!): Job
   updateCompanyById(input: UpdateCompany!): Company

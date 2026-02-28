@@ -31,7 +31,7 @@ func NewLoaders(conn *gorm.DB) *Loaders {
 	r := &jobPortalRepository{db: conn}
 	return &Loaders{
 		UserLoader: dataloadgen.NewLoader(r.GetUsers, dataloadgen.WithWait(time.Millisecond), dataloadgen.WithBatchCapacity(3)),
-		ApplicationLoader: dataloadgen.NewLoader(r.GetApplicationsByApplicantID, dataloadgen.WithWait(time.Millisecond), dataloadgen.WithBatchCapacity(3))
+		ApplicationLoader: dataloadgen.NewLoader(r.GetApplicationsByApplicantID, dataloadgen.WithWait(time.Millisecond), dataloadgen.WithBatchCapacity(3)),
 	}
 }
 

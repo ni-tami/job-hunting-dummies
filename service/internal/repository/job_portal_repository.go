@@ -20,7 +20,7 @@ type JobPortalRepository interface {
 	GetJobByID(ctx context.Context, id int) (model.Job, error)
 	GetUserByID(ctx context.Context, id int) (model.User, error)
 
-	GetApplicationsByApplicantID(ctx context.Context, applicantId int64) ([]model.Applicant, error)
+	GetApplicationsByApplicantID(ctx context.Context, applicantId int64) ([]model.Application, error)
 	GetApplicationsByJobID(ctx context.Context, jobId int64) ([]model.Application, error)
 	GetJobsByCompanyID(ctx context.Context, companyId int64) ([]model.Job, error)
 

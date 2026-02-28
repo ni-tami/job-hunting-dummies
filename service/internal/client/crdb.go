@@ -12,7 +12,7 @@ func NewCrdbConn() *gorm.DB {
 		postgres.Open(
 			"host=localhost port=26257 user=job_hunting_service dbname=job_hunt_service sslmode=disable",
 		),
-		initConfig()
+		initConfig(),
 	)
 	if err != nil {
 		log.Fatal("Unable to connect to DB")

@@ -40,17 +40,24 @@ func main() {
 		Debug:            true,
 	}).Handler)
 	// router.Use(auth.Middleware())
-
-	srv := handler.New(model.NewExecutableSchema(model.Config{Resolvers: &graphql.Resolver{}}))
+	db := client.NewCrdbConn()
+	repo := repository.NewJobPortalRepository(db)
+	usecase := usecase.NewJobPortalUsecase(repo)
+	srv := handler.New(model.NewExecutableSchema(
+		model.Config{
+			Resolvers: &graphql.Resolver{
+				users: []*model.User{},
+				companies: []*model.Company{},
+				applicants: []*model.Applicant{},
+				jobs: []*model.Job{},
+				applications: []*model.Application{},
+				jobPortalUsecase: usecase,
+			}
+		}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
 	srv.AddTransport(transport.POST{})
-
-	db := NewCrdbConn()
-	repo := NewJobPortalRepository(db)
-	usecase := NewJobPortalUsecase(repo)
-	graphql.SetUsecase(usecase)
 
 	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
 	srv.Use(extension.Introspection{})

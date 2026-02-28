@@ -2,6 +2,7 @@
 package graphql
 
 import "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+import "github.com/ni-tami/job-hunting-dummies-service/internal/usecase"
 
 // This file will not be regenerated automatically.
 //
@@ -14,4 +15,5 @@ type Resolver struct {
 	applicants []*model.Applicant
 	jobs []*model.Job
 	users []*model.User
+	jobPortalUsecase usecase.JobPortalUsecase
 }
