@@ -4,12 +4,13 @@
 
 
 type Mutation {
-  createJob(input: NewJob): Job
-  createCompany(input: NewCompany): Company
-  createApplicant(input: NewApplicant): Applicant
-  createUser(input: NewUser): User
-  createApplication(input: NewApplication): Application
+  createJob(input: NewJob!): Job
+  createCompany(input: NewCompany!): Company
+  createApplicant(input: NewApplicant!): Applicant
+  createUser(input: NewUser!): User
+  createApplication(input: NewApplication!): Application
 
+  # TODO: refactor, extract id from update object
   updateJobById(input: UpdateJob!): Job
   updateCompanyById(input: UpdateCompany!): Company
   updateUserById(input: UpdateUser!): User

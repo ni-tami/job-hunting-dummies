@@ -1,12 +1,14 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Applicant struct {
+	CreatedAt time.Time  `json:"created_at"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	ID        int64      `json:"id"`
-	UserID    int64  `json:"user_id"`
-	User      *User      `json:"user" gorm:"-;foreignKey:user_id;constraint:OnUpdate:CASCADE,OnDELETE:CASCADE"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt,omitempty"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	User      *User      `json:"user"                 gorm:"-;foreignKey:user_id;constraint:OnUpdate:CASCADE,OnDELETE:CASCADE"`
+	UserID    int64      `json:"user_id"`
 }

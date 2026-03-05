@@ -98,14 +98,14 @@ input NewJob {
 }
 
 input NewCompany {
-  user: NewUser!
+  user: NewUser! @goField
   companyName: String!
   description: String!
   website: String!
 }
 
 input NewApplicant {
-  user: NewUser!
+  user: NewUser! @goField
 }
 
 input NewApplication {

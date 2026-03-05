@@ -5,23 +5,23 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/go-chi/chi"
-	"github.com/rs/cors"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/go-chi/chi"
+	migration "github.com/ni-tami/job-hunting-dummies-service/db"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/client"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
-	"github.com/ni-tami/job-hunting-dummies-service/db"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
-	"github.com/ni-tami/job-hunting-dummies-service/internal/client"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/usecase"
+	"github.com/rs/cors"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
-const defaultPort = "8080"
-
+const defaultPort = "8888"
 
 func main() {
 	migration.MigrateTables()
@@ -32,7 +32,7 @@ func main() {
 
 	router := chi.NewRouter()
 	router.Use(cors.New(cors.Options{
-		AllowedOrigins:   []string{
+		AllowedOrigins: []string{
 			"http://localhost:8080",
 			"http://localhost:3000",
 		},
@@ -45,14 +45,7 @@ func main() {
 	usecase := usecase.NewJobPortalUsecase(repo)
 	srv := handler.New(model.NewExecutableSchema(
 		model.Config{
-			Resolvers: &graphql.Resolver{
-				users: []*model.User{},
-				companies: []*model.Company{},
-				applicants: []*model.Applicant{},
-				jobs: []*model.Job{},
-				applications: []*model.Application{},
-				jobPortalUsecase: usecase,
-			}
+			Resolvers: graphql.NewResolver(usecase),
 		}))
 
 	srv.AddTransport(transport.Options{})

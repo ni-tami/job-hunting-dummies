@@ -1,12 +1,19 @@
 package client
 
 import (
-  "log"
-  "fmt"
-  "gorm.io/driver/postgres"
-  "gorm.io/gorm"
+	"fmt"
+	"io"
+	"log"
+	"os"
+	"time"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 )
 
+// https://gist.githubusercontent.com/david-yappeter/2be557fc9af25b3fc000962b6f45fa6c/raw/b211147f3e367cbcc03753fc340653ab452e289c/database-1.go
 func NewCrdbConn() *gorm.DB {
 	db, err := gorm.Open(
 		postgres.Open(
@@ -21,7 +28,7 @@ func NewCrdbConn() *gorm.DB {
 	return db
 }
 
-//initConfig Initialize Config
+// initConfig Initialize Config
 func initConfig() *gorm.Config {
 	return &gorm.Config{
 		Logger:         initLog(),
@@ -29,7 +36,7 @@ func initConfig() *gorm.Config {
 	}
 }
 
-//initLog Connection Log Configuration
+// initLog Connection Log Configuration
 func initLog() logger.Interface {
 	f, _ := os.Create("gorm.log")
 	newLogger := logger.New(log.New(io.MultiWriter(f, os.Stdout), "\r\n", log.LstdFlags), logger.Config{
@@ -40,7 +47,7 @@ func initLog() logger.Interface {
 	return newLogger
 }
 
-//initNamingStrategy Init NamingStrategy
+// initNamingStrategy Init NamingStrategy
 func initNamingStrategy() *schema.NamingStrategy {
 	return &schema.NamingStrategy{
 		SingularTable: true,

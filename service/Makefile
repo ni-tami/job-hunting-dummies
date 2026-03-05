@@ -67,4 +67,10 @@ runserver:
 rundev:
 	go tool air
 
-.PHONY: proto proto-go clean help gqlgen dataloadgen
+format:
+	golangci-lint fmt
+
+lint: format
+	golangci-lint run
+
+.PHONY: proto proto-go clean help gqlgen dataloadgen format lint

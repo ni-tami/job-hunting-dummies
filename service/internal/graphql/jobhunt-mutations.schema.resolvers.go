@@ -15,7 +15,7 @@ import (
 )
 
 // CreateJob is the resolver for the createJob field for existing company
-func (r *mutationResolver) CreateJob(ctx context.Context, input *model.NewJob) (*model.Job, error) {
+func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*model.Job, error) {
 	resp, err := r.jobPortalUsecase.CreateJob(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create job")
@@ -24,7 +24,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input *model.NewJob) (
 }
 
 // CreateCompany is the resolver for the createCompany field.
-func (r *mutationResolver) CreateCompany(ctx context.Context, input *model.NewCompany) (*model.Company, error) {
+func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCompany) (*model.Company, error) {
 	resp, err := r.jobPortalUsecase.CreateCompany(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create company")
@@ -33,7 +33,7 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input *model.NewCo
 }
 
 // CreateApplicant is the resolver for the createApplicant field.
-func (r *mutationResolver) CreateApplicant(ctx context.Context, input *model.NewApplicant) (*model.Applicant, error) {
+func (r *mutationResolver) CreateApplicant(ctx context.Context, input model.NewApplicant) (*model.Applicant, error) {
 	resp, err := r.jobPortalUsecase.CreateApplicant(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create applicant")
@@ -42,7 +42,7 @@ func (r *mutationResolver) CreateApplicant(ctx context.Context, input *model.New
 }
 
 // CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, input *model.NewUser) (*model.User, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	resp, err := r.jobPortalUsecase.CreateUser(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create user")
@@ -51,7 +51,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input *model.NewUser)
 }
 
 // CreateApplication is the resolver for the createApplication field.
-func (r *mutationResolver) CreateApplication(ctx context.Context, input *model.NewApplication) (*model.Application, error) {
+func (r *mutationResolver) CreateApplication(ctx context.Context, input model.NewApplication) (*model.Application, error) {
 	resp, err := r.jobPortalUsecase.CreateApplication(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create application")
@@ -293,5 +293,7 @@ func (r *Resolver) Mutation() model.MutationResolver { return &mutationResolver{
 // Query returns model.QueryResolver implementation.
 func (r *Resolver) Query() model.QueryResolver { return &queryResolver{r} }
 
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }
+type (
+	mutationResolver struct{ *Resolver }
+	queryResolver    struct{ *Resolver }
+)

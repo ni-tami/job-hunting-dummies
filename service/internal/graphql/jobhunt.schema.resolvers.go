@@ -88,7 +88,9 @@ func (r *Resolver) Company() model.CompanyResolver { return &companyResolver{r} 
 // Job returns model.JobResolver implementation.
 func (r *Resolver) Job() model.JobResolver { return &jobResolver{r} }
 
-type applicantResolver struct{ *Resolver }
-type applicationResolver struct{ *Resolver }
-type companyResolver struct{ *Resolver }
-type jobResolver struct{ *Resolver }
+type (
+	applicantResolver   struct{ *Resolver }
+	applicationResolver struct{ *Resolver }
+	companyResolver     struct{ *Resolver }
+	jobResolver         struct{ *Resolver }
+)

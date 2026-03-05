@@ -1,20 +1,20 @@
 package usecase
 
 import (
-	"log"
+	"context"
 	"fmt"
 	"time"
-	"context"
-	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
+
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
 )
 
 type JobPortalUsecase interface {
-	CreateJob(ctx context.Context, newJob *model.NewJob) (*model.Job, error)
-	CreateCompany(ctx context.Context, newCompany *model.NewCompany) (*model.Company, error)
-	CreateApplicant(ctx context.Context, newApplicant *model.NewApplicant) (*model.Applicant, error)
-	CreateApplication(ctx context.Context, newApplication *model.NewApplication) (*model.Application, error)
-	CreateUser(ctx context.Context, newUser *model.NewUser) (*model.User, error)
+	CreateJob(ctx context.Context, newJob model.NewJob) (*model.Job, error)
+	CreateCompany(ctx context.Context, newCompany model.NewCompany) (*model.Company, error)
+	CreateApplicant(ctx context.Context, newApplicant model.NewApplicant) (*model.Applicant, error)
+	CreateApplication(ctx context.Context, newApplication model.NewApplication) (*model.Application, error)
+	CreateUser(ctx context.Context, newUser model.NewUser) (*model.User, error)
 
 	GetJobByID(ctx context.Context, id int) (*model.Job, error)
 	GetCompanyByID(ctx context.Context, id int) (*model.Company, error)
@@ -28,11 +28,11 @@ type JobPortalUsecase interface {
 	GetApplications(ctx context.Context) ([]*model.Application, error)
 	GetUsers(ctx context.Context) ([]*model.User, error)
 
-	UpdateJobByID(ctx context.Context, id int, updatedJob *model.Job) error
-	UpdateCompanyByID(ctx context.Context, id int, updatedCompany *model.Company) error
-	UpdateApplicantByID(ctx context.Context, id int, updatedApplicant *model.Applicant) error
-	UpdateApplicationByID(ctx context.Context, id int, updatedApplication *model.Application) error
-	UpdateUserByID(ctx context.Context, id int, updatedUser *model.User) error
+	UpdateJobByID(ctx context.Context, id int, updatedJob model.Job) error
+	UpdateCompanyByID(ctx context.Context, id int, updatedCompany model.Company) error
+	UpdateApplicantByID(ctx context.Context, id int, updatedApplicant model.Applicant) error
+	UpdateApplicationByID(ctx context.Context, id int, updatedApplication model.Application) error
+	UpdateUserByID(ctx context.Context, id int, updatedUser model.User) error
 
 	DeleteJobByID(ctx context.Context, id int) error
 	DeleteCompanyByID(ctx context.Context, id int) error
@@ -51,16 +51,16 @@ func NewJobPortalUsecase(repo repository.JobPortalRepository) JobPortalUsecase {
 	}
 }
 
-func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob *model.NewJob) (*model.Job, error) {
+func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob model.NewJob) (*model.Job, error) {
 	company, err := u.GetCompanyByID(ctx, int(newJob.CompanyID))
 	if err != nil {
-		log.Fatal("Failed to get company for job")
+		return nil, fmt.Errorf("failed to get company for job: %w", err)
 	}
 	if company == nil {
-		log.Fatal("Company not found for job")
+		return nil, fmt.Errorf("company not found for job")
 	}
 	id := time.Now().UnixMicro()
-	job := model.Job{
+	job := &model.Job{
 		ID:           id,
 		Company:      company,
 		Title:        newJob.Title,
@@ -70,73 +70,97 @@ func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob *model.NewJob) (
 		UpdatedAt:    time.Now(),
 		DeletedAt:    nil,
 	}
-	return u.repo.CreateJob(ctx, job)
+	err = u.repo.CreateJob(ctx, job)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create job: %w", err)
+	}
+	return job, nil
 }
 
-func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany *model.NewCompany) (*model.Company, error) {
-	user, err := u.CreateUser(ctx, newCompany.User)
+func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany model.NewCompany) (*model.Company, error) {
+	newUser := model.NewUser{
+		Username: newCompany.User.Username,
+		Name:     newCompany.User.Name,
+	}
+	user, err := u.CreateUser(ctx, newUser)
 	if err != nil {
-		log.Fatal("Failed to create user for company")
+		fmt.Println("Fatal: Failed to create user for company")
 	}
 	id := time.Now().UnixMicro()
-	company := model.Company{
+	company := &model.Company{
 		ID:          id,
 		User:        user,
 		CompanyName: newCompany.CompanyName,
 		Website:     newCompany.Website,
 		Description: newCompany.Description,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		DeletedAt: nil,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+		DeletedAt:   nil,
 	}
-	return u.repo.CreateCompany(ctx, company)
+	err = u.repo.CreateCompany(ctx, company)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create company: %w", err)
+	}
+	return company, nil
 }
 
-func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant *model.NewApplicant) (*model.Applicant, error) {
-	id := time.Now().UnixMicro()
-	user, err := u.CreateUser(ctx, newApplicant.User)
-	if err != nil {
-		log.Fatal("Failed to create user for applicant")
+func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant model.NewApplicant) (*model.Applicant, error) {
+	newUser := model.NewUser{
+		Username: newApplicant.User.Username,
+		Name:     newApplicant.User.Name,
 	}
-	applicant := model.Applicant{
+	user, err := u.CreateUser(ctx, newUser)
+	if err != nil {
+		fmt.Println("Fatal: Failed to create user for applicant")
+	}
+	id := time.Now().UnixMicro()
+	applicant := &model.Applicant{
 		ID:        id,
 		User:      user,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
 	}
-	return u.repo.CreateApplicant(ctx, applicant)
+	err = u.repo.CreateApplicant(ctx, applicant)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create applicant: %w", err)
+	}
+	return applicant, nil
 }
 
-func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication *model.NewApplication) (*model.Application, error) {
+func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication model.NewApplication) (*model.Application, error) {
 	applicant, err := u.GetApplicantByID(ctx, int(newApplication.ApplicantID))
 	if err != nil {
-		log.Fatal("Failed to get applicant for application")
+		return nil, fmt.Errorf("failed to get applicant for application")
 	}
 	if applicant == nil {
-		log.Fatal("Applicant not found for application")
+		return nil, fmt.Errorf("applicant not found for application")
 	}
 	job, err := u.GetJobByID(ctx, int(newApplication.JobID))
 	if err != nil {
-		log.Fatal("Failed to get job for application")
+		return nil, fmt.Errorf("failed to get job for application")
 	}
 	if job == nil {
-		log.Fatal("Job not found for application")
+		return nil, fmt.Errorf("job not found for application")
 	}
 	id := time.Now().UnixMicro()
-	application := model.Application{
+	application := &model.Application{
 		ID:        id,
-		Applicant: &applicant,
-		Job:       &job,
+		Applicant: applicant,
+		Job:       job,
 		Status:    "APPLIED",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
 	}
-	return u.repo.CreateApplication(ctx, application)
+	err = u.repo.CreateApplication(ctx, application)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create application: %w", err)
+	}
+	return application, nil
 }
 
-func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser *model.NewUser) (*model.User, error) {
+func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.NewUser) (*model.User, error) {
 	id := time.Now().UnixMicro()
 	user := &model.User{
 		ID:        id,
@@ -146,7 +170,11 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser *model.NewUser
 		UpdatedAt: time.Now(),
 		DeletedAt: nil,
 	}
-	return u.repo.CreateUser(ctx, user)
+	err := u.repo.CreateUser(ctx, user)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create user: %w", err)
+	}
+	return user, nil
 }
 
 func (u jobPortalUsecase) GetJobByID(ctx context.Context, id int) (*model.Job, error) {
@@ -189,7 +217,7 @@ func (u jobPortalUsecase) GetUsers(ctx context.Context) ([]*model.User, error) {
 	return u.repo.GetUsers(ctx)
 }
 
-func (u jobPortalUsecase) UpdateJobByID(ctx context.Context, id int, updatedJob *model.Job) error {
+func (u jobPortalUsecase) UpdateJobByID(ctx context.Context, id int, updatedJob model.Job) error {
 	rowCount, err := u.repo.UpdateJobByID(ctx, id, updatedJob)
 	if err == nil {
 		fmt.Printf("Updated row count: %d", rowCount)
@@ -197,7 +225,7 @@ func (u jobPortalUsecase) UpdateJobByID(ctx context.Context, id int, updatedJob 
 	return err
 }
 
-func (u jobPortalUsecase) UpdateCompanyByID(ctx context.Context, id int, updatedCompany *model.Company) error {
+func (u jobPortalUsecase) UpdateCompanyByID(ctx context.Context, id int, updatedCompany model.Company) error {
 	rowCount, err := u.repo.UpdateCompanyByID(ctx, id, updatedCompany)
 	if err == nil {
 		fmt.Printf("Updated row count: %d", rowCount)
@@ -205,7 +233,7 @@ func (u jobPortalUsecase) UpdateCompanyByID(ctx context.Context, id int, updated
 	return err
 }
 
-func (u jobPortalUsecase) UpdateApplicantByID(ctx context.Context, id int, updatedApplicant *model.Applicant) error {
+func (u jobPortalUsecase) UpdateApplicantByID(ctx context.Context, id int, updatedApplicant model.Applicant) error {
 	rowCount, err := u.repo.UpdateApplicantByID(ctx, id, updatedApplicant)
 	if err == nil {
 		fmt.Printf("Updated row count: %d", rowCount)
@@ -213,7 +241,7 @@ func (u jobPortalUsecase) UpdateApplicantByID(ctx context.Context, id int, updat
 	return err
 }
 
-func (u jobPortalUsecase) UpdateApplicationByID(ctx context.Context, id int, updatedApplication *model.Application) error {
+func (u jobPortalUsecase) UpdateApplicationByID(ctx context.Context, id int, updatedApplication model.Application) error {
 	rowCount, err := u.repo.UpdateApplicationByID(ctx, id, updatedApplication)
 	if err == nil {
 		fmt.Printf("Updated row count: %d", rowCount)
@@ -221,7 +249,7 @@ func (u jobPortalUsecase) UpdateApplicationByID(ctx context.Context, id int, upd
 	return err
 }
 
-func (u jobPortalUsecase) UpdateUserByID(ctx context.Context, id int, updatedUser *model.User) error {
+func (u jobPortalUsecase) UpdateUserByID(ctx context.Context, id int, updatedUser model.User) error {
 	rowCount, err := u.repo.UpdateUserByID(ctx, id, updatedUser)
 	if err == nil {
 		fmt.Printf("Updated row count: %d", rowCount)
