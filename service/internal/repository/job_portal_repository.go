@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/model"
 	"gorm.io/gorm"
 )
 

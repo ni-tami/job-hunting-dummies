@@ -827,7 +827,7 @@ type User {
 
 type Applicant {
   id: ID!
-  user: User!
+  user: User! @goField(forceResolver: true)
   createdAt: Time!
   updatedAt: Time!
   deletedAt: Time
@@ -835,7 +835,7 @@ type Applicant {
 
 type Company {
   id:           ID!
-  user:         User!
+  user:         User! @goField(forceResolver: true)
   companyName:  String!
   website:      String!
   description:  String!
@@ -846,7 +846,7 @@ type Company {
 
 type Job {
   id:           ID!
-  company:      Company!
+  company:      Company! @goField(forceResolver: true)
   title:        String!
   description:  String!
   requirements: [String!]!
@@ -857,8 +857,8 @@ type Job {
 
 type Application {
   id:          ID!
-  applicant:   Applicant!
-  job:         Job!
+  applicant:   Applicant! @goField(forceResolver: true)
+  job:         Job! @goField(forceResolver: true)
   status:      String!
   createdAt:   Time!
   updatedAt:   Time!
@@ -880,14 +880,14 @@ input NewJob {
 }
 
 input NewCompany {
-  user: NewUser! @goField
+  user: NewUser!
   companyName: String!
   description: String!
   website: String!
 }
 
 input NewApplicant {
-  user: NewUser! @goField
+  user: NewUser!
 }
 
 input NewApplication {

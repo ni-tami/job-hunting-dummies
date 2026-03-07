@@ -16,47 +16,52 @@ import (
 
 // CreateJob is the resolver for the createJob field for existing company
 func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*model.Job, error) {
-	resp, err := r.jobPortalUsecase.CreateJob(ctx, input)
+	dbJob, err := r.jobPortalUsecase.CreateJob(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create job")
 	}
-	return resp, nil
+	job := dbJob.ToGQL()
+	return &job, nil
 }
 
 // CreateCompany is the resolver for the createCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCompany) (*model.Company, error) {
-	resp, err := r.jobPortalUsecase.CreateCompany(ctx, input)
+	dbCompany, err := r.jobPortalUsecase.CreateCompany(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create company")
 	}
-	return resp, nil
+	company := dbCompany.ToGQL()
+	return &company, nil
 }
 
 // CreateApplicant is the resolver for the createApplicant field.
 func (r *mutationResolver) CreateApplicant(ctx context.Context, input model.NewApplicant) (*model.Applicant, error) {
-	resp, err := r.jobPortalUsecase.CreateApplicant(ctx, input)
+	dbApplicant, err := r.jobPortalUsecase.CreateApplicant(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create applicant")
 	}
-	return resp, nil
+	applicant := dbApplicant.ToGQL()
+	return &applicant, nil
 }
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	resp, err := r.jobPortalUsecase.CreateUser(ctx, input)
+	dbUser, err := r.jobPortalUsecase.CreateUser(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create user")
 	}
-	return resp, nil
+	user := dbUser.ToGQL()
+	return &user, nil
 }
 
 // CreateApplication is the resolver for the createApplication field.
 func (r *mutationResolver) CreateApplication(ctx context.Context, input model.NewApplication) (*model.Application, error) {
-	resp, err := r.jobPortalUsecase.CreateApplication(ctx, input)
+	dbApplication, err := r.jobPortalUsecase.CreateApplication(ctx, input)
 	if err != nil {
 		log.Fatal("Failed to create application")
 	}
-	return resp, nil
+	application := dbApplication.ToGQL()
+	return &application, nil
 }
 
 // UpdateJobByID is the resolver for the updateJobById field.

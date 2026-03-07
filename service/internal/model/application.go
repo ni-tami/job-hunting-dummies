@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	gql "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+)
 
 type Application struct {
 	ID          int64      `json:"id"`
@@ -12,4 +16,30 @@ type Application struct {
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   time.Time  `json:"updated_at"`
 	DeletedAt   *time.Time `json:"deleted_at,omitempty"`
+}
+
+func (a *Application) TableName() string {
+	return "applications"
+}
+
+func (a *Application) ToGQL() gql.Application {
+	return gql.Application{
+		ID: a.ID,
+		Applicant: &gql.Applicant{
+			ID: a.Applicant.ID,
+			User: &gql.User{
+				ID:       a.Applicant.User.ID,
+				Name:     a.Applicant.User.Name,
+				Username: a.Applicant.User.Username,
+			},
+		},
+		Job: &gql.Job{
+			ID:    a.Job.ID,
+			Title: a.Job.Title,
+		},
+		Status:    a.Status,
+		CreatedAt: a.CreatedAt,
+		UpdatedAt: a.UpdatedAt,
+		DeletedAt: a.DeletedAt,
+	}
 }
