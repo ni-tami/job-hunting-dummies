@@ -22,13 +22,13 @@ func (c *Company) TableName() string {
 	return "companies"
 }
 
-func (c *Company) ToGQL() gql.Company {
-	return gql.Company{
+func (c *Company) ToGQL() *gql.Company {
+	return &gql.Company{
 		ID: c.ID,
 		User: &gql.User{
-			ID:       c.User.ID,
-			Name:     c.User.Name,
-			Username: c.User.Username,
+			ID: c.UserID,
+			// Name:     c.User.Name,
+			// Username: c.User.Username,
 		},
 		CompanyName: c.CompanyName,
 		Website:     c.Website,

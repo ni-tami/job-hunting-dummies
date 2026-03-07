@@ -19,13 +19,13 @@ func (a *Applicant) TableName() string {
 	return "applicants"
 }
 
-func (a *Applicant) ToGQL() gql.Applicant {
-	return gql.Applicant{
+func (a *Applicant) ToGQL() *gql.Applicant {
+	return &gql.Applicant{
 		ID: a.ID,
 		User: &gql.User{
-			ID:       a.User.ID,
-			Name:     a.User.Name,
-			Username: a.User.Username,
+			ID: a.UserID,
+			// 	Name:     a.User.Name,
+			// 	Username: a.User.Username,
 		},
 		CreatedAt: a.CreatedAt,
 		UpdatedAt: a.UpdatedAt,

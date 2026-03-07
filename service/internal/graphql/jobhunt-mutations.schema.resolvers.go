@@ -21,7 +21,7 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input model.NewJob) (*
 		log.Fatal("Failed to create job")
 	}
 	job := dbJob.ToGQL()
-	return &job, nil
+	return job, nil
 }
 
 // CreateCompany is the resolver for the createCompany field.
@@ -31,7 +31,7 @@ func (r *mutationResolver) CreateCompany(ctx context.Context, input model.NewCom
 		log.Fatal("Failed to create company")
 	}
 	company := dbCompany.ToGQL()
-	return &company, nil
+	return company, nil
 }
 
 // CreateApplicant is the resolver for the createApplicant field.
@@ -41,7 +41,7 @@ func (r *mutationResolver) CreateApplicant(ctx context.Context, input model.NewA
 		log.Fatal("Failed to create applicant")
 	}
 	applicant := dbApplicant.ToGQL()
-	return &applicant, nil
+	return applicant, nil
 }
 
 // CreateUser is the resolver for the createUser field.
@@ -51,7 +51,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 		log.Fatal("Failed to create user")
 	}
 	user := dbUser.ToGQL()
-	return &user, nil
+	return user, nil
 }
 
 // CreateApplication is the resolver for the createApplication field.
@@ -61,7 +61,7 @@ func (r *mutationResolver) CreateApplication(ctx context.Context, input model.Ne
 		log.Fatal("Failed to create application")
 	}
 	application := dbApplication.ToGQL()
-	return &application, nil
+	return application, nil
 }
 
 // UpdateJobByID is the resolver for the updateJobById field.
@@ -249,47 +249,119 @@ func (r *mutationResolver) DeleteApplicationByID(ctx context.Context, input int6
 
 // Jobs is the resolver for the jobs field.
 func (r *queryResolver) Jobs(ctx context.Context) ([]*model.Job, error) {
-	// TODO: refactor
-	return r.jobs, nil
+	dbJobs, err := r.jobPortalUsecase.GetJobs(ctx)
+	if err != nil {
+		fmt.Printf("failed to fetch jobs: %v", err)
+		return nil, err
+	}
+	jobs := make([]*model.Job, 0)
+	for _, dbJob := range dbJobs {
+		job := dbJob.ToGQL()
+		jobs = append(jobs, job)
+	}
+	return jobs, nil
 }
 
 // Companies is the resolver for the companies field.
 func (r *queryResolver) Companies(ctx context.Context) ([]*model.Company, error) {
-	// TODO: refactor
-	return r.companies, nil
+	dbCompanies, err := r.jobPortalUsecase.GetCompanies(ctx)
+	if err != nil {
+		fmt.Printf("failed to fetch companies: %v", err)
+		return nil, err
+	}
+	companies := make([]*model.Company, 0)
+	for _, dbCompany := range dbCompanies {
+		company := dbCompany.ToGQL()
+		companies = append(companies, company)
+	}
+	return companies, nil
 }
 
 // Applicants is the resolver for the applicants field.
 func (r *queryResolver) Applicants(ctx context.Context) ([]*model.Applicant, error) {
-	// TODO: refactor
-	return r.applicants, nil
+	dbApplicants, err := r.jobPortalUsecase.GetApplicants(ctx)
+	if err != nil {
+		fmt.Printf("failed to fetch applicants: %v", err)
+		return nil, err
+	}
+	applicants := make([]*model.Applicant, 0)
+	for _, dbApplicant := range dbApplicants {
+		applicant := dbApplicant.ToGQL()
+		applicants = append(applicants, applicant)
+	}
+	return applicants, nil
 }
 
 // Applications is the resolver for the applications field.
 func (r *queryResolver) Applications(ctx context.Context) ([]*model.Application, error) {
-	// TODO: refactor
-	return r.applications, nil
+	dbApplications, err := r.jobPortalUsecase.GetApplications(ctx)
+	if err != nil {
+		fmt.Printf("failed to fetch applications: %v", err)
+		return nil, err
+	}
+	applications := make([]*model.Application, 0)
+	for _, dbApplication := range dbApplications {
+		application := dbApplication.ToGQL()
+		applications = append(applications, application)
+	}
+	return applications, nil
 }
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	// TODO: refactor
-	return r.users, nil
+	dbUsers, err := r.jobPortalUsecase.GetUsers(ctx)
+	if err != nil {
+		fmt.Printf("failed to fetch users: %v", err)
+		return nil, err
+	}
+	users := make([]*model.User, 0)
+	for _, dbUser := range dbUsers {
+		user := dbUser.ToGQL()
+		users = append(users, user)
+	}
+	return users, nil
 }
 
 // ApplicationsByApplicantID is the resolver for the applicationsByApplicantId field.
-func (r *queryResolver) ApplicationsByApplicantID(ctx context.Context) ([]*model.Application, error) {
-	panic(fmt.Errorf("not implemented: ApplicationsByApplicantID - applicationsByApplicantId"))
+func (r *queryResolver) ApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*model.Application, error) {
+	applications, err := r.jobPortalUsecase.GetApplicationsByApplicantID(ctx, applicantID)
+	if err != nil {
+		return nil, err
+	}
+	gqlApplications := make([]*model.Application, 0)
+	for _, application := range applications {
+		gqlApp := application.ToGQL()
+		gqlApplications = append(gqlApplications, gqlApp)
+	}
+	return gqlApplications, nil
 }
 
 // ApplicationsByJobID is the resolver for the applicationsByJobId field.
-func (r *queryResolver) ApplicationsByJobID(ctx context.Context) ([]*model.Application, error) {
-	panic(fmt.Errorf("not implemented: ApplicationsByJobID - applicationsByJobId"))
+func (r *queryResolver) ApplicationsByJobID(ctx context.Context, jobID int64) ([]*model.Application, error) {
+	applications, err := r.jobPortalUsecase.GetApplicationsByJobID(ctx, jobID)
+	if err != nil {
+		return nil, err
+	}
+	gqlApplications := make([]*model.Application, 0)
+	for _, application := range applications {
+		gqlApp := application.ToGQL()
+		gqlApplications = append(gqlApplications, gqlApp)
+	}
+	return gqlApplications, nil
 }
 
 // JobsByCompanyID is the resolver for the jobsByCompanyId field.
-func (r *queryResolver) JobsByCompanyID(ctx context.Context) ([]*model.Job, error) {
-	panic(fmt.Errorf("not implemented: JobsByCompanyID - jobsByCompanyId"))
+func (r *queryResolver) JobsByCompanyID(ctx context.Context, companyID int64) ([]*model.Job, error) {
+	jobs, err := r.jobPortalUsecase.GetJobsByCompanyID(ctx, companyID)
+	if err != nil {
+		return nil, err
+	}
+	gqlJobs := make([]*model.Job, 0)
+	for _, job := range jobs {
+		gqlJob := job.ToGQL()
+		gqlJobs = append(gqlJobs, gqlJob)
+	}
+	return gqlJobs, nil
 }
 
 // Mutation returns model.MutationResolver implementation.

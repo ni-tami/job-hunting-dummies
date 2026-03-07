@@ -29,7 +29,7 @@ type Query {
   applicants: [Applicant!]!
   applications: [Application!]!
   users: [User!]!
-  applicationsByApplicantId: [Application!]!
-  applicationsByJobId: [Application!]!
-  jobsByCompanyId: [Job!]!
+  applicationsByApplicantId(applicantId: ID!): [Application!]!
+  applicationsByJobId(jobId: ID!): [Application!]!
+  jobsByCompanyId(companyId: ID!): [Job!]!
 }

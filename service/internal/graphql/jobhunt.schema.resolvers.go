@@ -83,12 +83,11 @@ func (r *jobResolver) Company(ctx context.Context, obj *model.Job) (*model.Compa
 	if err != nil {
 		return nil, err
 	}
+	// NOTE: if value for User ID is company.User.ID null pointer and cannot resolve user. WHy? See details later
 	return &model.Company{
 		ID: company.ID,
 		User: &model.User{
-			ID:       company.User.ID,
-			Name:     company.User.Name,
-			Username: company.User.Username,
+			ID: company.UserID,
 		},
 		CompanyName: company.CompanyName,
 		Website:     company.Website,

@@ -40,6 +40,10 @@ type JobPortalUsecase interface {
 	DeleteApplicantByID(ctx context.Context, id int) error
 	DeleteApplicationByID(ctx context.Context, id int) error
 	DeleteUserByID(ctx context.Context, id int) error
+
+	GetApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*model.Application, error)
+	GetApplicationsByJobID(ctx context.Context, jobID int64) ([]*model.Application, error)
+	GetJobsByCompanyID(ctx context.Context, companyID int64) ([]*model.Job, error)
 }
 
 type jobPortalUsecase struct {
@@ -63,7 +67,7 @@ func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob gqlModel.NewJob)
 	id := time.Now().UnixMicro()
 	job := &model.Job{
 		ID:           id,
-		Company:      company,
+		CompanyID:    company.ID,
 		Title:        newJob.Title,
 		Description:  newJob.Description,
 		Requirements: newJob.Requirements,
@@ -146,13 +150,13 @@ func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication 
 	}
 	id := time.Now().UnixMicro()
 	application := &model.Application{
-		ID:        id,
-		Applicant: applicant,
-		Job:       job,
-		Status:    "APPLIED",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-		DeletedAt: nil,
+		ID:          id,
+		ApplicantID: applicant.ID,
+		JobID:       job.ID,
+		Status:      "APPLIED",
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
+		DeletedAt:   nil,
 	}
 	err = u.repo.CreateApplication(ctx, application)
 	if err != nil {
@@ -315,4 +319,16 @@ func (u jobPortalUsecase) DeleteApplicationByID(ctx context.Context, id int) err
 
 func (u jobPortalUsecase) DeleteUserByID(ctx context.Context, id int) error {
 	return u.repo.DeleteUserByID(ctx, id)
+}
+
+func (u jobPortalUsecase) GetApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*model.Application, error) {
+	return u.repo.GetApplicationsByApplicantID(ctx, applicantID)
+}
+
+func (u jobPortalUsecase) GetApplicationsByJobID(ctx context.Context, jobID int64) ([]*model.Application, error) {
+	return u.repo.GetApplicationsByJobID(ctx, jobID)
+}
+
+func (u jobPortalUsecase) GetJobsByCompanyID(ctx context.Context, companyID int64) ([]*model.Job, error) {
+	return u.repo.GetJobsByCompanyID(ctx, companyID)
 }

@@ -82,9 +82,9 @@ func (ec *executionContext) _Applicant_user(ctx context.Context, field graphql.C
 			return ec.resolvers.Applicant().User(ctx, obj)
 		},
 		nil,
-		ec.marshalNUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
+		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -241,9 +241,9 @@ func (ec *executionContext) _Application_applicant(ctx context.Context, field gr
 			return ec.resolvers.Application().Applicant(ctx, obj)
 		},
 		nil,
-		ec.marshalNApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant,
+		ec.marshalOApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -282,9 +282,9 @@ func (ec *executionContext) _Application_job(ctx context.Context, field graphql.
 			return ec.resolvers.Application().Job(ctx, obj)
 		},
 		nil,
-		ec.marshalNJob2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
+		ec.marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJob,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -474,9 +474,9 @@ func (ec *executionContext) _Company_user(ctx context.Context, field graphql.Col
 			return ec.resolvers.Company().User(ctx, obj)
 		},
 		nil,
-		ec.marshalNUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
+		ec.marshalOUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -807,9 +807,9 @@ func (ec *executionContext) _Job_company(ctx context.Context, field graphql.Coll
 			return ec.resolvers.Job().Company(ctx, obj)
 		},
 		nil,
-		ec.marshalNCompany2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
+		ec.marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompany,
 		true,
-		true,
+		false,
 	)
 }
 
@@ -1578,16 +1578,13 @@ func (ec *executionContext) _Applicant(ctx context.Context, sel ast.SelectionSet
 		case "user":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._Applicant_user(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -1665,16 +1662,13 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 		case "applicant":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._Application_applicant(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -1701,16 +1695,13 @@ func (ec *executionContext) _Application(ctx context.Context, sel ast.SelectionS
 		case "job":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._Application_job(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -1793,16 +1784,13 @@ func (ec *executionContext) _Company(ctx context.Context, sel ast.SelectionSet, 
 		case "user":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._Company_user(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -1938,16 +1926,13 @@ func (ec *executionContext) _Job(ctx context.Context, sel ast.SelectionSet, obj 
 		case "company":
 			field := field
 
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+			innerFunc := func(ctx context.Context, _ *graphql.FieldSet) (res graphql.Marshaler) {
 				defer func() {
 					if r := recover(); r != nil {
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
 				res = ec._Job_company(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -2086,10 +2071,6 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNApplicant2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant(ctx context.Context, sel ast.SelectionSet, v Applicant) graphql.Marshaler {
-	return ec._Applicant(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalNApplicant2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicantᚄ(ctx context.Context, sel ast.SelectionSet, v []*Applicant) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -2198,10 +2179,6 @@ func (ec *executionContext) marshalNApplication2ᚖgithubᚗcomᚋniᚑtamiᚋjo
 	return ec._Application(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNCompany2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompany(ctx context.Context, sel ast.SelectionSet, v Company) graphql.Marshaler {
-	return ec._Company(ctx, sel, &v)
-}
-
 func (ec *executionContext) marshalNCompany2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐCompanyᚄ(ctx context.Context, sel ast.SelectionSet, v []*Company) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -2254,10 +2231,6 @@ func (ec *executionContext) marshalNCompany2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑ
 		return graphql.Null
 	}
 	return ec._Company(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNJob2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJob(ctx context.Context, sel ast.SelectionSet, v Job) graphql.Marshaler {
-	return ec._Job(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNJob2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJobᚄ(ctx context.Context, sel ast.SelectionSet, v []*Job) graphql.Marshaler {
@@ -2378,10 +2351,6 @@ func (ec *executionContext) unmarshalNUpdateJob2githubᚗcomᚋniᚑtamiᚋjob�
 func (ec *executionContext) unmarshalNUpdateUser2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUpdateUser(ctx context.Context, v any) (UpdateUser, error) {
 	res, err := ec.unmarshalInputUpdateUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNUser2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v User) graphql.Marshaler {
-	return ec._User(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNUser2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*User) graphql.Marshaler {

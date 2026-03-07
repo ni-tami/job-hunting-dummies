@@ -36,9 +36,9 @@ type QueryResolver interface {
 	Applicants(ctx context.Context) ([]*Applicant, error)
 	Applications(ctx context.Context) ([]*Application, error)
 	Users(ctx context.Context) ([]*User, error)
-	ApplicationsByApplicantID(ctx context.Context) ([]*Application, error)
-	ApplicationsByJobID(ctx context.Context) ([]*Application, error)
-	JobsByCompanyID(ctx context.Context) ([]*Job, error)
+	ApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*Application, error)
+	ApplicationsByJobID(ctx context.Context, jobID int64) ([]*Application, error)
+	JobsByCompanyID(ctx context.Context, companyID int64) ([]*Job, error)
 }
 
 // endregion ************************** generated!.gotpl **************************
@@ -207,6 +207,39 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		return nil, err
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_applicationsByApplicantId_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "applicantId", ec.unmarshalNID2int64)
+	if err != nil {
+		return nil, err
+	}
+	args["applicantId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_applicationsByJobId_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "jobId", ec.unmarshalNID2int64)
+	if err != nil {
+		return nil, err
+	}
+	args["jobId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_jobsByCompanyId_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := graphql.ProcessArgField(ctx, rawArgs, "companyId", ec.unmarshalNID2int64)
+	if err != nil {
+		return nil, err
+	}
+	args["companyId"] = arg0
 	return args, nil
 }
 
@@ -1206,7 +1239,8 @@ func (ec *executionContext) _Query_applicationsByApplicantId(ctx context.Context
 		field,
 		ec.fieldContext_Query_applicationsByApplicantId,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().ApplicationsByApplicantID(ctx)
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().ApplicationsByApplicantID(ctx, fc.Args["applicantId"].(int64))
 		},
 		nil,
 		ec.marshalNApplication2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicationᚄ,
@@ -1215,7 +1249,7 @@ func (ec *executionContext) _Query_applicationsByApplicantId(ctx context.Context
 	)
 }
 
-func (ec *executionContext) fieldContext_Query_applicationsByApplicantId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_applicationsByApplicantId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -1240,6 +1274,17 @@ func (ec *executionContext) fieldContext_Query_applicationsByApplicantId(_ conte
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Application", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_applicationsByApplicantId_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -1251,7 +1296,8 @@ func (ec *executionContext) _Query_applicationsByJobId(ctx context.Context, fiel
 		field,
 		ec.fieldContext_Query_applicationsByJobId,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().ApplicationsByJobID(ctx)
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().ApplicationsByJobID(ctx, fc.Args["jobId"].(int64))
 		},
 		nil,
 		ec.marshalNApplication2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicationᚄ,
@@ -1260,7 +1306,7 @@ func (ec *executionContext) _Query_applicationsByJobId(ctx context.Context, fiel
 	)
 }
 
-func (ec *executionContext) fieldContext_Query_applicationsByJobId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_applicationsByJobId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -1286,6 +1332,17 @@ func (ec *executionContext) fieldContext_Query_applicationsByJobId(_ context.Con
 			return nil, fmt.Errorf("no field named %q was found under type Application", field.Name)
 		},
 	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_applicationsByJobId_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
 	return fc, nil
 }
 
@@ -1296,7 +1353,8 @@ func (ec *executionContext) _Query_jobsByCompanyId(ctx context.Context, field gr
 		field,
 		ec.fieldContext_Query_jobsByCompanyId,
 		func(ctx context.Context) (any, error) {
-			return ec.resolvers.Query().JobsByCompanyID(ctx)
+			fc := graphql.GetFieldContext(ctx)
+			return ec.resolvers.Query().JobsByCompanyID(ctx, fc.Args["companyId"].(int64))
 		},
 		nil,
 		ec.marshalNJob2ᚕᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJobᚄ,
@@ -1305,7 +1363,7 @@ func (ec *executionContext) _Query_jobsByCompanyId(ctx context.Context, field gr
 	)
 }
 
-func (ec *executionContext) fieldContext_Query_jobsByCompanyId(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_jobsByCompanyId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -1332,6 +1390,17 @@ func (ec *executionContext) fieldContext_Query_jobsByCompanyId(_ context.Context
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Job", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_jobsByCompanyId_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }

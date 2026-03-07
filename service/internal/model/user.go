@@ -19,8 +19,8 @@ func (u *User) TableName() string {
 	return "users"
 }
 
-func (u *User) ToGQL() gql.User {
-	return gql.User{
+func (u *User) ToGQL() *gql.User {
+	return &gql.User{
 		ID:        u.ID,
 		Username:  u.Username,
 		Name:      u.Name,
