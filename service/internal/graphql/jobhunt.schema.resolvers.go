@@ -36,9 +36,7 @@ func (r *applicationResolver) Applicant(ctx context.Context, obj *model.Applicat
 	return &model.Applicant{
 		ID: applicant.ID,
 		User: &model.User{
-			ID:       applicant.User.ID,
-			Name:     applicant.User.Name,
-			Username: applicant.User.Username,
+			ID: applicant.UserID,
 		},
 		CreatedAt: applicant.CreatedAt,
 		UpdatedAt: applicant.UpdatedAt,

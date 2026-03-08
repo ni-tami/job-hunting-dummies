@@ -8,7 +8,7 @@ import (
 
 type Applicant struct {
 	ID        int64      `json:"id"`
-	User      *User      `json:"user,omitempty"`
+	User      *User      `json:"user"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
 	DeletedAt *time.Time `json:"deletedAt,omitempty"`
@@ -16,8 +16,8 @@ type Applicant struct {
 
 type Application struct {
 	ID        int64      `json:"id"`
-	Applicant *Applicant `json:"applicant,omitempty"`
-	Job       *Job       `json:"job,omitempty"`
+	Applicant *Applicant `json:"applicant"`
+	Job       *Job       `json:"job"`
 	Status    string     `json:"status"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
@@ -26,7 +26,7 @@ type Application struct {
 
 type Company struct {
 	ID          int64      `json:"id"`
-	User        *User      `json:"user,omitempty"`
+	User        *User      `json:"user"`
 	CompanyName string     `json:"companyName"`
 	Website     string     `json:"website"`
 	Description string     `json:"description"`
@@ -37,7 +37,7 @@ type Company struct {
 
 type Job struct {
 	ID           int64      `json:"id"`
-	Company      *Company   `json:"company,omitempty"`
+	Company      *Company   `json:"company"`
 	Title        string     `json:"title"`
 	Description  string     `json:"description"`
 	Requirements []string   `json:"requirements"`
