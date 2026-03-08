@@ -12,6 +12,7 @@ import (
 
 type (
 	JobPortalUsecase interface {
+		// TODO: might need to separate into multiple services if this grows too big
 		CreateJob(ctx context.Context, newJob gqlModel.NewJob) (*model.Job, error)
 		CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error)
 		CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
@@ -23,6 +24,12 @@ type (
 		GetApplicantByID(ctx context.Context, id int64) (*model.Applicant, error)
 		GetApplicationByID(ctx context.Context, id int64) (*model.Application, error)
 		GetUserByID(ctx context.Context, id int64) (*model.User, error)
+
+		GetJobsByIds(ctx context.Context, ids []int64) (*model.Job, error)
+		GetCompaniesByIds(ctx context.Context, ids []int64) (*model.Company, error)
+		GetApplicantsByIds(ctx context.Context, ids []int64) (*model.Applicant, error)
+		GetApplicationsByIds(ctx context.Context, ids []int64) (*model.Application, error)
+		GetUsersByIds(ctx context.Context, ids []int64) (*model.User, error)
 
 		GetJobs(ctx context.Context) ([]*model.Job, error)
 		GetCompanies(ctx context.Context) ([]*model.Company, error)
@@ -389,4 +396,24 @@ func (u jobPortalUsecase) GetApplicationsByJobID(ctx context.Context, jobID int6
 
 func (u jobPortalUsecase) GetJobsByCompanyID(ctx context.Context, companyID int64) ([]*model.Job, error) {
 	return u.repo.GetJobsByCompanyID(ctx, companyID)
+}
+
+func (u jobPortalUsecase) GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, error) {
+	return u.repo.GetJobsByIds(ctx, ids)
+}
+
+func (u jobPortalUsecase) GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, error) {
+	return u.repo.GetCompaniesByIds(ctx, ids)
+}
+
+func (u jobPortalUsecase) GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, error) {
+	return u.repo.GetApplicantsByIds(ctx, ids)
+}
+
+func (u jobPortalUsecase) GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, error) {
+	return u.repo.GetApplicationsByIds(ctx, ids)
+}
+
+func (u jobPortalUsecase) GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, error) {
+	return u.repo.GetUsersByIds(ctx, ids)
 }
