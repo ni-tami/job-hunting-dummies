@@ -25,11 +25,11 @@ type (
 		GetApplicationByID(ctx context.Context, id int64) (*model.Application, error)
 		GetUserByID(ctx context.Context, id int64) (*model.User, error)
 
-		GetJobsByIds(ctx context.Context, ids []int64) (*model.Job, error)
-		GetCompaniesByIds(ctx context.Context, ids []int64) (*model.Company, error)
-		GetApplicantsByIds(ctx context.Context, ids []int64) (*model.Applicant, error)
-		GetApplicationsByIds(ctx context.Context, ids []int64) (*model.Application, error)
-		GetUsersByIds(ctx context.Context, ids []int64) (*model.User, error)
+		GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, error)
+		GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, error)
+		GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, error)
+		GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, error)
+		GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, error)
 
 		GetJobs(ctx context.Context) ([]*model.Job, error)
 		GetCompanies(ctx context.Context) ([]*model.Company, error)
