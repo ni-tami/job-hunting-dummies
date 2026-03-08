@@ -13,66 +13,86 @@ import (
 
 // User is the resolver for the user field.
 func (r *applicantResolver) User(ctx context.Context, obj *model.Applicant) (*model.User, error) {
+	user, err := r.jobPortalUsecase.GetUserByID(ctx, int64(obj.User.ID))
+	if err != nil {
+		return nil, err
+	}
 	return &model.User{
-		ID:        obj.User.ID,
-		Name:      obj.User.Name,
-		Username:  obj.User.Username,
-		CreatedAt: obj.User.CreatedAt,
-		UpdatedAt: obj.User.UpdatedAt,
-		DeletedAt: obj.User.DeletedAt,
+		ID:        user.ID,
+		Name:      user.Name,
+		Username:  user.Username,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+		DeletedAt: user.DeletedAt,
 	}, nil
 }
 
 // Applicant is the resolver for the applicant field.
 func (r *applicationResolver) Applicant(ctx context.Context, obj *model.Application) (*model.Applicant, error) {
+	applicant, err := r.jobPortalUsecase.GetApplicantByID(ctx, int64(obj.Applicant.ID))
+	if err != nil {
+		return nil, err
+	}
 	return &model.Applicant{
-		ID: obj.Applicant.ID,
+		ID: applicant.ID,
 		User: &model.User{
-			ID:       obj.Applicant.User.ID,
-			Username: obj.Applicant.User.Username,
+			ID: applicant.UserID,
 		},
-		CreatedAt: obj.CreatedAt,
-		UpdatedAt: obj.UpdatedAt,
-		DeletedAt: obj.DeletedAt,
+		CreatedAt: applicant.CreatedAt,
+		UpdatedAt: applicant.UpdatedAt,
+		DeletedAt: applicant.DeletedAt,
 	}, nil
 }
 
 // Job is the resolver for the job field.
 func (r *applicationResolver) Job(ctx context.Context, obj *model.Application) (*model.Job, error) {
+	job, err := r.jobPortalUsecase.GetJobByID(ctx, int64(obj.Job.ID))
+	if err != nil {
+		return nil, err
+	}
 	return &model.Job{
-		ID:        obj.Job.ID,
-		Title:     obj.Job.Title,
-		CreatedAt: obj.CreatedAt,
-		UpdatedAt: obj.UpdatedAt,
-		DeletedAt: obj.DeletedAt,
+		ID:        job.ID,
+		Title:     job.Title,
+		CreatedAt: job.CreatedAt,
+		UpdatedAt: job.UpdatedAt,
+		DeletedAt: job.DeletedAt,
 	}, nil
 }
 
 // User is the resolver for the user field.
 func (r *companyResolver) User(ctx context.Context, obj *model.Company) (*model.User, error) {
+	user, err := r.jobPortalUsecase.GetUserByID(ctx, int64(obj.User.ID))
+	if err != nil {
+		return nil, err
+	}
 	return &model.User{
-		ID:        obj.User.ID,
-		Name:      obj.User.Name,
-		Username:  obj.User.Username,
-		CreatedAt: obj.User.CreatedAt,
-		UpdatedAt: obj.User.UpdatedAt,
-		DeletedAt: obj.User.DeletedAt,
+		ID:        user.ID,
+		Name:      user.Name,
+		Username:  user.Username,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+		DeletedAt: user.DeletedAt,
 	}, nil
 }
 
 // Company is the resolver for the company field.
 func (r *jobResolver) Company(ctx context.Context, obj *model.Job) (*model.Company, error) {
+	company, err := r.jobPortalUsecase.GetCompanyByID(ctx, int64(obj.Company.ID))
+	if err != nil {
+		return nil, err
+	}
+	// NOTE: if value for User ID is company.User.ID null pointer and cannot resolve user. WHy? See details later
 	return &model.Company{
-		ID: obj.Company.ID,
+		ID: company.ID,
 		User: &model.User{
-			ID: obj.Company.User.ID,
+			ID: company.UserID,
 		},
-		CompanyName: obj.Company.CompanyName,
-		Website:     obj.Company.Website,
-		Description: obj.Company.Description,
-		CreatedAt:   obj.Company.CreatedAt,
-		UpdatedAt:   obj.Company.UpdatedAt,
-		DeletedAt:   obj.Company.DeletedAt,
+		CompanyName: company.CompanyName,
+		Website:     company.Website,
+		Description: company.Description,
+		CreatedAt:   company.CreatedAt,
+		UpdatedAt:   company.UpdatedAt,
+		DeletedAt:   company.DeletedAt,
 	}, nil
 }
 
@@ -88,7 +108,9 @@ func (r *Resolver) Company() model.CompanyResolver { return &companyResolver{r} 
 // Job returns model.JobResolver implementation.
 func (r *Resolver) Job() model.JobResolver { return &jobResolver{r} }
 
-type applicantResolver struct{ *Resolver }
-type applicationResolver struct{ *Resolver }
-type companyResolver struct{ *Resolver }
-type jobResolver struct{ *Resolver }
+type (
+	applicantResolver   struct{ *Resolver }
+	applicationResolver struct{ *Resolver }
+	companyResolver     struct{ *Resolver }
+	jobResolver         struct{ *Resolver }
+)

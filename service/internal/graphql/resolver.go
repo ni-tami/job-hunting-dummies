@@ -1,7 +1,9 @@
 // nolint:gci
 package graphql
 
-import "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+import (
+	"github.com/ni-tami/job-hunting-dummies-service/internal/usecase"
+)
 
 // This file will not be regenerated automatically.
 //
@@ -9,9 +11,11 @@ import "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 // here.
 
 type Resolver struct {
-	applications []*model.Application
-	companies []*model.Company
-	applicants []*model.Applicant
-	jobs []*model.Job
-	users []*model.User
+	jobPortalUsecase usecase.JobPortalUsecase
+}
+
+func NewResolver(jobPortalUsecase usecase.JobPortalUsecase) *Resolver {
+	return &Resolver{
+		jobPortalUsecase: jobPortalUsecase,
+	}
 }

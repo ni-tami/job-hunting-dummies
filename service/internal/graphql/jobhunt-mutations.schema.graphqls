@@ -10,22 +10,25 @@ type Mutation {
   createUser(input: NewUser!): User
   createApplication(input: NewApplication!): Application
 
-  updateJobById(input: UpdateJob!): Job
-  updateCompanyById(input: UpdateCompany!): Company
-  updateUserById(input: UpdateUser!): User
-  updateApplicationById(input: UpdateApplication!): Application
+  updateJobById(id: ID!, job: UpdateJob!): MutationResponse!
+  updateCompanyById(id: ID!, company: UpdateCompany!): MutationResponse!
+  updateUserById(id: ID!, user: UpdateUser!): MutationResponse!
+  updateApplicationById(id: ID!, application: UpdateApplication!): MutationResponse!
 
-  deleteJobById(input: ID!): DeletionStatus
-  deleteCompanyById(input: ID!): DeletionStatus
-  deleteApplicantById(input: ID!): DeletionStatus
-  deleteUserById(input: ID!): DeletionStatus
-  deleteApplicationById(input: ID!): DeletionStatus
+  deleteJobById(id: ID!): MutationResponse!
+  deleteCompanyById(id: ID!): MutationResponse!
+  deleteApplicantById(id: ID!): MutationResponse!
+  deleteUserById(id: ID!): MutationResponse!
+  deleteApplicationById(id: ID!): MutationResponse!
 }
 
 type Query {
   jobs: [Job!]!
   companies: [Company!]!
   applicants: [Applicant!]!
-  applications: [Application!]!  
+  applications: [Application!]!
   users: [User!]!
+  applicationsByApplicantId(applicantId: ID!): [Application!]!
+  applicationsByJobId(jobId: ID!): [Application!]!
+  jobsByCompanyId(companyId: ID!): [Job!]!
 }

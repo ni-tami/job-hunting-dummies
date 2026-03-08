@@ -1,2 +1,3 @@
 # hot reload build dir
 tmp/
+*log

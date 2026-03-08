@@ -4,75 +4,48 @@
 
 scalar Time
 scalar Any
-
-input NewJob {
-  companyId:     ID!
-  title:         String!
-  description:   String!
-  requirements:  [String!]!
-}
-
-input NewCompany {
-  userId:       ID!
-  companyName:  String!
-  description:  String!
-  website:      String!
-}
-
-input NewApplicant {
-  userId: ID!
-}
-
-input NewApplication {
-  applicantId: 	ID!		
-  jobId: 			  ID!		
-}
-
-input NewUser {
-  username: String!
-  name:     String!
-}
-
+directive @goField(
+  forceResolver: Boolean
+  name: String
+) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 
 input UpdateJob {
-  id:           ID!
-  title:        String!
-  description:  String!
+  title:        String
+  description:  String
   requirements: [String!]!
+  updatedAt: Time
 }
 
 input UpdateCompany {
-  id:          ID!
-  companyName: String!
-  description: String!
-  website:     String!
+  companyName: String
+  description: String
+  website:     String
+  updatedAt: Time
 }
 
 input UpdateApplication {
-  id:     ID!
   status: String!
+  updatedAt: Time
 }
 
 input UpdateUser {
-  id:   ID!
   name: String!
+  updatedAt: Time
 }
 
-
-
 type User {
-  id:         ID!
-  username:   String!
-  name:       String!
+  id: ID!
+  username: String!
+  name: String!
   created_at: Time!
   updated_at: Time!
   deleted_at: Time
 }
 
 type Applicant {
-  id:        ID!
-  user:      User!
+  id: ID!
+  user: User! @goField(forceResolver: true)
   createdAt: Time!
   updatedAt: Time!
   deletedAt: Time
@@ -80,7 +53,7 @@ type Applicant {
 
 type Company {
   id:           ID!
-  user:         User!
+  user:         User! @goField(forceResolver: true)
   companyName:  String!
   website:      String!
   description:  String!
@@ -91,7 +64,7 @@ type Company {
 
 type Job {
   id:           ID!
-  company:      Company!
+  company:      Company! @goField(forceResolver: true)
   title:        String!
   description:  String!
   requirements: [String!]!
@@ -102,16 +75,61 @@ type Job {
 
 type Application {
   id:          ID!
-  applicant:   Applicant!
-  job:         Job!
+  applicant:   Applicant! @goField(forceResolver: true)
+  job:         Job! @goField(forceResolver: true)
   status:      String!
   createdAt:   Time!
   updatedAt:   Time!
   deletedAt:   Time
 }
 
-type DeletionStatus {
-  status: String!
-  data: Any
+type MutationResponse {
+  statusOK: Int!
+  # on successful
+  stats: MutationStats
+  data: MutationContent
+  # on error
   error: String
+}
+
+type MutationContent {
+  id: ID!
+  contentType: String!
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type MutationStats {
+  updateCount: Int
+  deleteCount: Int
+  # TODO: set return type of create and delete mutations with this
+  # createCount: Int
+}
+
+input NewJob {
+  companyId: ID!
+  title: String!
+  description: String!
+  requirements: [String!]!
+}
+
+input NewCompany {
+  user: NewUser!
+  companyName: String!
+  description: String!
+  website: String!
+}
+
+input NewApplicant {
+  user: NewUser!
+}
+
+input NewApplication {
+  applicantId: ID!
+  jobId: ID!
+}
+
+input NewUser {
+  username: String!
+  name: String!
 }
