@@ -73,12 +73,6 @@ type ComplexityRoot struct {
 		Website     func(childComplexity int) int
 	}
 
-	DeletionStatus struct {
-		Data   func(childComplexity int) int
-		Error  func(childComplexity int) int
-		Status func(childComplexity int) int
-	}
-
 	Job struct {
 		Company      func(childComplexity int) int
 		CreatedAt    func(childComplexity int) int
@@ -96,15 +90,34 @@ type ComplexityRoot struct {
 		CreateCompany         func(childComplexity int, input NewCompany) int
 		CreateJob             func(childComplexity int, input NewJob) int
 		CreateUser            func(childComplexity int, input NewUser) int
-		DeleteApplicantByID   func(childComplexity int, input int64) int
-		DeleteApplicationByID func(childComplexity int, input int64) int
-		DeleteCompanyByID     func(childComplexity int, input int64) int
-		DeleteJobByID         func(childComplexity int, input int64) int
-		DeleteUserByID        func(childComplexity int, input int64) int
-		UpdateApplicationByID func(childComplexity int, input UpdateApplication) int
-		UpdateCompanyByID     func(childComplexity int, input UpdateCompany) int
-		UpdateJobByID         func(childComplexity int, input UpdateJob) int
-		UpdateUserByID        func(childComplexity int, input UpdateUser) int
+		DeleteApplicantByID   func(childComplexity int, id int64) int
+		DeleteApplicationByID func(childComplexity int, id int64) int
+		DeleteCompanyByID     func(childComplexity int, id int64) int
+		DeleteJobByID         func(childComplexity int, id int64) int
+		DeleteUserByID        func(childComplexity int, id int64) int
+		UpdateApplicationByID func(childComplexity int, id int64, application UpdateApplication) int
+		UpdateCompanyByID     func(childComplexity int, id int64, company UpdateCompany) int
+		UpdateJobByID         func(childComplexity int, id int64, job UpdateJob) int
+		UpdateUserByID        func(childComplexity int, id int64, user UpdateUser) int
+	}
+
+	MutationContent struct {
+		ContentType func(childComplexity int) int
+		DeletedAt   func(childComplexity int) int
+		ID          func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
+	}
+
+	MutationResponse struct {
+		Data     func(childComplexity int) int
+		Error    func(childComplexity int) int
+		Stats    func(childComplexity int) int
+		StatusOk func(childComplexity int) int
+	}
+
+	MutationStats struct {
+		DeleteCount func(childComplexity int) int
+		UpdateCount func(childComplexity int) int
 	}
 
 	Query struct {
@@ -287,27 +300,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Company.Website(childComplexity), true
 
-	case "DeletionStatus.data":
-		if e.complexity.DeletionStatus.Data == nil {
-			break
-		}
-
-		return e.complexity.DeletionStatus.Data(childComplexity), true
-
-	case "DeletionStatus.error":
-		if e.complexity.DeletionStatus.Error == nil {
-			break
-		}
-
-		return e.complexity.DeletionStatus.Error(childComplexity), true
-
-	case "DeletionStatus.status":
-		if e.complexity.DeletionStatus.Status == nil {
-			break
-		}
-
-		return e.complexity.DeletionStatus.Status(childComplexity), true
-
 	case "Job.company":
 		if e.complexity.Job.Company == nil {
 			break
@@ -434,7 +426,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteApplicantByID(childComplexity, args["input"].(int64)), true
+		return e.complexity.Mutation.DeleteApplicantByID(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.deleteApplicationById":
 		if e.complexity.Mutation.DeleteApplicationByID == nil {
@@ -446,7 +438,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteApplicationByID(childComplexity, args["input"].(int64)), true
+		return e.complexity.Mutation.DeleteApplicationByID(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.deleteCompanyById":
 		if e.complexity.Mutation.DeleteCompanyByID == nil {
@@ -458,7 +450,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteCompanyByID(childComplexity, args["input"].(int64)), true
+		return e.complexity.Mutation.DeleteCompanyByID(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.deleteJobById":
 		if e.complexity.Mutation.DeleteJobByID == nil {
@@ -470,7 +462,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteJobByID(childComplexity, args["input"].(int64)), true
+		return e.complexity.Mutation.DeleteJobByID(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.deleteUserById":
 		if e.complexity.Mutation.DeleteUserByID == nil {
@@ -482,7 +474,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteUserByID(childComplexity, args["input"].(int64)), true
+		return e.complexity.Mutation.DeleteUserByID(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.updateApplicationById":
 		if e.complexity.Mutation.UpdateApplicationByID == nil {
@@ -494,7 +486,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateApplicationByID(childComplexity, args["input"].(UpdateApplication)), true
+		return e.complexity.Mutation.UpdateApplicationByID(childComplexity, args["id"].(int64), args["application"].(UpdateApplication)), true
 
 	case "Mutation.updateCompanyById":
 		if e.complexity.Mutation.UpdateCompanyByID == nil {
@@ -506,7 +498,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateCompanyByID(childComplexity, args["input"].(UpdateCompany)), true
+		return e.complexity.Mutation.UpdateCompanyByID(childComplexity, args["id"].(int64), args["company"].(UpdateCompany)), true
 
 	case "Mutation.updateJobById":
 		if e.complexity.Mutation.UpdateJobByID == nil {
@@ -518,7 +510,7 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateJobByID(childComplexity, args["input"].(UpdateJob)), true
+		return e.complexity.Mutation.UpdateJobByID(childComplexity, args["id"].(int64), args["job"].(UpdateJob)), true
 
 	case "Mutation.updateUserById":
 		if e.complexity.Mutation.UpdateUserByID == nil {
@@ -530,7 +522,77 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateUserByID(childComplexity, args["input"].(UpdateUser)), true
+		return e.complexity.Mutation.UpdateUserByID(childComplexity, args["id"].(int64), args["user"].(UpdateUser)), true
+
+	case "MutationContent.contentType":
+		if e.complexity.MutationContent.ContentType == nil {
+			break
+		}
+
+		return e.complexity.MutationContent.ContentType(childComplexity), true
+
+	case "MutationContent.deletedAt":
+		if e.complexity.MutationContent.DeletedAt == nil {
+			break
+		}
+
+		return e.complexity.MutationContent.DeletedAt(childComplexity), true
+
+	case "MutationContent.id":
+		if e.complexity.MutationContent.ID == nil {
+			break
+		}
+
+		return e.complexity.MutationContent.ID(childComplexity), true
+
+	case "MutationContent.updatedAt":
+		if e.complexity.MutationContent.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.MutationContent.UpdatedAt(childComplexity), true
+
+	case "MutationResponse.data":
+		if e.complexity.MutationResponse.Data == nil {
+			break
+		}
+
+		return e.complexity.MutationResponse.Data(childComplexity), true
+
+	case "MutationResponse.error":
+		if e.complexity.MutationResponse.Error == nil {
+			break
+		}
+
+		return e.complexity.MutationResponse.Error(childComplexity), true
+
+	case "MutationResponse.stats":
+		if e.complexity.MutationResponse.Stats == nil {
+			break
+		}
+
+		return e.complexity.MutationResponse.Stats(childComplexity), true
+
+	case "MutationResponse.statusOK":
+		if e.complexity.MutationResponse.StatusOk == nil {
+			break
+		}
+
+		return e.complexity.MutationResponse.StatusOk(childComplexity), true
+
+	case "MutationStats.deleteCount":
+		if e.complexity.MutationStats.DeleteCount == nil {
+			break
+		}
+
+		return e.complexity.MutationStats.DeleteCount(childComplexity), true
+
+	case "MutationStats.updateCount":
+		if e.complexity.MutationStats.UpdateCount == nil {
+			break
+		}
+
+		return e.complexity.MutationStats.UpdateCount(childComplexity), true
 
 	case "Query.applicants":
 		if e.complexity.Query.Applicants == nil {
@@ -771,17 +833,16 @@ type Mutation {
   createUser(input: NewUser!): User
   createApplication(input: NewApplication!): Application
 
-  # TODO: refactor, extract id from update object
-  updateJobById(input: UpdateJob!): Job
-  updateCompanyById(input: UpdateCompany!): Company
-  updateUserById(input: UpdateUser!): User
-  updateApplicationById(input: UpdateApplication!): Application
+  updateJobById(id: ID!, job: UpdateJob!): MutationResponse!
+  updateCompanyById(id: ID!, company: UpdateCompany!): MutationResponse!
+  updateUserById(id: ID!, user: UpdateUser!): MutationResponse!
+  updateApplicationById(id: ID!, application: UpdateApplication!): MutationResponse!
 
-  deleteJobById(input: ID!): DeletionStatus
-  deleteCompanyById(input: ID!): DeletionStatus
-  deleteApplicantById(input: ID!): DeletionStatus
-  deleteUserById(input: ID!): DeletionStatus
-  deleteApplicationById(input: ID!): DeletionStatus
+  deleteJobById(id: ID!): MutationResponse!
+  deleteCompanyById(id: ID!): MutationResponse!
+  deleteApplicantById(id: ID!): MutationResponse!
+  deleteUserById(id: ID!): MutationResponse!
+  deleteApplicationById(id: ID!): MutationResponse!
 }
 
 type Query {
@@ -808,27 +869,27 @@ directive @goField(
 
 
 input UpdateJob {
-  id:           ID!
-  title:        String!
-  description:  String!
+  title:        String
+  description:  String
   requirements: [String!]!
+  updatedAt: Time
 }
 
 input UpdateCompany {
-  id:          ID!
-  companyName: String!
-  description: String!
-  website:     String!
+  companyName: String
+  description: String
+  website:     String
+  updatedAt: Time
 }
 
 input UpdateApplication {
-  id:     ID!
   status: String!
+  updatedAt: Time
 }
 
 input UpdateUser {
-  id:   ID!
   name: String!
+  updatedAt: Time
 }
 
 type User {
@@ -880,12 +941,28 @@ type Application {
   deletedAt:   Time
 }
 
-type DeletionStatus {
-  status: String!
-  data: Any
+type MutationResponse {
+  statusOK: Int!
+  # on successful
+  stats: MutationStats
+  data: MutationContent
+  # on error
   error: String
 }
 
+type MutationContent {
+  id: ID!
+  contentType: String!
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type MutationStats {
+  updateCount: Int
+  deleteCount: Int
+  # TODO: set return type of create and delete mutations with this
+  # createCount: Int
+}
 
 input NewJob {
   companyId: ID!

@@ -18,6 +18,11 @@ type Application struct {
 	DeletedAt   *time.Time `json:"deleted_at,omitempty"`
 }
 
+type ApplicationUpdate struct {
+	Status    string    `json:"status"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 func (a *Application) TableName() string {
 	return "applications"
 }
@@ -41,5 +46,12 @@ func (a *Application) ToGQL() *gql.Application {
 		CreatedAt: a.CreatedAt,
 		UpdatedAt: a.UpdatedAt,
 		DeletedAt: a.DeletedAt,
+	}
+}
+
+func NewApplicationUpdateFromGQL(gqlInput *gql.UpdateApplication) ApplicationUpdate {
+	return ApplicationUpdate{
+		Status:    gqlInput.Status,
+		UpdatedAt: *gqlInput.UpdatedAt,
 	}
 }

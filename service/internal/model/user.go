@@ -15,6 +15,11 @@ type User struct {
 	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 }
 
+type UserUpdate struct {
+	Name      string    `json:"name"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
 func (u *User) TableName() string {
 	return "users"
 }
@@ -27,5 +32,12 @@ func (u *User) ToGQL() *gql.User {
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt,
 		DeletedAt: u.DeletedAt,
+	}
+}
+
+func NewUserUpdateFromGQL(gqlInput *gql.UpdateUser) UserUpdate {
+	return UserUpdate{
+		Name:      gqlInput.Name,
+		UpdatedAt: *gqlInput.UpdatedAt,
 	}
 }

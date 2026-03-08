@@ -681,93 +681,6 @@ func (ec *executionContext) fieldContext_Company_deletedAt(_ context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _DeletionStatus_status(ctx context.Context, field graphql.CollectedField, obj *DeletionStatus) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_DeletionStatus_status,
-		func(ctx context.Context) (any, error) {
-			return obj.Status, nil
-		},
-		nil,
-		ec.marshalNString2string,
-		true,
-		true,
-	)
-}
-
-func (ec *executionContext) fieldContext_DeletionStatus_status(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DeletionStatus",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DeletionStatus_data(ctx context.Context, field graphql.CollectedField, obj *DeletionStatus) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_DeletionStatus_data,
-		func(ctx context.Context) (any, error) {
-			return obj.Data, nil
-		},
-		nil,
-		ec.marshalOAny2interface,
-		true,
-		false,
-	)
-}
-
-func (ec *executionContext) fieldContext_DeletionStatus_data(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DeletionStatus",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Any does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _DeletionStatus_error(ctx context.Context, field graphql.CollectedField, obj *DeletionStatus) (ret graphql.Marshaler) {
-	return graphql.ResolveField(
-		ctx,
-		ec.OperationContext,
-		field,
-		ec.fieldContext_DeletionStatus_error,
-		func(ctx context.Context) (any, error) {
-			return obj.Error, nil
-		},
-		nil,
-		ec.marshalOString2ᚖstring,
-		true,
-		false,
-	)
-}
-
-func (ec *executionContext) fieldContext_DeletionStatus_error(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "DeletionStatus",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Job_id(ctx context.Context, field graphql.CollectedField, obj *Job) (ret graphql.Marshaler) {
 	return graphql.ResolveField(
 		ctx,
@@ -1013,6 +926,312 @@ func (ec *executionContext) fieldContext_Job_deletedAt(_ context.Context, field 
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationContent_id(ctx context.Context, field graphql.CollectedField, obj *MutationContent) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationContent_id,
+		func(ctx context.Context) (any, error) {
+			return obj.ID, nil
+		},
+		nil,
+		ec.marshalNID2int64,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationContent_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationContent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationContent_contentType(ctx context.Context, field graphql.CollectedField, obj *MutationContent) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationContent_contentType,
+		func(ctx context.Context) (any, error) {
+			return obj.ContentType, nil
+		},
+		nil,
+		ec.marshalNString2string,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationContent_contentType(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationContent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationContent_updatedAt(ctx context.Context, field graphql.CollectedField, obj *MutationContent) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationContent_updatedAt,
+		func(ctx context.Context) (any, error) {
+			return obj.UpdatedAt, nil
+		},
+		nil,
+		ec.marshalOTime2ᚖtimeᚐTime,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationContent_updatedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationContent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationContent_deletedAt(ctx context.Context, field graphql.CollectedField, obj *MutationContent) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationContent_deletedAt,
+		func(ctx context.Context) (any, error) {
+			return obj.DeletedAt, nil
+		},
+		nil,
+		ec.marshalOTime2ᚖtimeᚐTime,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationContent_deletedAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationContent",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationResponse_statusOK(ctx context.Context, field graphql.CollectedField, obj *MutationResponse) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationResponse_statusOK,
+		func(ctx context.Context) (any, error) {
+			return obj.StatusOk, nil
+		},
+		nil,
+		ec.marshalNInt2int,
+		true,
+		true,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationResponse_statusOK(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationResponse",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationResponse_stats(ctx context.Context, field graphql.CollectedField, obj *MutationResponse) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationResponse_stats,
+		func(ctx context.Context) (any, error) {
+			return obj.Stats, nil
+		},
+		nil,
+		ec.marshalOMutationStats2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐMutationStats,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationResponse_stats(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationResponse",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "updateCount":
+				return ec.fieldContext_MutationStats_updateCount(ctx, field)
+			case "deleteCount":
+				return ec.fieldContext_MutationStats_deleteCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MutationStats", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationResponse_data(ctx context.Context, field graphql.CollectedField, obj *MutationResponse) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationResponse_data,
+		func(ctx context.Context) (any, error) {
+			return obj.Data, nil
+		},
+		nil,
+		ec.marshalOMutationContent2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐMutationContent,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationResponse_data(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationResponse",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_MutationContent_id(ctx, field)
+			case "contentType":
+				return ec.fieldContext_MutationContent_contentType(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_MutationContent_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_MutationContent_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type MutationContent", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationResponse_error(ctx context.Context, field graphql.CollectedField, obj *MutationResponse) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationResponse_error,
+		func(ctx context.Context) (any, error) {
+			return obj.Error, nil
+		},
+		nil,
+		ec.marshalOString2ᚖstring,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationResponse_error(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationResponse",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationStats_updateCount(ctx context.Context, field graphql.CollectedField, obj *MutationStats) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationStats_updateCount,
+		func(ctx context.Context) (any, error) {
+			return obj.UpdateCount, nil
+		},
+		nil,
+		ec.marshalOInt2ᚖint,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationStats_updateCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationStats",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MutationStats_deleteCount(ctx context.Context, field graphql.CollectedField, obj *MutationStats) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_MutationStats_deleteCount,
+		func(ctx context.Context) (any, error) {
+			return obj.DeleteCount, nil
+		},
+		nil,
+		ec.marshalOInt2ᚖint,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_MutationStats_deleteCount(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MutationStats",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1394,20 +1613,13 @@ func (ec *executionContext) unmarshalInputUpdateApplication(ctx context.Context,
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "status"}
+	fieldsInOrder := [...]string{"status", "updatedAt"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "id":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			data, err := ec.unmarshalNID2int64(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ID = data
 		case "status":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -1415,6 +1627,13 @@ func (ec *executionContext) unmarshalInputUpdateApplication(ctx context.Context,
 				return it, err
 			}
 			it.Status = data
+		case "updatedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UpdatedAt = data
 		}
 	}
 
@@ -1428,41 +1647,41 @@ func (ec *executionContext) unmarshalInputUpdateCompany(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "companyName", "description", "website"}
+	fieldsInOrder := [...]string{"companyName", "description", "website", "updatedAt"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "id":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			data, err := ec.unmarshalNID2int64(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ID = data
 		case "companyName":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyName"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.CompanyName = data
 		case "description":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Description = data
 		case "website":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("website"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Website = data
+		case "updatedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UpdatedAt = data
 		}
 	}
 
@@ -1476,30 +1695,23 @@ func (ec *executionContext) unmarshalInputUpdateJob(ctx context.Context, obj any
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "title", "description", "requirements"}
+	fieldsInOrder := [...]string{"title", "description", "requirements", "updatedAt"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "id":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			data, err := ec.unmarshalNID2int64(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ID = data
 		case "title":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.Title = data
 		case "description":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			data, err := ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -1511,6 +1723,13 @@ func (ec *executionContext) unmarshalInputUpdateJob(ctx context.Context, obj any
 				return it, err
 			}
 			it.Requirements = data
+		case "updatedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UpdatedAt = data
 		}
 	}
 
@@ -1524,20 +1743,13 @@ func (ec *executionContext) unmarshalInputUpdateUser(ctx context.Context, obj an
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name"}
+	fieldsInOrder := [...]string{"name", "updatedAt"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "id":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			data, err := ec.unmarshalNID2int64(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ID = data
 		case "name":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -1545,6 +1757,13 @@ func (ec *executionContext) unmarshalInputUpdateUser(ctx context.Context, obj an
 				return it, err
 			}
 			it.Name = data
+		case "updatedAt":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.UpdatedAt = data
 		}
 	}
 
@@ -1864,49 +2083,6 @@ func (ec *executionContext) _Company(ctx context.Context, sel ast.SelectionSet, 
 	return out
 }
 
-var deletionStatusImplementors = []string{"DeletionStatus"}
-
-func (ec *executionContext) _DeletionStatus(ctx context.Context, sel ast.SelectionSet, obj *DeletionStatus) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, deletionStatusImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("DeletionStatus")
-		case "status":
-			out.Values[i] = ec._DeletionStatus_status(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "data":
-			out.Values[i] = ec._DeletionStatus_data(ctx, field, obj)
-		case "error":
-			out.Values[i] = ec._DeletionStatus_error(ctx, field, obj)
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
 var jobImplementors = []string{"Job"}
 
 func (ec *executionContext) _Job(ctx context.Context, sel ast.SelectionSet, obj *Job) graphql.Marshaler {
@@ -1983,6 +2159,137 @@ func (ec *executionContext) _Job(ctx context.Context, sel ast.SelectionSet, obj 
 			}
 		case "deletedAt":
 			out.Values[i] = ec._Job_deletedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mutationContentImplementors = []string{"MutationContent"}
+
+func (ec *executionContext) _MutationContent(ctx context.Context, sel ast.SelectionSet, obj *MutationContent) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mutationContentImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MutationContent")
+		case "id":
+			out.Values[i] = ec._MutationContent_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "contentType":
+			out.Values[i] = ec._MutationContent_contentType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._MutationContent_updatedAt(ctx, field, obj)
+		case "deletedAt":
+			out.Values[i] = ec._MutationContent_deletedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mutationResponseImplementors = []string{"MutationResponse"}
+
+func (ec *executionContext) _MutationResponse(ctx context.Context, sel ast.SelectionSet, obj *MutationResponse) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mutationResponseImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MutationResponse")
+		case "statusOK":
+			out.Values[i] = ec._MutationResponse_statusOK(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "stats":
+			out.Values[i] = ec._MutationResponse_stats(ctx, field, obj)
+		case "data":
+			out.Values[i] = ec._MutationResponse_data(ctx, field, obj)
+		case "error":
+			out.Values[i] = ec._MutationResponse_error(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var mutationStatsImplementors = []string{"MutationStats"}
+
+func (ec *executionContext) _MutationStats(ctx context.Context, sel ast.SelectionSet, obj *MutationStats) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mutationStatsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MutationStats")
+		case "updateCount":
+			out.Values[i] = ec._MutationStats_updateCount(ctx, field, obj)
+		case "deleteCount":
+			out.Values[i] = ec._MutationStats_deleteCount(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2287,6 +2594,20 @@ func (ec *executionContext) marshalNJob2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhunt
 	return ec._Job(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNMutationResponse2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐMutationResponse(ctx context.Context, sel ast.SelectionSet, v MutationResponse) graphql.Marshaler {
+	return ec._MutationResponse(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNMutationResponse2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐMutationResponse(ctx context.Context, sel ast.SelectionSet, v *MutationResponse) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			graphql.AddErrorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MutationResponse(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNNewApplicant2githubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐNewApplicant(ctx context.Context, v any) (NewApplicant, error) {
 	res, err := ec.unmarshalInputNewApplicant(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -2407,24 +2728,6 @@ func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhun
 	return ec._User(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOAny2interface(ctx context.Context, v any) (any, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalAny(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOAny2interface(ctx context.Context, sel ast.SelectionSet, v any) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	_ = sel
-	_ = ctx
-	res := graphql.MarshalAny(v)
-	return res
-}
-
 func (ec *executionContext) marshalOApplicant2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐApplicant(ctx context.Context, sel ast.SelectionSet, v *Applicant) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -2446,18 +2749,25 @@ func (ec *executionContext) marshalOCompany2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑ
 	return ec._Company(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalODeletionStatus2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐDeletionStatus(ctx context.Context, sel ast.SelectionSet, v *DeletionStatus) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._DeletionStatus(ctx, sel, v)
-}
-
 func (ec *executionContext) marshalOJob2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐJob(ctx context.Context, sel ast.SelectionSet, v *Job) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
 	}
 	return ec._Job(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOMutationContent2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐMutationContent(ctx context.Context, sel ast.SelectionSet, v *MutationContent) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._MutationContent(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOMutationStats2ᚖgithubᚗcomᚋniᚑtamiᚋjobᚑhuntingᚑdummiesᚑserviceᚋinternalᚋgraphqlᚋmodelᚐMutationStats(ctx context.Context, sel ast.SelectionSet, v *MutationStats) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._MutationStats(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOTime2ᚖtimeᚐTime(ctx context.Context, v any) (*time.Time, error) {

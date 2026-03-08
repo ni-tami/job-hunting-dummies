@@ -7,9 +7,9 @@ package graphql
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 )
@@ -65,186 +65,318 @@ func (r *mutationResolver) CreateApplication(ctx context.Context, input model.Ne
 }
 
 // UpdateJobByID is the resolver for the updateJobById field.
-func (r *mutationResolver) UpdateJobByID(ctx context.Context, input model.UpdateJob) (*model.Job, error) {
-	var updatedJob *model.Job
-	for index, j := range r.jobs {
-		if j.ID == input.ID && j.DeletedAt == nil {
-			updatedJob = &model.Job{
-				ID:           j.ID,
-				Company:      j.Company,
-				Title:        input.Title,
-				Description:  input.Description,
-				Requirements: input.Requirements,
-				CreatedAt:    j.CreatedAt,
-				UpdatedAt:    time.Now(),
-				DeletedAt:    nil,
-			}
-			r.jobs[index] = updatedJob
-			break
+func (r *mutationResolver) UpdateJobByID(ctx context.Context, id int64, job model.UpdateJob) (*model.MutationResponse, error) {
+	response := r.jobPortalUsecase.UpdateJobByID(ctx, id, &job)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to update job with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				UpdateCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Job",
+				UpdatedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if updatedJob == nil {
-		log.Print("Job not found. Skip update.")
-	}
-	return updatedJob, nil
+	return mutationResponse, err
 }
 
 // UpdateCompanyByID is the resolver for the updateCompanyById field.
-func (r *mutationResolver) UpdateCompanyByID(ctx context.Context, input model.UpdateCompany) (*model.Company, error) {
-	var updatedCompany *model.Company
-	for index, c := range r.companies {
-		if c.ID == input.ID && c.DeletedAt == nil {
-			updatedCompany = &model.Company{
-				ID:          c.ID,
-				User:        c.User,
-				CompanyName: input.CompanyName,
-				Description: input.Description,
-				Website:     input.Website,
-				CreatedAt:   c.CreatedAt,
-				UpdatedAt:   time.Now(),
-				DeletedAt:   nil,
-			}
-			r.companies[index] = updatedCompany
-			break
+func (r *mutationResolver) UpdateCompanyByID(ctx context.Context, id int64, company model.UpdateCompany) (*model.MutationResponse, error) {
+	response := r.jobPortalUsecase.UpdateCompanyByID(ctx, id, &company)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to update company with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				UpdateCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Company",
+				UpdatedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if updatedCompany == nil {
-		log.Print("Company not found. Skip update.")
-	}
-	return updatedCompany, nil
+	return mutationResponse, err
 }
 
 // UpdateUserByID is the resolver for the updateUserById field.
-func (r *mutationResolver) UpdateUserByID(ctx context.Context, input model.UpdateUser) (*model.User, error) {
-	var updatedUser *model.User
-	for index, u := range r.users {
-		if u.ID == input.ID && u.DeletedAt == nil {
-			updatedUser = &model.User{
-				ID:        u.ID,
-				Username:  u.Username,
-				Name:      input.Name,
-				CreatedAt: u.CreatedAt,
-				UpdatedAt: time.Now(),
-				DeletedAt: nil,
-			}
-			r.users[index] = updatedUser
-			break
+func (r *mutationResolver) UpdateUserByID(ctx context.Context, id int64, user model.UpdateUser) (*model.MutationResponse, error) {
+	response := r.jobPortalUsecase.UpdateUserByID(ctx, id, &user)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to update user with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				UpdateCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "User",
+				UpdatedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if updatedUser == nil {
-		log.Print("User not found. Skip update.")
-	}
-	return updatedUser, nil
+	return mutationResponse, err
 }
 
 // UpdateApplicationByID is the resolver for the updateApplicationById field.
-func (r *mutationResolver) UpdateApplicationByID(ctx context.Context, input model.UpdateApplication) (*model.Application, error) {
-	var updatedApplication *model.Application
-	for index, a := range r.applications {
-		if a.ID == input.ID && a.DeletedAt == nil {
-			updatedApplication = &model.Application{
-				ID:        a.ID,
-				Applicant: a.Applicant,
-				Job:       a.Job,
-				Status:    input.Status,
-				CreatedAt: a.CreatedAt,
-				UpdatedAt: time.Now(),
-				DeletedAt: nil,
-			}
-			r.applications[index] = updatedApplication
-			break
+func (r *mutationResolver) UpdateApplicationByID(ctx context.Context, id int64, application model.UpdateApplication) (*model.MutationResponse, error) {
+	response := r.jobPortalUsecase.UpdateApplicationByID(ctx, id, &application)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to update application with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				UpdateCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Application",
+				UpdatedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if updatedApplication == nil {
-		log.Print("Application not found. Skip update.")
-	}
-	return updatedApplication, nil
+	return mutationResponse, err
 }
 
 // DeleteJobByID is the resolver for the deleteJobById field.
-func (r *mutationResolver) DeleteJobByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	panic(fmt.Errorf("not implemented: DeleteJobByID - deleteJobById"))
+func (r *mutationResolver) DeleteJobByID(ctx context.Context, id int64) (*model.MutationResponse, error) {
+	// TODO cascade soft delete to applicants
+	response := r.jobPortalUsecase.DeleteJobByID(ctx, id)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to delete job with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				DeleteCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Job",
+				UpdatedAt:   response.UpdatedAt,
+				DeletedAt:   response.UpdatedAt,
+			},
+			Error: nil,
+		}
+	}
+	return mutationResponse, err
 }
 
 // DeleteCompanyByID is the resolver for the deleteCompanyById field.
-func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	var deletedCompany *model.Company
-	for index, c := range r.companies {
-		if c.ID == input && c.DeletedAt == nil {
-			userMutation, _ := r.DeleteUserByID(ctx, c.User.ID)
-			if userMutation.Data == nil {
-				break
-			}
-			now := time.Now()
-			c.DeletedAt = &now
-			r.companies[index] = c
-			break
+func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, id int64) (*model.MutationResponse, error) {
+	// TODO cascade soft delete jobs - applications
+	response := r.jobPortalUsecase.DeleteApplicantByID(ctx, id)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to delete company with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				DeleteCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Company",
+				UpdatedAt:   response.UpdatedAt,
+				DeletedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if deletedCompany == nil {
-		log.Print("Company not found. Skip delete.")
-	}
-	return &model.DeletionStatus{
-		Status: "OK",
-		Data:   deletedCompany,
-		Error:  nil,
-	}, nil
+	return mutationResponse, err
 }
 
 // DeleteApplicantByID is the resolver for the deleteApplicantById field.
-func (r *mutationResolver) DeleteApplicantByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	var deletedApplicant *model.Applicant
-	for index, a := range r.applicants {
-		if a.ID == input && a.DeletedAt == nil {
-			userMutation, _ := r.DeleteUserByID(ctx, a.User.ID)
-			if userMutation.Data == nil {
-				break
-			}
-			now := time.Now()
-			a.DeletedAt = &now
-			r.applicants[index] = a
-			break
+func (r *mutationResolver) DeleteApplicantByID(ctx context.Context, id int64) (*model.MutationResponse, error) {
+	// TODO cascade soft delete to application and user
+	response := r.jobPortalUsecase.DeleteApplicantByID(ctx, id)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to delete applicant with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				DeleteCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Applicant",
+				UpdatedAt:   response.UpdatedAt,
+				DeletedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if deletedApplicant == nil {
-		log.Print("Applicant not found. Skip delete.")
-	}
-	return &model.DeletionStatus{
-		Status: "OK",
-		Data:   deletedApplicant,
-		Error:  nil,
-	}, nil
+	return mutationResponse, err
 }
 
 // DeleteUserByID is the resolver for the deleteUserById field.
-func (r *mutationResolver) DeleteUserByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	var deletedUser *model.User
-	for index, u := range r.users {
-		if u.ID == input && u.DeletedAt == nil {
-			now := time.Now()
-			u.DeletedAt = &now
-			r.users[index] = u
-			break
+func (r *mutationResolver) DeleteUserByID(ctx context.Context, id int64) (*model.MutationResponse, error) {
+	// TODO cascade soft delete to user
+	response := r.jobPortalUsecase.DeleteUserByID(ctx, id)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to delete user with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				DeleteCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "User",
+				UpdatedAt:   response.UpdatedAt,
+				DeletedAt:   response.UpdatedAt,
+			},
+			Error: nil,
 		}
 	}
-	if deletedUser == nil {
-		log.Print("User not found. Skip delete.")
-		return &model.DeletionStatus{
-			Status: "IGNORE",
-			Data:   nil,
-			Error:  nil,
-		}, nil
-	}
-	return &model.DeletionStatus{
-		Status: "OK",
-		Data:   deletedUser,
-		Error:  nil,
-	}, nil
+	return mutationResponse, err
 }
 
 // DeleteApplicationByID is the resolver for the deleteApplicationById field.
-func (r *mutationResolver) DeleteApplicationByID(ctx context.Context, input int64) (*model.DeletionStatus, error) {
-	panic(fmt.Errorf("not implemented: DeleteApplicationByID - deleteApplicationById"))
+func (r *mutationResolver) DeleteApplicationByID(ctx context.Context, id int64) (*model.MutationResponse, error) {
+	response := r.jobPortalUsecase.DeleteApplicationByID(ctx, id)
+
+	var (
+		err              error
+		mutationResponse *model.MutationResponse
+	)
+	if response.Err != nil {
+		errMessage := fmt.Sprintf("Failed to delete application with ID: %d", id)
+		err = errors.New(errMessage)
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 0,
+			Data:     nil,
+			Stats:    nil,
+			Error:    &errMessage,
+		}
+	} else {
+		mutationResponse = &model.MutationResponse{
+			StatusOk: 1,
+			Stats: &model.MutationStats{
+				DeleteCount: response.RowCount,
+			},
+			Data: &model.MutationContent{
+				ID:          id,
+				ContentType: "Application",
+				UpdatedAt:   response.UpdatedAt,
+				DeletedAt:   response.UpdatedAt,
+			},
+			Error: nil,
+		}
+	}
+	return mutationResponse, err
 }
 
 // Jobs is the resolver for the jobs field.

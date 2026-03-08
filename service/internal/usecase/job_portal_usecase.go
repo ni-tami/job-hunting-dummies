@@ -10,45 +10,52 @@ import (
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
 )
 
-type JobPortalUsecase interface {
-	CreateJob(ctx context.Context, newJob gqlModel.NewJob) (*model.Job, error)
-	CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error)
-	CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
-	CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error)
-	CreateUser(ctx context.Context, newUser gqlModel.NewUser) (*model.User, error)
+type (
+	JobPortalUsecase interface {
+		CreateJob(ctx context.Context, newJob gqlModel.NewJob) (*model.Job, error)
+		CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error)
+		CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
+		CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error)
+		CreateUser(ctx context.Context, newUser gqlModel.NewUser) (*model.User, error)
 
-	GetJobByID(ctx context.Context, id int) (*model.Job, error)
-	GetCompanyByID(ctx context.Context, id int) (*model.Company, error)
-	GetApplicantByID(ctx context.Context, id int) (*model.Applicant, error)
-	GetApplicationByID(ctx context.Context, id int) (*model.Application, error)
-	GetUserByID(ctx context.Context, id int) (*model.User, error)
+		GetJobByID(ctx context.Context, id int64) (*model.Job, error)
+		GetCompanyByID(ctx context.Context, id int64) (*model.Company, error)
+		GetApplicantByID(ctx context.Context, id int64) (*model.Applicant, error)
+		GetApplicationByID(ctx context.Context, id int64) (*model.Application, error)
+		GetUserByID(ctx context.Context, id int64) (*model.User, error)
 
-	GetJobs(ctx context.Context) ([]*model.Job, error)
-	GetCompanies(ctx context.Context) ([]*model.Company, error)
-	GetApplicants(ctx context.Context) ([]*model.Applicant, error)
-	GetApplications(ctx context.Context) ([]*model.Application, error)
-	GetUsers(ctx context.Context) ([]*model.User, error)
+		GetJobs(ctx context.Context) ([]*model.Job, error)
+		GetCompanies(ctx context.Context) ([]*model.Company, error)
+		GetApplicants(ctx context.Context) ([]*model.Applicant, error)
+		GetApplications(ctx context.Context) ([]*model.Application, error)
+		GetUsers(ctx context.Context) ([]*model.User, error)
 
-	UpdateJobByID(ctx context.Context, id int, updatedJob gqlModel.Job) error
-	UpdateCompanyByID(ctx context.Context, id int, updatedCompany gqlModel.Company) error
-	UpdateApplicantByID(ctx context.Context, id int, updatedApplicant gqlModel.Applicant) error
-	UpdateApplicationByID(ctx context.Context, id int, updatedApplication gqlModel.Application) error
-	UpdateUserByID(ctx context.Context, id int, updatedUser gqlModel.User) error
+		UpdateJobByID(ctx context.Context, id int64, updatedJob *gqlModel.UpdateJob) mutationResponse
+		UpdateCompanyByID(ctx context.Context, id int64, updatedCompany *gqlModel.UpdateCompany) mutationResponse
+		UpdateApplicationByID(ctx context.Context, id int64, updatedApplication *gqlModel.UpdateApplication) mutationResponse
+		UpdateUserByID(ctx context.Context, id int64, updatedUser *gqlModel.UpdateUser) mutationResponse
 
-	DeleteJobByID(ctx context.Context, id int) error
-	DeleteCompanyByID(ctx context.Context, id int) error
-	DeleteApplicantByID(ctx context.Context, id int) error
-	DeleteApplicationByID(ctx context.Context, id int) error
-	DeleteUserByID(ctx context.Context, id int) error
+		DeleteJobByID(ctx context.Context, id int64) mutationResponse
+		DeleteCompanyByID(ctx context.Context, id int64) mutationResponse
+		DeleteApplicantByID(ctx context.Context, id int64) mutationResponse
+		DeleteApplicationByID(ctx context.Context, id int64) mutationResponse
+		DeleteUserByID(ctx context.Context, id int64) mutationResponse
 
-	GetApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*model.Application, error)
-	GetApplicationsByJobID(ctx context.Context, jobID int64) ([]*model.Application, error)
-	GetJobsByCompanyID(ctx context.Context, companyID int64) ([]*model.Job, error)
-}
+		GetApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*model.Application, error)
+		GetApplicationsByJobID(ctx context.Context, jobID int64) ([]*model.Application, error)
+		GetJobsByCompanyID(ctx context.Context, companyID int64) ([]*model.Job, error)
+	}
 
-type jobPortalUsecase struct {
-	repo repository.JobPortalRepository
-}
+	jobPortalUsecase struct {
+		repo repository.JobPortalRepository
+	}
+
+	mutationResponse struct {
+		Err       error
+		RowCount  *int
+		UpdatedAt *time.Time
+	}
+)
 
 func NewJobPortalUsecase(repo repository.JobPortalRepository) JobPortalUsecase {
 	return jobPortalUsecase{
@@ -57,7 +64,7 @@ func NewJobPortalUsecase(repo repository.JobPortalRepository) JobPortalUsecase {
 }
 
 func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob gqlModel.NewJob) (*model.Job, error) {
-	company, err := u.GetCompanyByID(ctx, int(newJob.CompanyID))
+	company, err := u.GetCompanyByID(ctx, int64(newJob.CompanyID))
 	if err != nil {
 		return nil, fmt.Errorf("failed to get company for job: %w", err)
 	}
@@ -73,7 +80,6 @@ func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob gqlModel.NewJob)
 		Requirements: newJob.Requirements,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
-		DeletedAt:    nil,
 	}
 	err = u.repo.CreateJob(ctx, job)
 	if err != nil {
@@ -100,7 +106,6 @@ func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany gqlModel
 		Description: newCompany.Description,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
-		DeletedAt:   nil,
 	}
 	err = u.repo.CreateCompany(ctx, company)
 	if err != nil {
@@ -124,7 +129,6 @@ func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant gqlM
 		UserID:    user.ID,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
-		DeletedAt: nil,
 	}
 	err = u.repo.CreateApplicant(ctx, applicant)
 	if err != nil {
@@ -134,14 +138,14 @@ func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant gqlM
 }
 
 func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error) {
-	applicant, err := u.GetApplicantByID(ctx, int(newApplication.ApplicantID))
+	applicant, err := u.GetApplicantByID(ctx, int64(newApplication.ApplicantID))
 	if err != nil {
 		return nil, fmt.Errorf("failed to get applicant for application")
 	}
 	if applicant == nil {
 		return nil, fmt.Errorf("applicant not found for application")
 	}
-	job, err := u.GetJobByID(ctx, int(newApplication.JobID))
+	job, err := u.GetJobByID(ctx, int64(newApplication.JobID))
 	if err != nil {
 		return nil, fmt.Errorf("failed to get job for application")
 	}
@@ -156,7 +160,6 @@ func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication 
 		Status:      "APPLIED",
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
-		DeletedAt:   nil,
 	}
 	err = u.repo.CreateApplication(ctx, application)
 	if err != nil {
@@ -173,7 +176,6 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser gqlModel.NewUs
 		Name:      newUser.Name,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
-		DeletedAt: nil,
 	}
 	err := u.repo.CreateUser(ctx, user)
 	if err != nil {
@@ -182,23 +184,23 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser gqlModel.NewUs
 	return user, nil
 }
 
-func (u jobPortalUsecase) GetJobByID(ctx context.Context, id int) (*model.Job, error) {
+func (u jobPortalUsecase) GetJobByID(ctx context.Context, id int64) (*model.Job, error) {
 	return u.repo.GetJobByID(ctx, id)
 }
 
-func (u jobPortalUsecase) GetCompanyByID(ctx context.Context, id int) (*model.Company, error) {
+func (u jobPortalUsecase) GetCompanyByID(ctx context.Context, id int64) (*model.Company, error) {
 	return u.repo.GetCompanyByID(ctx, id)
 }
 
-func (u jobPortalUsecase) GetApplicantByID(ctx context.Context, id int) (*model.Applicant, error) {
+func (u jobPortalUsecase) GetApplicantByID(ctx context.Context, id int64) (*model.Applicant, error) {
 	return u.repo.GetApplicantByID(ctx, id)
 }
 
-func (u jobPortalUsecase) GetApplicationByID(ctx context.Context, id int) (*model.Application, error) {
+func (u jobPortalUsecase) GetApplicationByID(ctx context.Context, id int64) (*model.Application, error) {
 	return u.repo.GetApplicationByID(ctx, id)
 }
 
-func (u jobPortalUsecase) GetUserByID(ctx context.Context, id int) (*model.User, error) {
+func (u jobPortalUsecase) GetUserByID(ctx context.Context, id int64) (*model.User, error) {
 	return u.repo.GetUserByID(ctx, id)
 }
 
@@ -222,103 +224,159 @@ func (u jobPortalUsecase) GetUsers(ctx context.Context) ([]*model.User, error) {
 	return u.repo.GetUsers(ctx)
 }
 
-func (u jobPortalUsecase) UpdateJobByID(ctx context.Context, id int, updatedJob gqlModel.Job) error {
-	job := model.Job{
-		CompanyID:    updatedJob.Company.ID,
-		Title:        updatedJob.Title,
-		Description:  updatedJob.Description,
-		Requirements: updatedJob.Requirements,
-		CreatedAt:    updatedJob.CreatedAt,
-		UpdatedAt:    updatedJob.UpdatedAt,
-		DeletedAt:    updatedJob.DeletedAt,
+func (u jobPortalUsecase) UpdateJobByID(ctx context.Context, id int64, updatedJobInput *gqlModel.UpdateJob) mutationResponse {
+	now := time.Now()
+	if updatedJobInput.UpdatedAt == nil {
+		updatedJobInput.UpdatedAt = &now
 	}
-	rowCount, err := u.repo.UpdateJobByID(ctx, id, job)
-	if err == nil {
-		fmt.Printf("Updated row count: %d", rowCount)
+	updatedJob := model.NewJobUpdateFromGQL(updatedJobInput)
+	rowCount, err := u.repo.UpdateJobByID(ctx, id, updatedJob)
+	if err != nil {
+		return mutationResponse{
+			Err:       err,
+			UpdatedAt: nil,
+		}
 	}
-	return err
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
-func (u jobPortalUsecase) UpdateCompanyByID(ctx context.Context, id int, updatedCompany gqlModel.Company) error {
-	company := model.Company{
-		UserID:      updatedCompany.User.ID,
-		CompanyName: updatedCompany.CompanyName,
-		Website:     updatedCompany.Website,
-		Description: updatedCompany.Description,
-		CreatedAt:   updatedCompany.CreatedAt,
-		UpdatedAt:   updatedCompany.UpdatedAt,
-		DeletedAt:   updatedCompany.DeletedAt,
+func (u jobPortalUsecase) UpdateCompanyByID(ctx context.Context, id int64, updatedCompanyInput *gqlModel.UpdateCompany) mutationResponse {
+	now := time.Now()
+	if updatedCompanyInput.UpdatedAt == nil {
+		updatedCompanyInput.UpdatedAt = &now
 	}
-	rowCount, err := u.repo.UpdateCompanyByID(ctx, id, company)
-	if err == nil {
-		fmt.Printf("Updated row count: %d", rowCount)
+	updatedCompany := model.NewCompanyUpdateFromGQL(updatedCompanyInput)
+	rowCount, err := u.repo.UpdateCompanyByID(ctx, id, updatedCompany)
+	if err != nil {
+		return mutationResponse{
+			Err:       err,
+			UpdatedAt: nil,
+		}
 	}
-	return err
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
-func (u jobPortalUsecase) UpdateApplicantByID(ctx context.Context, id int, updatedApplicant gqlModel.Applicant) error {
-	applicant := model.Applicant{
-		CreatedAt: updatedApplicant.CreatedAt,
-		DeletedAt: updatedApplicant.DeletedAt,
-		UpdatedAt: updatedApplicant.UpdatedAt,
-		UserID:    updatedApplicant.User.ID,
+func (u jobPortalUsecase) UpdateApplicationByID(ctx context.Context, id int64, updatedApplicationInput *gqlModel.UpdateApplication) mutationResponse {
+	now := time.Now()
+	if updatedApplicationInput.UpdatedAt == nil {
+		updatedApplicationInput.UpdatedAt = &now
 	}
-	rowCount, err := u.repo.UpdateApplicantByID(ctx, id, applicant)
-	if err == nil {
-		fmt.Printf("Updated row count: %d", rowCount)
+	updatedApplication := model.NewApplicationUpdateFromGQL(updatedApplicationInput)
+	rowCount, err := u.repo.UpdateApplicationByID(ctx, id, updatedApplication)
+	if err != nil {
+		return mutationResponse{
+			Err:       err,
+			UpdatedAt: nil,
+		}
 	}
-	return err
-}
-
-func (u jobPortalUsecase) UpdateApplicationByID(ctx context.Context, id int, updatedApplication gqlModel.Application) error {
-	application := model.Application{
-		ApplicantID: updatedApplication.Applicant.ID,
-		JobID:       updatedApplication.Job.ID,
-		Status:      updatedApplication.Status,
-		CreatedAt:   updatedApplication.CreatedAt,
-		UpdatedAt:   updatedApplication.UpdatedAt,
-		DeletedAt:   updatedApplication.DeletedAt,
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
 	}
-	rowCount, err := u.repo.UpdateApplicationByID(ctx, id, application)
-	if err == nil {
-		fmt.Printf("Updated row count: %d", rowCount)
+}
+
+func (u jobPortalUsecase) UpdateUserByID(ctx context.Context, id int64, updatedUserInput *gqlModel.UpdateUser) mutationResponse {
+	now := time.Now()
+	if updatedUserInput.UpdatedAt == nil {
+		updatedUserInput.UpdatedAt = &now
 	}
-	return err
-}
-
-func (u jobPortalUsecase) UpdateUserByID(ctx context.Context, id int, updatedUser gqlModel.User) error {
-	user := model.User{
-		Username:  updatedUser.Username,
-		Name:      updatedUser.Name,
-		CreatedAt: updatedUser.CreatedAt,
-		UpdatedAt: updatedUser.UpdatedAt,
-		DeletedAt: updatedUser.DeletedAt,
+	updatedUser := model.NewUserUpdateFromGQL(updatedUserInput)
+	rowCount, err := u.repo.UpdateUserByID(ctx, id, updatedUser)
+	if err != nil {
+		return mutationResponse{
+			Err:       err,
+			UpdatedAt: nil,
+		}
 	}
-	rowCount, err := u.repo.UpdateUserByID(ctx, id, user)
-	if err == nil {
-		fmt.Printf("Updated row count: %d", rowCount)
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
 	}
-	return err
 }
 
-func (u jobPortalUsecase) DeleteJobByID(ctx context.Context, id int) error {
-	return u.repo.DeleteJobByID(ctx, id)
+func (u jobPortalUsecase) DeleteJobByID(ctx context.Context, id int64) mutationResponse {
+	now := time.Now()
+	rowCount, err := u.repo.DeleteJobByID(ctx, id, now)
+	if err != nil {
+		return mutationResponse{
+			Err: err,
+		}
+	}
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
-func (u jobPortalUsecase) DeleteCompanyByID(ctx context.Context, id int) error {
-	return u.repo.DeleteCompanyByID(ctx, id)
+func (u jobPortalUsecase) DeleteCompanyByID(ctx context.Context, id int64) mutationResponse {
+	now := time.Now()
+	rowCount, err := u.repo.DeleteCompanyByID(ctx, id, now)
+	if err != nil {
+		return mutationResponse{
+			Err: err,
+		}
+	}
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
-func (u jobPortalUsecase) DeleteApplicantByID(ctx context.Context, id int) error {
-	return u.repo.DeleteApplicantByID(ctx, id)
+func (u jobPortalUsecase) DeleteApplicantByID(ctx context.Context, id int64) mutationResponse {
+	now := time.Now()
+	rowCount, err := u.repo.DeleteApplicantByID(ctx, id, now)
+	if err != nil {
+		return mutationResponse{
+			Err: err,
+		}
+	}
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
-func (u jobPortalUsecase) DeleteApplicationByID(ctx context.Context, id int) error {
-	return u.repo.DeleteApplicationByID(ctx, id)
+func (u jobPortalUsecase) DeleteApplicationByID(ctx context.Context, id int64) mutationResponse {
+	now := time.Now()
+	rowCount, err := u.repo.DeleteApplicationByID(ctx, id, now)
+	if err != nil {
+		return mutationResponse{
+			Err: err,
+		}
+	}
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
-func (u jobPortalUsecase) DeleteUserByID(ctx context.Context, id int) error {
-	return u.repo.DeleteUserByID(ctx, id)
+func (u jobPortalUsecase) DeleteUserByID(ctx context.Context, id int64) mutationResponse {
+	now := time.Now()
+	rowCount, err := u.repo.DeleteUserByID(ctx, id, now)
+	if err != nil {
+		return mutationResponse{
+			Err: err,
+		}
+	}
+	return mutationResponse{
+		Err:       nil,
+		RowCount:  &rowCount,
+		UpdatedAt: &now,
+	}
 }
 
 func (u jobPortalUsecase) GetApplicationsByApplicantID(ctx context.Context, applicantID int64) ([]*model.Application, error) {

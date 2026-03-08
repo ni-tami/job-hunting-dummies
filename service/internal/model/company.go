@@ -18,6 +18,13 @@ type Company struct {
 	DeletedAt   *time.Time `json:"deleted_at,omitempty"`
 }
 
+type CompanyUpdate struct {
+	CompanyName *string   `json:"company_name"`
+	Website     *string   `json:"website"`
+	Description *string   `json:"description"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
 func (c *Company) TableName() string {
 	return "companies"
 }
@@ -36,5 +43,14 @@ func (c *Company) ToGQL() *gql.Company {
 		CreatedAt:   c.CreatedAt,
 		UpdatedAt:   c.UpdatedAt,
 		DeletedAt:   c.DeletedAt,
+	}
+}
+
+func NewCompanyUpdateFromGQL(gqlInput *gql.UpdateCompany) CompanyUpdate {
+	return CompanyUpdate{
+		CompanyName: gqlInput.CompanyName,
+		Website:     gqlInput.Website,
+		Description: gqlInput.Description,
+		UpdatedAt:   *gqlInput.UpdatedAt,
 	}
 }

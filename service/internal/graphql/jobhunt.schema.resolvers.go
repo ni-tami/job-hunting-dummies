@@ -13,7 +13,7 @@ import (
 
 // User is the resolver for the user field.
 func (r *applicantResolver) User(ctx context.Context, obj *model.Applicant) (*model.User, error) {
-	user, err := r.jobPortalUsecase.GetUserByID(ctx, int(obj.User.ID))
+	user, err := r.jobPortalUsecase.GetUserByID(ctx, int64(obj.User.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func (r *applicantResolver) User(ctx context.Context, obj *model.Applicant) (*mo
 
 // Applicant is the resolver for the applicant field.
 func (r *applicationResolver) Applicant(ctx context.Context, obj *model.Application) (*model.Applicant, error) {
-	applicant, err := r.jobPortalUsecase.GetApplicantByID(ctx, int(obj.Applicant.ID))
+	applicant, err := r.jobPortalUsecase.GetApplicantByID(ctx, int64(obj.Applicant.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (r *applicationResolver) Applicant(ctx context.Context, obj *model.Applicat
 
 // Job is the resolver for the job field.
 func (r *applicationResolver) Job(ctx context.Context, obj *model.Application) (*model.Job, error) {
-	job, err := r.jobPortalUsecase.GetJobByID(ctx, int(obj.Job.ID))
+	job, err := r.jobPortalUsecase.GetJobByID(ctx, int64(obj.Job.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (r *applicationResolver) Job(ctx context.Context, obj *model.Application) (
 
 // User is the resolver for the user field.
 func (r *companyResolver) User(ctx context.Context, obj *model.Company) (*model.User, error) {
-	user, err := r.jobPortalUsecase.GetUserByID(ctx, int(obj.User.ID))
+	user, err := r.jobPortalUsecase.GetUserByID(ctx, int64(obj.User.ID))
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func (r *companyResolver) User(ctx context.Context, obj *model.Company) (*model.
 
 // Company is the resolver for the company field.
 func (r *jobResolver) Company(ctx context.Context, obj *model.Job) (*model.Company, error) {
-	company, err := r.jobPortalUsecase.GetCompanyByID(ctx, int(obj.Company.ID))
+	company, err := r.jobPortalUsecase.GetCompanyByID(ctx, int64(obj.Company.ID))
 	if err != nil {
 		return nil, err
 	}

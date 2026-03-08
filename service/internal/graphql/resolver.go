@@ -2,7 +2,6 @@
 package graphql
 
 import (
-	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/usecase"
 )
 
@@ -12,11 +11,6 @@ import (
 // here.
 
 type Resolver struct {
-	applications     []*model.Application
-	companies        []*model.Company
-	applicants       []*model.Applicant
-	jobs             []*model.Job
-	users            []*model.User
 	jobPortalUsecase usecase.JobPortalUsecase
 }
 

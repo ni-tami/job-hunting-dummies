@@ -35,12 +35,6 @@ type Company struct {
 	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
 }
 
-type DeletionStatus struct {
-	Status string  `json:"status"`
-	Data   any     `json:"data,omitempty"`
-	Error  *string `json:"error,omitempty"`
-}
-
 type Job struct {
 	ID           int64      `json:"id"`
 	Company      *Company   `json:"company,omitempty"`
@@ -53,6 +47,25 @@ type Job struct {
 }
 
 type Mutation struct {
+}
+
+type MutationContent struct {
+	ID          int64      `json:"id"`
+	ContentType string     `json:"contentType"`
+	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
+	DeletedAt   *time.Time `json:"deletedAt,omitempty"`
+}
+
+type MutationResponse struct {
+	StatusOk int              `json:"statusOK"`
+	Stats    *MutationStats   `json:"stats,omitempty"`
+	Data     *MutationContent `json:"data,omitempty"`
+	Error    *string          `json:"error,omitempty"`
+}
+
+type MutationStats struct {
+	UpdateCount *int `json:"updateCount,omitempty"`
+	DeleteCount *int `json:"deleteCount,omitempty"`
 }
 
 type NewApplicant struct {
@@ -87,27 +100,27 @@ type Query struct {
 }
 
 type UpdateApplication struct {
-	ID     int64  `json:"id"`
-	Status string `json:"status"`
+	Status    string     `json:"status"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 type UpdateCompany struct {
-	ID          int64  `json:"id"`
-	CompanyName string `json:"companyName"`
-	Description string `json:"description"`
-	Website     string `json:"website"`
+	CompanyName *string    `json:"companyName,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	Website     *string    `json:"website,omitempty"`
+	UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 }
 
 type UpdateJob struct {
-	ID           int64    `json:"id"`
-	Title        string   `json:"title"`
-	Description  string   `json:"description"`
-	Requirements []string `json:"requirements"`
+	Title        *string    `json:"title,omitempty"`
+	Description  *string    `json:"description,omitempty"`
+	Requirements []string   `json:"requirements"`
+	UpdatedAt    *time.Time `json:"updatedAt,omitempty"`
 }
 
 type UpdateUser struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
+	Name      string     `json:"name"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 }
 
 type User struct {

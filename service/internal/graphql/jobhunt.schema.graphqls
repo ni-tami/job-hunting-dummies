@@ -11,27 +11,27 @@ directive @goField(
 
 
 input UpdateJob {
-  id:           ID!
-  title:        String!
-  description:  String!
+  title:        String
+  description:  String
   requirements: [String!]!
+  updatedAt: Time
 }
 
 input UpdateCompany {
-  id:          ID!
-  companyName: String!
-  description: String!
-  website:     String!
+  companyName: String
+  description: String
+  website:     String
+  updatedAt: Time
 }
 
 input UpdateApplication {
-  id:     ID!
   status: String!
+  updatedAt: Time
 }
 
 input UpdateUser {
-  id:   ID!
   name: String!
+  updatedAt: Time
 }
 
 type User {
@@ -83,12 +83,28 @@ type Application {
   deletedAt:   Time
 }
 
-type DeletionStatus {
-  status: String!
-  data: Any
+type MutationResponse {
+  statusOK: Int!
+  # on successful
+  stats: MutationStats
+  data: MutationContent
+  # on error
   error: String
 }
 
+type MutationContent {
+  id: ID!
+  contentType: String!
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type MutationStats {
+  updateCount: Int
+  deleteCount: Int
+  # TODO: set return type of create and delete mutations with this
+  # createCount: Int
+}
 
 input NewJob {
   companyId: ID!
