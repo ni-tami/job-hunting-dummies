@@ -24,6 +24,10 @@ func (u *User) TableName() string {
 	return "users"
 }
 
+func (u *UserUpdate) TableName() string {
+	return "users"
+}
+
 func (u *User) ToGQL() *gql.User {
 	return &gql.User{
 		ID:        u.ID,

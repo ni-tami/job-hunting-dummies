@@ -30,6 +30,10 @@ func (j *Job) TableName() string {
 	return "jobs"
 }
 
+func (j *JobUpdate) TableName() string {
+	return "jobs"
+}
+
 func (j *Job) ToGQL() *gql.Job {
 	return &gql.Job{
 		ID: j.ID,

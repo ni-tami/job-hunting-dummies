@@ -239,7 +239,7 @@ func (r *mutationResolver) DeleteJobByID(ctx context.Context, id int64) (*model.
 // DeleteCompanyByID is the resolver for the deleteCompanyById field.
 func (r *mutationResolver) DeleteCompanyByID(ctx context.Context, id int64) (*model.MutationResponse, error) {
 	// TODO cascade soft delete jobs - applications
-	response := r.jobPortalUsecase.DeleteApplicantByID(ctx, id)
+	response := r.jobPortalUsecase.DeleteCompanyByID(ctx, id)
 
 	var (
 		err              error

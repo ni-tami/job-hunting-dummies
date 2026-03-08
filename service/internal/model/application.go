@@ -27,6 +27,10 @@ func (a *Application) TableName() string {
 	return "applications"
 }
 
+func (a *ApplicationUpdate) TableName() string {
+	return "applications"
+}
+
 func (a *Application) ToGQL() *gql.Application {
 	return &gql.Application{
 		ID: a.ID,

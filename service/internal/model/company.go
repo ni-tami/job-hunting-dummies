@@ -29,6 +29,10 @@ func (c *Company) TableName() string {
 	return "companies"
 }
 
+func (c *CompanyUpdate) TableName() string {
+	return "companies"
+}
+
 func (c *Company) ToGQL() *gql.Company {
 	return &gql.Company{
 		ID: c.ID,
