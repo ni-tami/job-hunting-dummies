@@ -36,15 +36,9 @@ func (a *Application) ToGQL() *gql.Application {
 		ID: a.ID,
 		Applicant: &gql.Applicant{
 			ID: a.ApplicantID,
-			// 	User: &gql.User{
-			// 		ID:       a.Applicant.User.ID,
-			// 		Name:     a.Applicant.User.Name,
-			// 		Username: a.Applicant.User.Username,
-			// 	},
 		},
 		Job: &gql.Job{
 			ID: a.JobID,
-			// 	Title: a.Job.Title,
 		},
 		Status:    a.Status,
 		CreatedAt: a.CreatedAt,
