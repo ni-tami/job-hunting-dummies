@@ -1,4 +1,4 @@
-package client
+package dataloader
 
 import (
 	"context"
@@ -19,11 +19,11 @@ const (
 )
 
 type Loaders struct {
-	UserByIdLoader        *dataloadgen.Loader[int64, *model.User]
-	ApplicationByIdLoader *dataloadgen.Loader[int64, *model.Application]
-	JobByIdLoader         *dataloadgen.Loader[int64, *model.Job]
-	CompanyByIdLoader     *dataloadgen.Loader[int64, *model.Company]
-	ApplicantByIdLoader   *dataloadgen.Loader[int64, *model.Applicant]
+	UserByIdLoader        *dataloadgen.Loader[int64, model.User]
+	ApplicationByIdLoader *dataloadgen.Loader[int64, model.Application]
+	JobByIdLoader         *dataloadgen.Loader[int64, model.Job]
+	CompanyByIdLoader     *dataloadgen.Loader[int64, model.Company]
+	ApplicantByIdLoader   *dataloadgen.Loader[int64, model.Applicant]
 }
 
 func NewLoaders(conn *gorm.DB) *Loaders {
@@ -51,61 +51,61 @@ func For(ctx context.Context) *Loaders {
 }
 
 // GetUserByID returns single user by id efficiently
-func GetUserByID(ctx context.Context, userId int64) (*model.User, error) {
+func GetUserByID(ctx context.Context, userId int64) (model.User, error) {
 	loaders := For(ctx)
 	return loaders.UserByIdLoader.Load(ctx, userId)
 }
 
 // GetJobByID returns Job by ID efficiently
-func GetJobByID(ctx context.Context, jobId int64) (*model.Job, error) {
+func GetJobByID(ctx context.Context, jobId int64) (model.Job, error) {
 	loaders := For(ctx)
 	return loaders.JobByIdLoader.Load(ctx, jobId)
 }
 
 // GetCompanyByID returns Company by ID efficiently
-func GetCompanyByID(ctx context.Context, companyId int64) (*model.Company, error) {
+func GetCompanyByID(ctx context.Context, companyId int64) (model.Company, error) {
 	loaders := For(ctx)
 	return loaders.CompanyByIdLoader.Load(ctx, companyId)
 }
 
 // GetApplicantByID returns Applicant by ID efficiently
-func GetApplicantByID(ctx context.Context, applicantId int64) (*model.Applicant, error) {
+func GetApplicantByID(ctx context.Context, applicantId int64) (model.Applicant, error) {
 	loaders := For(ctx)
 	return loaders.ApplicantByIdLoader.Load(ctx, applicantId)
 }
 
 // GetApplicationByID returns Application by ID efficiently
-func GetApplicationByID(ctx context.Context, applicationId int64) (*model.Application, error) {
+func GetApplicationByID(ctx context.Context, applicationId int64) (model.Application, error) {
 	loaders := For(ctx)
 	return loaders.ApplicationByIdLoader.Load(ctx, applicationId)
 }
 
 // GetUsersByIds returns single user by id efficiently
-func GetUsersByIds(ctx context.Context, userIds []int64) ([]*model.User, error) {
+func GetUsersByIds(ctx context.Context, userIds []int64) ([]model.User, error) {
 	loaders := For(ctx)
 	return loaders.UserByIdLoader.LoadAll(ctx, userIds)
 }
 
 // GetJobsByIds returns Job by ID efficiently
-func GetJobsByIds(ctx context.Context, jobIds []int64) ([]*model.Job, error) {
+func GetJobsByIds(ctx context.Context, jobIds []int64) ([]model.Job, error) {
 	loaders := For(ctx)
 	return loaders.JobByIdLoader.LoadAll(ctx, jobIds)
 }
 
 // GetCompaniesByIds returns Company by ID efficiently
-func GetCompaniesByIds(ctx context.Context, companyIds []int64) ([]*model.Company, error) {
+func GetCompaniesByIds(ctx context.Context, companyIds []int64) ([]model.Company, error) {
 	loaders := For(ctx)
 	return loaders.CompanyByIdLoader.LoadAll(ctx, companyIds)
 }
 
 // GetApplicantsByIds returns Applicant by ID efficiently
-func GetApplicantsByIds(ctx context.Context, applicantIds []int64) ([]*model.Applicant, error) {
+func GetApplicantsByIds(ctx context.Context, applicantIds []int64) ([]model.Applicant, error) {
 	loaders := For(ctx)
 	return loaders.ApplicantByIdLoader.LoadAll(ctx, applicantIds)
 }
 
 // GetApplicationsByIds returns Application by ID efficiently
-func GetApplicationsByIds(ctx context.Context, applicationIds []int64) ([]*model.Application, error) {
+func GetApplicationsByIds(ctx context.Context, applicationIds []int64) ([]model.Application, error) {
 	loaders := For(ctx)
 	return loaders.ApplicationByIdLoader.LoadAll(ctx, applicationIds)
 }

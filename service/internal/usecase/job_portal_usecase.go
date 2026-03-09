@@ -25,11 +25,11 @@ type (
 		GetApplicationByID(ctx context.Context, id int64) (*model.Application, error)
 		GetUserByID(ctx context.Context, id int64) (*model.User, error)
 
-		GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, error)
-		GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, error)
-		GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, error)
-		GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, error)
-		GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, error)
+		GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, []error)
+		GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, []error)
+		GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, []error)
+		GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, []error)
+		GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, []error)
 
 		GetJobs(ctx context.Context) ([]*model.Job, error)
 		GetCompanies(ctx context.Context) ([]*model.Company, error)
@@ -398,22 +398,22 @@ func (u jobPortalUsecase) GetJobsByCompanyID(ctx context.Context, companyID int6
 	return u.repo.GetJobsByCompanyID(ctx, companyID)
 }
 
-func (u jobPortalUsecase) GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, error) {
+func (u jobPortalUsecase) GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, []error) {
 	return u.repo.GetJobsByIds(ctx, ids)
 }
 
-func (u jobPortalUsecase) GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, error) {
+func (u jobPortalUsecase) GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, []error) {
 	return u.repo.GetCompaniesByIds(ctx, ids)
 }
 
-func (u jobPortalUsecase) GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, error) {
+func (u jobPortalUsecase) GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, []error) {
 	return u.repo.GetApplicantsByIds(ctx, ids)
 }
 
-func (u jobPortalUsecase) GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, error) {
+func (u jobPortalUsecase) GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, []error) {
 	return u.repo.GetApplicationsByIds(ctx, ids)
 }
 
-func (u jobPortalUsecase) GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, error) {
+func (u jobPortalUsecase) GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, []error) {
 	return u.repo.GetUsersByIds(ctx, ids)
 }

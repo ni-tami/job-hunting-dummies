@@ -13,6 +13,7 @@ import (
 	"github.com/go-chi/chi"
 	migration "github.com/ni-tami/job-hunting-dummies-service/db"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/client"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/dataloader"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
@@ -39,7 +40,7 @@ func main() {
 		AllowCredentials: true,
 		Debug:            true,
 	}).Handler)
-	// router.Use(auth.Middleware())
+
 	db := client.NewCrdbConn()
 	repo := repository.NewJobPortalRepository(db)
 	usecase := usecase.NewJobPortalUsecase(repo)
@@ -59,7 +60,7 @@ func main() {
 	})
 
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	router.Handle("/query", srv)
+	router.Handle("/query", dataloader.Middleware(db, srv))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
