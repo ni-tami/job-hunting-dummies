@@ -39,14 +39,6 @@ func (j *Job) ToGQL() *gql.Job {
 		ID: j.ID,
 		Company: &gql.Company{
 			ID: j.CompanyID,
-			// 	User: &gql.User{
-			// 		ID:       j.Company.User.ID,
-			// 		Name:     j.Company.User.Name,
-			// 		Username: j.Company.User.Username,
-			// 	},
-			// 	CompanyName: j.Company.CompanyName,
-			// 	Website:     j.Company.Website,
-			// 	Description: j.Company.Description,
 		},
 		Title:        j.Title,
 		Description:  j.Description,

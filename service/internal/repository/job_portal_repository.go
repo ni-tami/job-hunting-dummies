@@ -22,6 +22,12 @@ type (
 		GetJobByID(ctx context.Context, id int64) (*model.Job, error)
 		GetUserByID(ctx context.Context, id int64) (*model.User, error)
 
+		GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, []error)
+		GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, []error)
+		GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, []error)
+		GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, []error)
+		GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, []error)
+
 		GetApplicationsByApplicantID(ctx context.Context, applicantId int64) ([]*model.Application, error)
 		GetApplicationsByJobID(ctx context.Context, jobId int64) ([]*model.Application, error)
 		GetJobsByCompanyID(ctx context.Context, companyId int64) ([]*model.Job, error)
@@ -201,4 +207,69 @@ func (r jobPortalRepository) DeleteJobByID(ctx context.Context, id int64, deleti
 func (r jobPortalRepository) DeleteUserByID(ctx context.Context, id int64, deletionTime time.Time) (int, error) {
 	result := r.db.WithContext(ctx).Model(&model.User{}).Where("id = ? AND deleted_at IS NULL", id).Update("deleted_at", deletionTime)
 	return int(result.RowsAffected), result.Error
+}
+
+func (r jobPortalRepository) GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, []error) {
+	var applicants []model.Applicant
+	err := r.db.WithContext(ctx).Where("id IN ? AND deleted_at IS NULL", ids).Find(&applicants).Error
+	if err != nil {
+		errors := make([]error, len(ids))
+		for i := range errors {
+			errors[i] = err
+		}
+		return nil, errors
+	}
+	return applicants, nil
+}
+
+func (r jobPortalRepository) GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, []error) {
+	var applications []model.Application
+	err := r.db.WithContext(ctx).Where("id IN ? AND deleted_at IS NULL", ids).Find(&applications).Error
+	if err != nil {
+		errors := make([]error, len(ids))
+		for i := range errors {
+			errors[i] = err
+		}
+		return nil, errors
+	}
+	return applications, nil
+}
+
+func (r jobPortalRepository) GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, []error) {
+	var companies []model.Company
+	err := r.db.WithContext(ctx).Where("id IN ? AND deleted_at IS NULL", ids).Find(&companies).Error
+	if err != nil {
+		errors := make([]error, len(ids))
+		for i := range errors {
+			errors[i] = err
+		}
+		return nil, errors
+	}
+	return companies, nil
+}
+
+func (r jobPortalRepository) GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, []error) {
+	var jobs []model.Job
+	err := r.db.WithContext(ctx).Where("id IN ? AND deleted_at IS NULL", ids).Find(&jobs).Error
+	if err != nil {
+		errors := make([]error, len(ids))
+		for i := range errors {
+			errors[i] = err
+		}
+		return nil, errors
+	}
+	return jobs, nil
+}
+
+func (r jobPortalRepository) GetUsersByIds(ctx context.Context, ids []int64) ([]model.User, []error) {
+	var users []model.User
+	err := r.db.WithContext(ctx).Where("id IN ? AND deleted_at IS NULL", ids).Find(&users).Error
+	if err != nil {
+		errors := make([]error, len(ids))
+		for i := range errors {
+			errors[i] = err
+		}
+		return nil, errors
+	}
+	return users, nil
 }

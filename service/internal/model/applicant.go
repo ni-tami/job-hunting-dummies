@@ -24,8 +24,6 @@ func (a *Applicant) ToGQL() *gql.Applicant {
 		ID: a.ID,
 		User: &gql.User{
 			ID: a.UserID,
-			// 	Name:     a.User.Name,
-			// 	Username: a.User.Username,
 		},
 		CreatedAt: a.CreatedAt,
 		UpdatedAt: a.UpdatedAt,

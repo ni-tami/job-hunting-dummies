@@ -38,8 +38,6 @@ func (c *Company) ToGQL() *gql.Company {
 		ID: c.ID,
 		User: &gql.User{
 			ID: c.UserID,
-			// Name:     c.User.Name,
-			// Username: c.User.Username,
 		},
 		CompanyName: c.CompanyName,
 		Website:     c.Website,
