@@ -1,4 +1,4 @@
-package generate_user_daily
+package app
 
 import (
 	"fmt"

@@ -33,3 +33,6 @@ go.work.sum
 
 # Temporal workflow sample code go
 samples-go
+
+**/secrets/*
+**/secret/*

@@ -1,10 +1,11 @@
-package generate_user_daily
+package app
 
 import (
 	"fmt"
 	"math/rand"
 	"time"
 
+	"go.temporal.io/sdk/converter"
 	"go.temporal.io/sdk/workflow"
 )
 
@@ -24,16 +25,16 @@ func SampleScheduledGoroutineWorkflow(ctx workflow.Context, parallelism int) (re
 	//lint:ignore SA1019 - this is a sample
 	scheduledByIDPayload := info.SearchAttributes.IndexedFields["TemporalScheduledById"]
 	var scheduledByID string
-	err := converter.GetDefaultDataConverter().FromPayload(scheduledByIDPayload, &scheduledByID)
+	err = converter.GetDefaultDataConverter().FromPayload(scheduledByIDPayload, &scheduledByID)
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 	//lint:ignore SA1019 - this is a sample
 	startTimePayload := info.SearchAttributes.IndexedFields["TemporalScheduledStartTime"]
 	var startTime time.Time
 	err = converter.GetDefaultDataConverter().FromPayload(startTimePayload, &startTime)
 	if err != nil {
-		return err
+		return []string{}, err
 	}
 
 	// Set activity options on ctx1 (like schedule example)
