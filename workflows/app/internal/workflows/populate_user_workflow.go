@@ -1,10 +1,10 @@
-package app
+package workflows
 
 import (
-	"fmt"
-	"math/rand"
 	"time"
 
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/activities"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/models"
 	"go.temporal.io/sdk/converter"
 	"go.temporal.io/sdk/workflow"
 )
@@ -16,8 +16,8 @@ import (
 * In Temporal workflow, you should create goroutines using workflow.Go method.
  */
 
-// SampleScheduledGoroutineWorkflow workflow definition
-func SampleScheduledGoroutineWorkflow(ctx workflow.Context, parallelism int) (results []string, err error) {
+// PopulateUserWorkflow workflow definition
+func PopulateUserWorkflow(ctx workflow.Context, parallelism int) (results []models.CreateUser, err error) {
 	// Extract schedule metadata
 	info := workflow.GetInfo(ctx)
 
@@ -27,14 +27,14 @@ func SampleScheduledGoroutineWorkflow(ctx workflow.Context, parallelism int) (re
 	var scheduledByID string
 	err = converter.GetDefaultDataConverter().FromPayload(scheduledByIDPayload, &scheduledByID)
 	if err != nil {
-		return []string{}, err
+		return []models.CreateUser{}, err
 	}
 	//lint:ignore SA1019 - this is a sample
 	startTimePayload := info.SearchAttributes.IndexedFields["TemporalScheduledStartTime"]
 	var startTime time.Time
 	err = converter.GetDefaultDataConverter().FromPayload(startTimePayload, &startTime)
 	if err != nil {
-		return []string{}, err
+		return []models.CreateUser{}, err
 	}
 
 	// Set activity options on ctx1 (like schedule example)
@@ -44,21 +44,20 @@ func SampleScheduledGoroutineWorkflow(ctx workflow.Context, parallelism int) (re
 	ctx1 := workflow.WithActivityOptions(ctx, ao)
 
 	for i := 0; i < parallelism; i++ {
-		input := fmt.Sprintf("job-%d|scheduleID:%s|startTime:%s", i, scheduledByID, startTime.Format(time.RFC3339)) // Should be outside lambda to be captured correctly
 		// Start a goroutine in a workflow safe way
 		workflow.Go(ctx1, func(gCtx workflow.Context) {
-			var result1 string
-			err = workflow.ExecuteActivity(gCtx, Step1, input).Get(gCtx, &result1)
+			var randUser models.CreateUser
+			err = workflow.ExecuteActivity(gCtx, activities.FetchRandomUserActivity).Get(gCtx, &randUser)
 			if err != nil {
 				// Very naive error handling. Only the last error will be returned by the workflow
 				return
 			}
-			var result2 string
-			err = workflow.ExecuteActivity(gCtx, Step2, result1).Get(gCtx, &result2)
+			var JobHuntActivity *activities.JobHuntServiceActivity
+			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.CreateUserRPCActivity, randUser).Get(gCtx, &err)
 			if err != nil {
 				return
 			}
-			results = append(results, result2)
+			results = append(results, randUser)
 		})
 	}
 
@@ -66,14 +65,4 @@ func SampleScheduledGoroutineWorkflow(ctx workflow.Context, parallelism int) (re
 		return err != nil || len(results) == parallelism
 	})
 	return
-}
-
-func Step1(input string) (output string, err error) {
-	time.Sleep(time.Duration(rand.Intn(10)) * time.Second)
-	return input + ", Step1", nil
-}
-
-func Step2(input string) (output string, err error) {
-	time.Sleep(time.Duration(rand.Intn(10)) * time.Second)
-	return input + ", Step2", nil
 }

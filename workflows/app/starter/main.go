@@ -5,12 +5,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/config"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/workflows"
 	"github.com/pborman/uuid"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/sdk/client"
 )
-
 
 func main() {
 	ctx := context.Background()
@@ -24,30 +24,22 @@ func main() {
 	defer c.Close()
 
 	// This schedule ID can be user business logic identifier as well.
-	scheduleID := "schedule_goroutine_" + uuid.New()
-	workflowID := "schedule_goroutine_workflow_" + uuid.New()
+	scheduleID := "populate_user_" + uuid.New()
+	workflowID := "populate_user_workflow_" + uuid.New()
 	// Create the schedule, start with no spec so the schedule will not run.
 	scheduleHandle, err := c.ScheduleClient().Create(ctx, client.ScheduleOptions{
 		ID:   scheduleID,
 		Spec: client.ScheduleSpec{},
 		Action: &client.ScheduleWorkflowAction{
 			ID:        workflowID,
-			Workflow:  app.SampleScheduledGoroutineWorkflow,
-			TaskQueue: "schedule-goroutine",
-			Args:      []interface{}{5},
+			Workflow:  workflows.PopulateUserWorkflow,
+			TaskQueue: config.PopulateUserTaskQueueName,
+			Args:      []interface{}{1},
 		},
 	})
 	if err != nil {
 		log.Fatalln("Unable to create schedule", err)
 	}
-	// // Delete the schedule once the sample is done
-	// defer func() {
-	// 	log.Println("Deleting schedule", "ScheduleID", scheduleHandle.GetID())
-	// 	err = scheduleHandle.Delete(ctx)
-	// 	if err != nil {
-	// 		log.Fatalln("Unable to delete schedule", err)
-	// 	}
-	// }()
 
 	// Manually trigger the schedule once
 	log.Println("Manually triggering schedule", "ScheduleID", scheduleHandle.GetID())
@@ -67,14 +59,10 @@ func main() {
 				// Run the schedule every 5s
 				Intervals: []client.ScheduleIntervalSpec{
 					{
-						Every: 30 * time.Second,
+						Every: 2 * time.Minute,
 					},
 				},
 			}
-			// // Start the schedule paused to demonstrate how to unpause a schedule
-			// schedule.Description.Schedule.State.Paused = true
-			// schedule.Description.Schedule.State.LimitedActions = true
-			// schedule.Description.Schedule.State.RemainingActions = 10
 
 			return &client.ScheduleUpdate{
 				Schedule: &schedule.Description.Schedule,
@@ -85,13 +73,6 @@ func main() {
 		log.Fatalln("Unable to update schedule", err)
 	}
 
-	// // Unpause schedule
-	// log.Println("Unpausing schedule", "ScheduleID", scheduleHandle.GetID())
-	// err = scheduleHandle.Unpause(ctx, client.ScheduleUnpauseOptions{})
-	// if err != nil {
-	// 	log.Fatalln("Unable to unpause schedule", err)
-	// }
-	// Wait for the schedule to run 10 actions
 	log.Println("Waiting for schedule to complete actions", "ScheduleID", scheduleHandle.GetID())
 
 	for {
