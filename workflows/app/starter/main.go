@@ -59,7 +59,7 @@ func main() {
 				// Run the schedule every 5s
 				Intervals: []client.ScheduleIntervalSpec{
 					{
-						Every: 2 * time.Minute,
+						Every: config.PopulateUserScheduleIntervalHour,
 					},
 				},
 			}
