@@ -48,7 +48,7 @@ func (u *User) ToGQL() *gql.User {
 
 func (u *User) ToCreateUserGRPC() *pb.CreateUserResponse {
 	return &pb.CreateUserResponse{
-		Id:        int32(u.ID),
+		Id:        u.ID,
 		Username:  u.Username,
 		Name:      u.Name,
 		CreatedAt: timestamppb.New(u.CreatedAt),

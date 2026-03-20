@@ -27,15 +27,15 @@ import (
 )
 
 const (
-	defaultPort = "8888"
- 	grpcPort = 50051
+	defaultGrpcPort = "8888"
+	grpcPort        = 50051
 )
 
 func main() {
 	migration.MigrateTables()
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = defaultPort
+		port = defaultGrpcPort
 	}
 
 	router := chi.NewRouter()
