@@ -1,6 +1,6 @@
 module github.com/ni-tami/job-hunting-dummies-service
 
-go 1.25.5
+go 1.26.1
 
 tool (
 	github.com/99designs/gqlgen
