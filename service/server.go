@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 
@@ -15,13 +17,19 @@ import (
 	"github.com/ni-tami/job-hunting-dummies-service/internal/client"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+	grpc_service "github.com/ni-tami/job-hunting-dummies-service/internal/grpc/service"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/usecase"
+	pb "github.com/ni-tami/job-hunting-dummies-service/pb/out/go/job_hunting_dummies"
 	"github.com/rs/cors"
 	"github.com/vektah/gqlparser/v2/ast"
+	"google.golang.org/grpc"
 )
 
-const defaultPort = "8888"
+const (
+	defaultPort = "8888"
+ 	grpcPort = 50051
+)
 
 func main() {
 	migration.MigrateTables()
@@ -43,6 +51,22 @@ func main() {
 	db := client.NewCrdbConn()
 	repo := repository.NewJobPortalRepository(db)
 	usecase := usecase.NewJobPortalUsecase(repo)
+
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", grpcPort))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	var opts []grpc.ServerOption
+	grpcServer := grpc.NewServer(opts...)
+	jobHuntService := grpc_service.NewJobHuntServerImpl(usecase)
+	pb.RegisterJobHuntServiceServer(grpcServer, jobHuntService)
+	go func() {
+		if err := grpcServer.Serve(lis); err != nil {
+			log.Fatalf("grpc server failed to serve: %v", err)
+		}
+	}()
+
+	// GQL Server
 	srv := handler.New(model.NewExecutableSchema(
 		model.Config{
 			Resolvers: graphql.NewResolver(usecase),

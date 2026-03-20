@@ -16,7 +16,7 @@ type (
 		CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error)
 		CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
 		CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error)
-		CreateUser(ctx context.Context, newUser gqlModel.NewUser) (*model.User, error)
+		CreateUser(ctx context.Context, newUser model.UserCreate) (*model.User, error)
 
 		GetJobByID(ctx context.Context, id int64) (*model.Job, error)
 		GetCompanyByID(ctx context.Context, id int64) (*model.Company, error)
@@ -89,7 +89,7 @@ func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob gqlModel.NewJob)
 }
 
 func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error) {
-	newUser := gqlModel.NewUser{
+	newUser := model.UserCreate{
 		Username: newCompany.User.Username,
 		Name:     newCompany.User.Name,
 	}
@@ -115,7 +115,7 @@ func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany gqlModel
 }
 
 func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error) {
-	newUser := gqlModel.NewUser{
+	newUser := model.UserCreate{
 		Username: newApplicant.User.Username,
 		Name:     newApplicant.User.Name,
 	}
@@ -168,7 +168,7 @@ func (u jobPortalUsecase) CreateApplication(ctx context.Context, newApplication 
 	return application, nil
 }
 
-func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser gqlModel.NewUser) (*model.User, error) {
+func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.UserCreate) (*model.User, error) {
 	id := time.Now().UnixMicro()
 	user := &model.User{
 		ID:        id,
