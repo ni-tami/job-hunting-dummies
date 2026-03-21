@@ -13,6 +13,8 @@ import (
 )
 
 func main() {
+	config.Load()
+
 	ctx := context.Background()
 	// The client is a heavyweight object that should be created once per process.
 	c, err := client.Dial(client.Options{
