@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "github.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummies";
+package job_hunting_dummies.v0;
+
+import "job_hunting_dummies/job_hunting_dummies.proto";
+
+service JobHuntService {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
+}
