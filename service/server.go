@@ -5,7 +5,6 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -15,6 +14,7 @@ import (
 	"github.com/go-chi/chi"
 	migration "github.com/ni-tami/job-hunting-dummies-service/db"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/client"
+	"github.com/ni-tami/job-hunting-dummies-service/internal/config"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/dataloader"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
@@ -27,24 +27,15 @@ import (
 	"google.golang.org/grpc"
 )
 
-const (
-	defaultGrpcPort = "8888"
-	grpcPort        = 50051
-)
-
 func main() {
+	config.Load()
 	migration.MigrateTables()
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = defaultGrpcPort
-	}
+	gqlPort := config.Koanf.Int("gql.port")
+	grpcPort := config.Koanf.Int("grpc.port")
 
 	router := chi.NewRouter()
 	router.Use(cors.New(cors.Options{
-		AllowedOrigins: []string{
-			"http://localhost:8080",
-			"http://localhost:3000",
-		},
+		AllowedOrigins:   config.Koanf.MustStrings("cors.allowed_origins"),
 		AllowCredentials: true,
 		Debug:            true,
 	}).Handler)
@@ -86,6 +77,7 @@ func main() {
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	router.Handle("/query", dataloader.Middleware(db, srv))
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Printf("connect to http://localhost:%d/ for grpc", grpcPort)
+	log.Printf("connect to http://localhost:%d/ for GraphQL playground", gqlPort)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", gqlPort), router))
 }

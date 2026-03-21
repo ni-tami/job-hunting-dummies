@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	config.Load()
 	// The client and worker are heavyweight objects that should be created once per process.
 	c, err := client.Dial(client.Options{
 		HostPort: client.DefaultHostPort,

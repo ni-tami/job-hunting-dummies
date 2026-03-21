@@ -3,15 +3,14 @@ package client
 import (
 	"log"
 
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-const grpcAddr = "localhost:50051"
-
 func NewGrpcClient() *grpc.ClientConn {
 	// Set up a connection to the server.
-	conn, err := grpc.NewClient(grpcAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(config.Koanf.String("jobhunt_service.grpc_address"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

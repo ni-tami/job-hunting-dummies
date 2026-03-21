@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	// gqlModel "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 	model "github.com/ni-tami/job-hunting-dummies-service/internal/model"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
 	"github.com/vikstrous/dataloadgen"
