@@ -8,8 +8,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/models"
-	pb "github.com/ni-tami/job-hunting-dummies-workflows/app/pb/job_hunting_dummies"
+	pb "github.com/ni-tami/job-hunting-dummies-workflows/app/pb/out/go/job_hunting_dummies"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/models"
 )
 
 type JobHuntServiceActivity struct {

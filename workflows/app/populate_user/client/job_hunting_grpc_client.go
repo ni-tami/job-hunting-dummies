@@ -3,7 +3,7 @@ package client
 import (
 	"log"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/config"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

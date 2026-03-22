@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/activities"
-	grpcClient "github.com/ni-tami/job-hunting-dummies-workflows/app/internal/client"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/config"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/workflows"
-	pb "github.com/ni-tami/job-hunting-dummies-workflows/app/pb/job_hunting_dummies"
+	pb "github.com/ni-tami/job-hunting-dummies-workflows/app/pb/out/go/job_hunting_dummies"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/activities"
+	grpcClient "github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/client"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/config"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/workflows"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 )

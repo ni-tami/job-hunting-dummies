@@ -3,8 +3,8 @@ package workflows
 import (
 	"time"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/activities"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/models"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/activities"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/models"
 	"go.temporal.io/sdk/converter"
 	"go.temporal.io/sdk/workflow"
 )

@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/config"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/internal/workflows"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/config"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/workflows"
 	"github.com/pborman/uuid"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/sdk/client"

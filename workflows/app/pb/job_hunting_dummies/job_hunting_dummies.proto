@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummies";
+package job_hunting_dummies.v0;
+
+
+message CreateUserRequest {
+    string username = 1;
+    string name = 2;
+}
+
+message CreateUserResponse {
+    int64 id = 1;
+    string username = 2;
+    string name = 3;
+    google.protobuf.Timestamp createdAt = 4;
+}
