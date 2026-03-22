@@ -3,7 +3,6 @@ package activities
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -41,7 +40,6 @@ func FetchRandomUserActivity() (models.CreateUser, error) {
 		panic(err)
 	}
 	randUser := randomUsers.Results[len(randomUsers.Results)-1]
-	fmt.Printf("randUser: %+v", randUser)
 	user := randUser.ToGRPCUser()
 	return user, nil
 }

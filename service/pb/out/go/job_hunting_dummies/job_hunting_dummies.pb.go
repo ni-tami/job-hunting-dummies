@@ -79,7 +79,7 @@ type CreateUserResponse struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -149,12 +149,13 @@ const file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc = "" +
 	"-job_hunting_dummies/job_hunting_dummies.proto\x12\x16job_hunting_dummies.v0\x1a\x1fgoogle/protobuf/timestamp.proto\"C\n" +
 	"\x11CreateUserRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"\x8e\x01\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\x8f\x01\n" +
 	"\x12CreateUserResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x128\n" +
-	"\tcreatedAt\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
+	"\x04name\x18\x03 \x01(\tR\x04name\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
 
 var (
 	file_job_hunting_dummies_job_hunting_dummies_proto_rawDescOnce sync.Once
@@ -175,7 +176,7 @@ var file_job_hunting_dummies_job_hunting_dummies_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
 }
 var file_job_hunting_dummies_job_hunting_dummies_proto_depIdxs = []int32{
-	2, // 0: job_hunting_dummies.v0.CreateUserResponse.createdAt:type_name -> google.protobuf.Timestamp
+	2, // 0: job_hunting_dummies.v0.CreateUserResponse.created_at:type_name -> google.protobuf.Timestamp
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
