@@ -30,3 +30,13 @@ func (s *grpcServer) CreateUser(ctx context.Context, request *pb.CreateUserReque
 	}
 	return user.ToCreateUserGRPC(), nil
 }
+
+// CreateCompany implements JobHuntService
+func (s *grpcServer) CreateCompany(ctx context.Context, request *pb.CreateCompanyRequest) (*pb.CreateCompanyResponse, error) {
+	companyCreatePayload := model.NewCompanyCreateFromGRPC(request)
+	company, err := s.usecase.CreateCompany(ctx, companyCreatePayload)
+	if err != nil {
+		log.Fatalf("Failed to create company. Error %v", err)
+	}
+	return company.ToCreateCompanyGRPC(), nil
+}

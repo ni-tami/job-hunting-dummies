@@ -4,6 +4,8 @@ import (
 	"time"
 
 	gql "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
+	pb "github.com/ni-tami/job-hunting-dummies-service/pb/out/go/job_hunting_dummies"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Company struct {
@@ -16,6 +18,13 @@ type Company struct {
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   time.Time  `json:"updated_at"`
 	DeletedAt   *time.Time `json:"deleted_at,omitempty"`
+}
+
+type CompanyCreate struct {
+	User        UserCreate `json:"user"`
+	CompanyName string     `json:"company_name"`
+	Website     string     `json:"website"`
+	Description string     `json:"description"`
 }
 
 type CompanyUpdate struct {
@@ -45,6 +54,41 @@ func (c *Company) ToGQL() *gql.Company {
 		CreatedAt:   c.CreatedAt,
 		UpdatedAt:   c.UpdatedAt,
 		DeletedAt:   c.DeletedAt,
+	}
+}
+
+func (c *Company) ToCreateCompanyGRPC() *pb.CreateCompanyResponse {
+	return &pb.CreateCompanyResponse{
+		Id:          c.ID,
+		UserId:      c.UserID,
+		CompanyName: c.CompanyName,
+		Description: c.Description,
+		Website:     c.Website,
+		CreatedAt:   timestamppb.New(c.CreatedAt),
+	}
+}
+
+func NewCompanyCreateFromGQL(gqlInput gql.NewCompany) CompanyCreate {
+	return CompanyCreate{
+		User: UserCreate{
+			Name:     gqlInput.User.Name,
+			Username: gqlInput.User.Username,
+		},
+		CompanyName: gqlInput.CompanyName,
+		Website:     gqlInput.Website,
+		Description: gqlInput.Description,
+	}
+}
+
+func NewCompanyCreateFromGRPC(grpcInput *pb.CreateCompanyRequest) CompanyCreate {
+	return CompanyCreate{
+		User: UserCreate{
+			Name:     grpcInput.User.Name,
+			Username: grpcInput.User.Username,
+		},
+		CompanyName: grpcInput.CompanyName,
+		Website:     grpcInput.Website,
+		Description: grpcInput.Description,
 	}
 }
 

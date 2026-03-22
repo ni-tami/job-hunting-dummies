@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	JobHuntService_CreateUser_FullMethodName = "/job_hunting_dummies.v0.JobHuntService/CreateUser"
+	JobHuntService_CreateUser_FullMethodName    = "/job_hunting_dummies.v0.JobHuntService/CreateUser"
+	JobHuntService_CreateCompany_FullMethodName = "/job_hunting_dummies.v0.JobHuntService/CreateCompany"
 )
 
 // JobHuntServiceClient is the client API for JobHuntService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobHuntServiceClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	CreateCompany(ctx context.Context, in *CreateCompanyRequest, opts ...grpc.CallOption) (*CreateCompanyResponse, error)
 }
 
 type jobHuntServiceClient struct {
@@ -47,11 +49,22 @@ func (c *jobHuntServiceClient) CreateUser(ctx context.Context, in *CreateUserReq
 	return out, nil
 }
 
+func (c *jobHuntServiceClient) CreateCompany(ctx context.Context, in *CreateCompanyRequest, opts ...grpc.CallOption) (*CreateCompanyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateCompanyResponse)
+	err := c.cc.Invoke(ctx, JobHuntService_CreateCompany_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobHuntServiceServer is the server API for JobHuntService service.
 // All implementations must embed UnimplementedJobHuntServiceServer
 // for forward compatibility.
 type JobHuntServiceServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	CreateCompany(context.Context, *CreateCompanyRequest) (*CreateCompanyResponse, error)
 	mustEmbedUnimplementedJobHuntServiceServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedJobHuntServiceServer struct{}
 
 func (UnimplementedJobHuntServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedJobHuntServiceServer) CreateCompany(context.Context, *CreateCompanyRequest) (*CreateCompanyResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateCompany not implemented")
 }
 func (UnimplementedJobHuntServiceServer) mustEmbedUnimplementedJobHuntServiceServer() {}
 func (UnimplementedJobHuntServiceServer) testEmbeddedByValue()                        {}
@@ -104,6 +120,24 @@ func _JobHuntService_CreateUser_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobHuntService_CreateCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCompanyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobHuntServiceServer).CreateCompany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobHuntService_CreateCompany_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobHuntServiceServer).CreateCompany(ctx, req.(*CreateCompanyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobHuntService_ServiceDesc is the grpc.ServiceDesc for JobHuntService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var JobHuntService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _JobHuntService_CreateUser_Handler,
+		},
+		{
+			MethodName: "CreateCompany",
+			Handler:    _JobHuntService_CreateCompany_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

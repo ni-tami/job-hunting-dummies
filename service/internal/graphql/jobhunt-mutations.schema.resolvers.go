@@ -27,7 +27,8 @@ func (r *mutationResolver) CreateJob(ctx context.Context, input gqlModel.NewJob)
 
 // CreateCompany is the resolver for the createCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input gqlModel.NewCompany) (*gqlModel.Company, error) {
-	dbCompany, err := r.jobPortalUsecase.CreateCompany(ctx, input)
+	createCompanyPayload := model.NewCompanyCreateFromGQL(input)
+	dbCompany, err := r.jobPortalUsecase.CreateCompany(ctx, createCompanyPayload)
 	if err != nil {
 		log.Fatal("Failed to create company")
 	}

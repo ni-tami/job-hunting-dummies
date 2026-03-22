@@ -14,7 +14,7 @@ type (
 	JobPortalUsecase interface {
 		// TODO: might need to separate into multiple services if this grows too big
 		CreateJob(ctx context.Context, newJob gqlModel.NewJob) (*model.Job, error)
-		CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error)
+		CreateCompany(ctx context.Context, newCompany model.CompanyCreate) (*model.Company, error)
 		CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
 		CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error)
 		CreateUser(ctx context.Context, newUser model.UserCreate) (*model.User, error)
@@ -95,7 +95,7 @@ func (u jobPortalUsecase) CreateJob(ctx context.Context, newJob gqlModel.NewJob)
 	return job, nil
 }
 
-func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany gqlModel.NewCompany) (*model.Company, error) {
+func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany model.CompanyCreate) (*model.Company, error) {
 	newUser := model.UserCreate{
 		Username: newCompany.User.Username,
 		Name:     newCompany.User.Name,

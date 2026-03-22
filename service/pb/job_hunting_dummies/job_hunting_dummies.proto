@@ -18,3 +18,19 @@ message CreateUserResponse {
     string name = 3;
     google.protobuf.Timestamp created_at = 4;
 }
+
+message CreateCompanyRequest {
+    string company_name = 1;
+    CreateUserRequest user = 2;
+    string description = 3;
+    string website = 4;
+}
+
+message CreateCompanyResponse {
+    int64 id = 1;
+    int64 user_id = 2;
+    string company_name = 3;
+    string description = 4;
+    string website = 5;
+    google.protobuf.Timestamp created_at = 6;
+}
