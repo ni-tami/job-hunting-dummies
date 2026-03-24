@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-job_hunting_dummies/job_hunting_dummies.proto\x12\x16job_hunting_dummies.v0\x1a\x1fgoogle/protobuf/timestamp.proto\"3\n\x11\x43reateUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"o\n\x12\x43reateUserResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12-\n\tcreatedAt\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n-job_hunting_dummies/job_hunting_dummies.proto\x12\x16job_hunting_dummies.v0\x1a\x1fgoogle/protobuf/timestamp.proto\"3\n\x11\x43reateUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"p\n\x12\x43reateUserResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x8b\x01\n\x14\x43reateCompanyRequest\x12\x14\n\x0c\x63ompany_name\x18\x01 \x01(\t\x12\x37\n\x04user\x18\x02 \x01(\x0b\x32).job_hunting_dummies.v0.CreateUserRequest\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07website\x18\x04 \x01(\t\"\xa0\x01\n\x15\x43reateCompanyResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0f\n\x07user_id\x18\x02 \x01(\x03\x12\x14\n\x0c\x63ompany_name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07website\x18\x05 \x01(\t\x12.\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,5 +36,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CREATEUSERREQUEST']._serialized_start=106
   _globals['_CREATEUSERREQUEST']._serialized_end=157
   _globals['_CREATEUSERRESPONSE']._serialized_start=159
-  _globals['_CREATEUSERRESPONSE']._serialized_end=270
+  _globals['_CREATEUSERRESPONSE']._serialized_end=271
+  _globals['_CREATECOMPANYREQUEST']._serialized_start=274
+  _globals['_CREATECOMPANYREQUEST']._serialized_end=413
+  _globals['_CREATECOMPANYRESPONSE']._serialized_start=416
+  _globals['_CREATECOMPANYRESPONSE']._serialized_end=576
 # @@protoc_insertion_point(module_scope)

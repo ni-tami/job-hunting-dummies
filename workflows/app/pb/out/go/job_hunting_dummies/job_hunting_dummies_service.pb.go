@@ -24,20 +24,25 @@ var File_job_hunting_dummies_job_hunting_dummies_service_proto protoreflect.File
 
 const file_job_hunting_dummies_job_hunting_dummies_service_proto_rawDesc = "" +
 	"\n" +
-	"5job_hunting_dummies/job_hunting_dummies_service.proto\x12\x16job_hunting_dummies.v0\x1a-job_hunting_dummies/job_hunting_dummies.proto2w\n" +
+	"5job_hunting_dummies/job_hunting_dummies_service.proto\x12\x16job_hunting_dummies.v0\x1a-job_hunting_dummies/job_hunting_dummies.proto2\xe7\x01\n" +
 	"\x0eJobHuntService\x12e\n" +
 	"\n" +
-	"CreateUser\x12).job_hunting_dummies.v0.CreateUserRequest\x1a*.job_hunting_dummies.v0.CreateUserResponse\"\x00BGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
+	"CreateUser\x12).job_hunting_dummies.v0.CreateUserRequest\x1a*.job_hunting_dummies.v0.CreateUserResponse\"\x00\x12n\n" +
+	"\rCreateCompany\x12,.job_hunting_dummies.v0.CreateCompanyRequest\x1a-.job_hunting_dummies.v0.CreateCompanyResponse\"\x00BGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
 
 var file_job_hunting_dummies_job_hunting_dummies_service_proto_goTypes = []any{
-	(*CreateUserRequest)(nil),  // 0: job_hunting_dummies.v0.CreateUserRequest
-	(*CreateUserResponse)(nil), // 1: job_hunting_dummies.v0.CreateUserResponse
+	(*CreateUserRequest)(nil),     // 0: job_hunting_dummies.v0.CreateUserRequest
+	(*CreateCompanyRequest)(nil),  // 1: job_hunting_dummies.v0.CreateCompanyRequest
+	(*CreateUserResponse)(nil),    // 2: job_hunting_dummies.v0.CreateUserResponse
+	(*CreateCompanyResponse)(nil), // 3: job_hunting_dummies.v0.CreateCompanyResponse
 }
 var file_job_hunting_dummies_job_hunting_dummies_service_proto_depIdxs = []int32{
 	0, // 0: job_hunting_dummies.v0.JobHuntService.CreateUser:input_type -> job_hunting_dummies.v0.CreateUserRequest
-	1, // 1: job_hunting_dummies.v0.JobHuntService.CreateUser:output_type -> job_hunting_dummies.v0.CreateUserResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	1, // 1: job_hunting_dummies.v0.JobHuntService.CreateCompany:input_type -> job_hunting_dummies.v0.CreateCompanyRequest
+	2, // 2: job_hunting_dummies.v0.JobHuntService.CreateUser:output_type -> job_hunting_dummies.v0.CreateUserResponse
+	3, // 3: job_hunting_dummies.v0.JobHuntService.CreateCompany:output_type -> job_hunting_dummies.v0.CreateCompanyResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

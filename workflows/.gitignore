@@ -32,8 +32,9 @@ go.work.sum
 # .idea/
 # .vscode/
 
-# Temporal workflow sample code go
+# Temporal workflow sample code
 samples-go
+samples-python
 
 **/secrets/*
 **/secret/*

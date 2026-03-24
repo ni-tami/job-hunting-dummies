@@ -41,10 +41,16 @@ clean:
 	rm -rf $(OUT_BASE_DIR)
 
 runworker:
-	go run populate_user/worker/main.go
+ifndef wf
+	$(error workflow is not set. Usage: make runworker wf=<use_case_name, e.g. populate_user>)
+endif
+	go run $(wf)/worker/main.go
 
 runstarter:
-	go run starters/main.go
+ifndef wf
+	$(error workflow is not set. Usage: make runstarter wf=<use_case_name, e.g. populate_user>)
+endif
+	go run starters/$(wf)/main.go
 
 format:
 	golangci-lint fmt

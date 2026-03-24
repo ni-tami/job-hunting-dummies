@@ -79,7 +79,7 @@ type CreateUserResponse struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -142,6 +142,158 @@ func (x *CreateUserResponse) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type CreateCompanyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CompanyName   string                 `protobuf:"bytes,1,opt,name=company_name,json=companyName,proto3" json:"company_name,omitempty"`
+	User          *CreateUserRequest     `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Website       string                 `protobuf:"bytes,4,opt,name=website,proto3" json:"website,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCompanyRequest) Reset() {
+	*x = CreateCompanyRequest{}
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCompanyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCompanyRequest) ProtoMessage() {}
+
+func (x *CreateCompanyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCompanyRequest.ProtoReflect.Descriptor instead.
+func (*CreateCompanyRequest) Descriptor() ([]byte, []int) {
+	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateCompanyRequest) GetCompanyName() string {
+	if x != nil {
+		return x.CompanyName
+	}
+	return ""
+}
+
+func (x *CreateCompanyRequest) GetUser() *CreateUserRequest {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+func (x *CreateCompanyRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateCompanyRequest) GetWebsite() string {
+	if x != nil {
+		return x.Website
+	}
+	return ""
+}
+
+type CreateCompanyResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	CompanyName   string                 `protobuf:"bytes,3,opt,name=company_name,json=companyName,proto3" json:"company_name,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Website       string                 `protobuf:"bytes,5,opt,name=website,proto3" json:"website,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCompanyResponse) Reset() {
+	*x = CreateCompanyResponse{}
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCompanyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCompanyResponse) ProtoMessage() {}
+
+func (x *CreateCompanyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCompanyResponse.ProtoReflect.Descriptor instead.
+func (*CreateCompanyResponse) Descriptor() ([]byte, []int) {
+	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateCompanyResponse) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *CreateCompanyResponse) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *CreateCompanyResponse) GetCompanyName() string {
+	if x != nil {
+		return x.CompanyName
+	}
+	return ""
+}
+
+func (x *CreateCompanyResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateCompanyResponse) GetWebsite() string {
+	if x != nil {
+		return x.Website
+	}
+	return ""
+}
+
+func (x *CreateCompanyResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
 var File_job_hunting_dummies_job_hunting_dummies_proto protoreflect.FileDescriptor
 
 const file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc = "" +
@@ -149,12 +301,26 @@ const file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc = "" +
 	"-job_hunting_dummies/job_hunting_dummies.proto\x12\x16job_hunting_dummies.v0\x1a\x1fgoogle/protobuf/timestamp.proto\"C\n" +
 	"\x11CreateUserRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"\x8e\x01\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\x8f\x01\n" +
 	"\x12CreateUserResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x128\n" +
-	"\tcreatedAt\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
+	"\x04name\x18\x03 \x01(\tR\x04name\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xb4\x01\n" +
+	"\x14CreateCompanyRequest\x12!\n" +
+	"\fcompany_name\x18\x01 \x01(\tR\vcompanyName\x12=\n" +
+	"\x04user\x18\x02 \x01(\v2).job_hunting_dummies.v0.CreateUserRequestR\x04user\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x18\n" +
+	"\awebsite\x18\x04 \x01(\tR\awebsite\"\xda\x01\n" +
+	"\x15CreateCompanyResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12!\n" +
+	"\fcompany_name\x18\x03 \x01(\tR\vcompanyName\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x18\n" +
+	"\awebsite\x18\x05 \x01(\tR\awebsite\x129\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
 
 var (
 	file_job_hunting_dummies_job_hunting_dummies_proto_rawDescOnce sync.Once
@@ -168,19 +334,23 @@ func file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP() []byte {
 	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescData
 }
 
-var file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_job_hunting_dummies_job_hunting_dummies_proto_goTypes = []any{
 	(*CreateUserRequest)(nil),     // 0: job_hunting_dummies.v0.CreateUserRequest
 	(*CreateUserResponse)(nil),    // 1: job_hunting_dummies.v0.CreateUserResponse
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*CreateCompanyRequest)(nil),  // 2: job_hunting_dummies.v0.CreateCompanyRequest
+	(*CreateCompanyResponse)(nil), // 3: job_hunting_dummies.v0.CreateCompanyResponse
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_job_hunting_dummies_job_hunting_dummies_proto_depIdxs = []int32{
-	2, // 0: job_hunting_dummies.v0.CreateUserResponse.createdAt:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 0: job_hunting_dummies.v0.CreateUserResponse.created_at:type_name -> google.protobuf.Timestamp
+	0, // 1: job_hunting_dummies.v0.CreateCompanyRequest.user:type_name -> job_hunting_dummies.v0.CreateUserRequest
+	4, // 2: job_hunting_dummies.v0.CreateCompanyResponse.created_at:type_name -> google.protobuf.Timestamp
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_job_hunting_dummies_job_hunting_dummies_proto_init() }
@@ -194,7 +364,7 @@ func file_job_hunting_dummies_job_hunting_dummies_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc), len(file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

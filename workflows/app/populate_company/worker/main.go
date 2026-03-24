@@ -4,8 +4,8 @@ import (
 	"log"
 
 	pb "github.com/ni-tami/job-hunting-dummies-workflows/app/pb/out/go/job_hunting_dummies"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/activities"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/workflows"
+	cActivities "github.com/ni-tami/job-hunting-dummies-workflows/app/populate_company/activities"
+	cWorkflow "github.com/ni-tami/job-hunting-dummies-workflows/app/populate_company/workflows"
 	sharedactivities "github.com/ni-tami/job-hunting-dummies-workflows/app/shared/activities"
 	grpcClient "github.com/ni-tami/job-hunting-dummies-workflows/app/shared/client"
 	"github.com/ni-tami/job-hunting-dummies-workflows/app/shared/config"
@@ -31,12 +31,16 @@ func main() {
 
 	grpcClient := pb.NewJobHuntServiceClient(conn)
 
+	// initiate activities
+	extActivities := cActivities.NewGenerateCompanyActivity(c)
 	srvActivities := sharedactivities.NewJobHuntServiceActivity(grpcClient)
-	w := worker.New(c, config.PopulateUserTaskQueueName, worker.Options{})
+	cActivities.NewGenerateCompanyActivity(c)
 
-	w.RegisterWorkflow(workflows.PopulateUserWorkflow)
+	w := worker.New(c, config.PopulateCompanyTaskQueueName, worker.Options{})
+
+	w.RegisterWorkflow(cWorkflow.PopulateCompanyWorkflow)
+	w.RegisterActivity(extActivities)
 	w.RegisterActivity(srvActivities)
-	w.RegisterActivity(activities.FetchRandomUserActivity)
 
 	err = w.Run(worker.InterruptCh())
 	if err != nil {

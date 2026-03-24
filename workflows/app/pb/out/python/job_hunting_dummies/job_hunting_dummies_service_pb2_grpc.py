@@ -39,12 +39,23 @@ class JobHuntServiceStub(object):
                 request_serializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateUserRequest.SerializeToString,
                 response_deserializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateUserResponse.FromString,
                 _registered_method=True)
+        self.CreateCompany = channel.unary_unary(
+                '/job_hunting_dummies.v0.JobHuntService/CreateCompany',
+                request_serializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateCompanyRequest.SerializeToString,
+                response_deserializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateCompanyResponse.FromString,
+                _registered_method=True)
 
 
 class JobHuntServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def CreateUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateCompany(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -57,6 +68,11 @@ def add_JobHuntServiceServicer_to_server(servicer, server):
                     servicer.CreateUser,
                     request_deserializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateUserRequest.FromString,
                     response_serializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateUserResponse.SerializeToString,
+            ),
+            'CreateCompany': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateCompany,
+                    request_deserializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateCompanyRequest.FromString,
+                    response_serializer=job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateCompanyResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -86,6 +102,33 @@ class JobHuntService(object):
             '/job_hunting_dummies.v0.JobHuntService/CreateUser',
             job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateUserRequest.SerializeToString,
             job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateUserResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateCompany(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/job_hunting_dummies.v0.JobHuntService/CreateCompany',
+            job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateCompanyRequest.SerializeToString,
+            job__hunting__dummies_dot_job__hunting__dummies__pb2.CreateCompanyResponse.FromString,
             options,
             channel_credentials,
             insecure,

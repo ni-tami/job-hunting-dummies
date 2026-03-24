@@ -5,37 +5,25 @@ import (
 	"log"
 	"time"
 
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/config"
-	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_user/workflows"
+	cWorkflow "github.com/ni-tami/job-hunting-dummies-workflows/app/populate_company/workflows"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/shared/config"
 	"github.com/pborman/uuid"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/sdk/client"
 )
 
-func main() {
-	config.Load()
-
-	ctx := context.Background()
-	// The client is a heavyweight object that should be created once per process.
-	c, err := client.Dial(client.Options{
-		HostPort: client.DefaultHostPort,
-	})
-	if err != nil {
-		log.Fatalln("Unable to create client", err)
-	}
-	defer c.Close()
-
-	// This schedule ID can be user business logic identifier as well.
-	scheduleID := "populate_user_" + uuid.New()
-	workflowID := "populate_user_workflow_" + uuid.New()
+func RunPopulateCompany(ctx context.Context, c client.Client) {
+	// This schedule ID can be company business logic identifier as well.
+	scheduleID := "populate_company_" + uuid.New()
+	workflowID := "populate_company_workflow_" + uuid.New()
 	// Create the schedule, start with no spec so the schedule will not run.
 	scheduleHandle, err := c.ScheduleClient().Create(ctx, client.ScheduleOptions{
 		ID:   scheduleID,
 		Spec: client.ScheduleSpec{},
 		Action: &client.ScheduleWorkflowAction{
 			ID:        workflowID,
-			Workflow:  workflows.PopulateUserWorkflow,
-			TaskQueue: config.PopulateUserTaskQueueName,
+			Workflow:  cWorkflow.PopulateCompanyWorkflow,
+			TaskQueue: config.PopulateCompanyTaskQueueName,
 			Args:      []interface{}{1},
 		},
 	})
@@ -61,10 +49,12 @@ func main() {
 				// Run the schedule every 5s
 				Intervals: []client.ScheduleIntervalSpec{
 					{
-						Every: config.PopulateUserScheduleIntervalHour,
+						Every: config.PopulateCompanyScheduleIntervalHour,
 					},
 				},
 			}
+			// Set the schedule paused, start manually
+			schedule.Description.Schedule.State.Paused = true
 
 			return &client.ScheduleUpdate{
 				Schedule: &schedule.Description.Schedule,
@@ -89,4 +79,20 @@ func main() {
 			break
 		}
 	}
+}
+
+func main() {
+	config.Load()
+
+	ctx := context.Background()
+	// The client is a heavyweight object that should be created once per process.
+	c, err := client.Dial(client.Options{
+		HostPort: client.DefaultHostPort,
+	})
+	if err != nil {
+		log.Fatalln("Unable to create client", err)
+	}
+	defer c.Close()
+
+	RunPopulateCompany(ctx, c)
 }
