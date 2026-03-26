@@ -294,6 +294,171 @@ func (x *CreateCompanyResponse) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type GetRandomSourceCompaniesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Size          int32                  `protobuf:"varint,1,opt,name=size,proto3" json:"size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRandomSourceCompaniesRequest) Reset() {
+	*x = GetRandomSourceCompaniesRequest{}
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRandomSourceCompaniesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRandomSourceCompaniesRequest) ProtoMessage() {}
+
+func (x *GetRandomSourceCompaniesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRandomSourceCompaniesRequest.ProtoReflect.Descriptor instead.
+func (*GetRandomSourceCompaniesRequest) Descriptor() ([]byte, []int) {
+	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetRandomSourceCompaniesRequest) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+type GetRandomSourceCompaniesResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// TODO paging
+	Size          int32                   `protobuf:"varint,1,opt,name=size,proto3" json:"size,omitempty"`
+	Companies     []*SourceCompanyReponse `protobuf:"bytes,2,rep,name=companies,proto3" json:"companies,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRandomSourceCompaniesResponse) Reset() {
+	*x = GetRandomSourceCompaniesResponse{}
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRandomSourceCompaniesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRandomSourceCompaniesResponse) ProtoMessage() {}
+
+func (x *GetRandomSourceCompaniesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRandomSourceCompaniesResponse.ProtoReflect.Descriptor instead.
+func (*GetRandomSourceCompaniesResponse) Descriptor() ([]byte, []int) {
+	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetRandomSourceCompaniesResponse) GetSize() int32 {
+	if x != nil {
+		return x.Size
+	}
+	return 0
+}
+
+func (x *GetRandomSourceCompaniesResponse) GetCompanies() []*SourceCompanyReponse {
+	if x != nil {
+		return x.Companies
+	}
+	return nil
+}
+
+type SourceCompanyReponse struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	SourceId        int64                  `protobuf:"varint,1,opt,name=source_id,json=sourceId,proto3" json:"source_id,omitempty"`
+	Name            string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	LongDescription string                 `protobuf:"bytes,4,opt,name=long_description,json=longDescription,proto3" json:"long_description,omitempty"`
+	Website         string                 `protobuf:"bytes,5,opt,name=website,proto3" json:"website,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *SourceCompanyReponse) Reset() {
+	*x = SourceCompanyReponse{}
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SourceCompanyReponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SourceCompanyReponse) ProtoMessage() {}
+
+func (x *SourceCompanyReponse) ProtoReflect() protoreflect.Message {
+	mi := &file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SourceCompanyReponse.ProtoReflect.Descriptor instead.
+func (*SourceCompanyReponse) Descriptor() ([]byte, []int) {
+	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SourceCompanyReponse) GetSourceId() int64 {
+	if x != nil {
+		return x.SourceId
+	}
+	return 0
+}
+
+func (x *SourceCompanyReponse) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SourceCompanyReponse) GetLongDescription() string {
+	if x != nil {
+		return x.LongDescription
+	}
+	return ""
+}
+
+func (x *SourceCompanyReponse) GetWebsite() string {
+	if x != nil {
+		return x.Website
+	}
+	return ""
+}
+
 var File_job_hunting_dummies_job_hunting_dummies_proto protoreflect.FileDescriptor
 
 const file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc = "" +
@@ -320,7 +485,17 @@ const file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc = "" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x18\n" +
 	"\awebsite\x18\x05 \x01(\tR\awebsite\x129\n" +
 	"\n" +
-	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"5\n" +
+	"\x1fGetRandomSourceCompaniesRequest\x12\x12\n" +
+	"\x04size\x18\x01 \x01(\x05R\x04size\"\x82\x01\n" +
+	" GetRandomSourceCompaniesResponse\x12\x12\n" +
+	"\x04size\x18\x01 \x01(\x05R\x04size\x12J\n" +
+	"\tcompanies\x18\x02 \x03(\v2,.job_hunting_dummies.v0.SourceCompanyReponseR\tcompanies\"\x8c\x01\n" +
+	"\x14SourceCompanyReponse\x12\x1b\n" +
+	"\tsource_id\x18\x01 \x01(\x03R\bsourceId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12)\n" +
+	"\x10long_description\x18\x04 \x01(\tR\x0flongDescription\x12\x18\n" +
+	"\awebsite\x18\x05 \x01(\tR\awebsiteBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
 
 var (
 	file_job_hunting_dummies_job_hunting_dummies_proto_rawDescOnce sync.Once
@@ -334,23 +509,27 @@ func file_job_hunting_dummies_job_hunting_dummies_proto_rawDescGZIP() []byte {
 	return file_job_hunting_dummies_job_hunting_dummies_proto_rawDescData
 }
 
-var file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_job_hunting_dummies_job_hunting_dummies_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_job_hunting_dummies_job_hunting_dummies_proto_goTypes = []any{
-	(*CreateUserRequest)(nil),     // 0: job_hunting_dummies.v0.CreateUserRequest
-	(*CreateUserResponse)(nil),    // 1: job_hunting_dummies.v0.CreateUserResponse
-	(*CreateCompanyRequest)(nil),  // 2: job_hunting_dummies.v0.CreateCompanyRequest
-	(*CreateCompanyResponse)(nil), // 3: job_hunting_dummies.v0.CreateCompanyResponse
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*CreateUserRequest)(nil),                // 0: job_hunting_dummies.v0.CreateUserRequest
+	(*CreateUserResponse)(nil),               // 1: job_hunting_dummies.v0.CreateUserResponse
+	(*CreateCompanyRequest)(nil),             // 2: job_hunting_dummies.v0.CreateCompanyRequest
+	(*CreateCompanyResponse)(nil),            // 3: job_hunting_dummies.v0.CreateCompanyResponse
+	(*GetRandomSourceCompaniesRequest)(nil),  // 4: job_hunting_dummies.v0.GetRandomSourceCompaniesRequest
+	(*GetRandomSourceCompaniesResponse)(nil), // 5: job_hunting_dummies.v0.GetRandomSourceCompaniesResponse
+	(*SourceCompanyReponse)(nil),             // 6: job_hunting_dummies.v0.SourceCompanyReponse
+	(*timestamppb.Timestamp)(nil),            // 7: google.protobuf.Timestamp
 }
 var file_job_hunting_dummies_job_hunting_dummies_proto_depIdxs = []int32{
-	4, // 0: job_hunting_dummies.v0.CreateUserResponse.created_at:type_name -> google.protobuf.Timestamp
+	7, // 0: job_hunting_dummies.v0.CreateUserResponse.created_at:type_name -> google.protobuf.Timestamp
 	0, // 1: job_hunting_dummies.v0.CreateCompanyRequest.user:type_name -> job_hunting_dummies.v0.CreateUserRequest
-	4, // 2: job_hunting_dummies.v0.CreateCompanyResponse.created_at:type_name -> google.protobuf.Timestamp
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	7, // 2: job_hunting_dummies.v0.CreateCompanyResponse.created_at:type_name -> google.protobuf.Timestamp
+	6, // 3: job_hunting_dummies.v0.GetRandomSourceCompaniesResponse.companies:type_name -> job_hunting_dummies.v0.SourceCompanyReponse
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_job_hunting_dummies_job_hunting_dummies_proto_init() }
@@ -364,7 +543,7 @@ func file_job_hunting_dummies_job_hunting_dummies_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc), len(file_job_hunting_dummies_job_hunting_dummies_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

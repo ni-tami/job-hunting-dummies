@@ -28,7 +28,7 @@ from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n-job_hunting_dummies/job_hunting_dummies.proto\x12\x16job_hunting_dummies.v0\x1a\x1fgoogle/protobuf/timestamp.proto"3\n\x11\x43reateUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t"p\n\x12\x43reateUserResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp"\x8b\x01\n\x14\x43reateCompanyRequest\x12\x14\n\x0c\x63ompany_name\x18\x01 \x01(\t\x12\x37\n\x04user\x18\x02 \x01(\x0b\x32).job_hunting_dummies.v0.CreateUserRequest\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07website\x18\x04 \x01(\t"\xa0\x01\n\x15\x43reateCompanyResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0f\n\x07user_id\x18\x02 \x01(\x03\x12\x14\n\x0c\x63ompany_name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07website\x18\x05 \x01(\t\x12.\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3'
+    b'\n-job_hunting_dummies/job_hunting_dummies.proto\x12\x16job_hunting_dummies.v0\x1a\x1fgoogle/protobuf/timestamp.proto"3\n\x11\x43reateUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t"p\n\x12\x43reateUserResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12.\n\ncreated_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp"\x8b\x01\n\x14\x43reateCompanyRequest\x12\x14\n\x0c\x63ompany_name\x18\x01 \x01(\t\x12\x37\n\x04user\x18\x02 \x01(\x0b\x32).job_hunting_dummies.v0.CreateUserRequest\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07website\x18\x04 \x01(\t"\xa0\x01\n\x15\x43reateCompanyResponse\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0f\n\x07user_id\x18\x02 \x01(\x03\x12\x14\n\x0c\x63ompany_name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07website\x18\x05 \x01(\t\x12.\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp"/\n\x1fGetRandomSourceCompaniesRequest\x12\x0c\n\x04size\x18\x01 \x01(\x05"q\n GetRandomSourceCompaniesResponse\x12\x0c\n\x04size\x18\x01 \x01(\x05\x12?\n\tcompanies\x18\x02 \x03(\x0b\x32,.job_hunting_dummies.v0.SourceCompanyReponse"b\n\x14SourceCompanyReponse\x12\x11\n\tsource_id\x18\x01 \x01(\x03\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x18\n\x10long_description\x18\x04 \x01(\t\x12\x0f\n\x07website\x18\x05 \x01(\tBGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3'
 )
 
 _globals = globals()
@@ -51,4 +51,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
     _globals["_CREATECOMPANYREQUEST"]._serialized_end = 413
     _globals["_CREATECOMPANYRESPONSE"]._serialized_start = 416
     _globals["_CREATECOMPANYRESPONSE"]._serialized_end = 576
+    _globals["_GETRANDOMSOURCECOMPANIESREQUEST"]._serialized_start = 578
+    _globals["_GETRANDOMSOURCECOMPANIESREQUEST"]._serialized_end = 625
+    _globals["_GETRANDOMSOURCECOMPANIESRESPONSE"]._serialized_start = 627
+    _globals["_GETRANDOMSOURCECOMPANIESRESPONSE"]._serialized_end = 740
+    _globals["_SOURCECOMPANYREPONSE"]._serialized_start = 742
+    _globals["_SOURCECOMPANYREPONSE"]._serialized_end = 840
 # @@protoc_insertion_point(module_scope)

@@ -22,6 +22,8 @@ type (
 		GetJobByID(ctx context.Context, id int64) (*model.Job, error)
 		GetUserByID(ctx context.Context, id int64) (*model.User, error)
 
+		GetRandomSourceCompanyIds(ctx context.Context, size int32) ([]int64, error)
+		GetSourceCompanyByIds(ctx context.Context, ids []int64) ([]model.SourceCompany, error)
 		GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, []error)
 		GetApplicationsByIds(ctx context.Context, ids []int64) ([]model.Application, []error)
 		GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, []error)
@@ -102,6 +104,13 @@ func (r jobPortalRepository) GetCompanyByID(ctx context.Context, id int64) (*mod
 	var company *model.Company
 	err := r.db.WithContext(ctx).Where("id = ? AND deleted_at IS NULL", id).First(&company).Error
 	return company, err
+}
+
+func (r jobPortalRepository) GetRandomSourceCompanyIds(ctx context.Context, size int32) ([]int64, error) {
+	// TODO full scan, careful. FIXME: limit
+	var company_ids []int64
+	err := r.db.WithContext(ctx).Order("RANDOM()").Limit(int(size)).Find(&company_ids).Error
+	return company_ids, err
 }
 
 func (r jobPortalRepository) GetJobByID(ctx context.Context, id int64) (*model.Job, error) {
@@ -207,6 +216,12 @@ func (r jobPortalRepository) DeleteJobByID(ctx context.Context, id int64, deleti
 func (r jobPortalRepository) DeleteUserByID(ctx context.Context, id int64, deletionTime time.Time) (int, error) {
 	result := r.db.WithContext(ctx).Model(&model.User{}).Where("id = ? AND deleted_at IS NULL", id).Update("deleted_at", deletionTime)
 	return int(result.RowsAffected), result.Error
+}
+
+func (r jobPortalRepository) GetSourceCompanyByIds(ctx context.Context, ids []int64) ([]model.SourceCompany, error) {
+	var companies []model.SourceCompany
+	err := r.db.WithContext(ctx).Where("id IN ?", ids).Find(&companies).Error
+	return companies, err
 }
 
 func (r jobPortalRepository) GetApplicantsByIds(ctx context.Context, ids []int64) ([]model.Applicant, []error) {

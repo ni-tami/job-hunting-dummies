@@ -30,7 +30,7 @@ from job_hunting_dummies import (
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n5job_hunting_dummies/job_hunting_dummies_service.proto\x12\x16job_hunting_dummies.v0\x1a-job_hunting_dummies/job_hunting_dummies.proto2\xe7\x01\n\x0eJobHuntService\x12\x65\n\nCreateUser\x12).job_hunting_dummies.v0.CreateUserRequest\x1a*.job_hunting_dummies.v0.CreateUserResponse"\x00\x12n\n\rCreateCompany\x12,.job_hunting_dummies.v0.CreateCompanyRequest\x1a-.job_hunting_dummies.v0.CreateCompanyResponse"\x00\x42GZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3'
+    b'\n5job_hunting_dummies/job_hunting_dummies_service.proto\x12\x16job_hunting_dummies.v0\x1a-job_hunting_dummies/job_hunting_dummies.proto2\xf9\x02\n\x0eJobHuntService\x12\x65\n\nCreateUser\x12).job_hunting_dummies.v0.CreateUserRequest\x1a*.job_hunting_dummies.v0.CreateUserResponse"\x00\x12n\n\rCreateCompany\x12,.job_hunting_dummies.v0.CreateCompanyRequest\x1a-.job_hunting_dummies.v0.CreateCompanyResponse"\x00\x12\x8f\x01\n\x18GetRandomSourceCompanies\x12\x37.job_hunting_dummies.v0.GetRandomSourceCompaniesRequest\x1a\x38.job_hunting_dummies.v0.GetRandomSourceCompaniesResponse"\x00\x42GZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3'
 )
 
 _globals = globals()
@@ -46,5 +46,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
         b"ZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummies"
     )
     _globals["_JOBHUNTSERVICE"]._serialized_start = 129
-    _globals["_JOBHUNTSERVICE"]._serialized_end = 360
+    _globals["_JOBHUNTSERVICE"]._serialized_end = 506
 # @@protoc_insertion_point(module_scope)

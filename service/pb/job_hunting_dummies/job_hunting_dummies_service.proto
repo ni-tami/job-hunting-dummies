@@ -4,8 +4,10 @@ option go_package = "github.com/ni-tami/job-hunting-dummies-service/pb/job_hunti
 package job_hunting_dummies.v0;
 
 import "job_hunting_dummies/job_hunting_dummies.proto";
+import "google/protobuf/empty.proto";
 
 service JobHuntService {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
   rpc CreateCompany (CreateCompanyRequest) returns (CreateCompanyResponse) {}
+  rpc GetRandomSourceCompanies (GetRandomSourceCompaniesRequest) returns (GetRandomSourceCompaniesResponse) {}
 }

@@ -40,3 +40,19 @@ func (s *grpcServer) CreateCompany(ctx context.Context, request *pb.CreateCompan
 	}
 	return company.ToCreateCompanyGRPC(), nil
 }
+
+// GetRandomSourceCompanies implements JobHuntService
+func (s *grpcServer) GetRandomSourceCompanies(ctx context.Context, request *pb.GetRandomSourceCompaniesRequest) (*pb.GetRandomSourceCompaniesResponse, error) {
+	companies, err := s.usecase.GetRandomSourceCompanies(ctx, request.GetSize())
+	if err != nil {
+		log.Fatalf("Failed to create company. Error %v", err)
+	}
+	companiesGrpc := make([]*pb.SourceCompanyReponse, 0)
+	for _, company := range companies {
+		companiesGrpc = append(companiesGrpc, company.ToSourceCompanyGRPC())
+	}
+	return &pb.GetRandomSourceCompaniesResponse{
+		Size:      request.GetSize(),
+		Companies: companiesGrpc,
+	}, err
+}

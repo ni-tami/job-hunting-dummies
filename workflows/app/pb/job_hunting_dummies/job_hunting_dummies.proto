@@ -33,3 +33,20 @@ message CreateCompanyResponse {
     string website = 5;
     google.protobuf.Timestamp created_at = 6;
 }
+
+message GetRandomSourceCompaniesRequest {
+    int32 size = 1;
+}
+
+message GetRandomSourceCompaniesResponse {
+    // TODO paging
+    int32 size = 1;
+    repeated SourceCompanyReponse companies = 2;
+}
+
+message SourceCompanyReponse {
+    int64 source_id = 1;
+    string name = 3;
+    string long_description = 4;
+    string website = 5;
+}

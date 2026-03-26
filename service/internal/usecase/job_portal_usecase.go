@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ni-tami/job-hunting-dummies-service/internal/config"
 	gqlModel "github.com/ni-tami/job-hunting-dummies-service/internal/graphql/model"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/model"
 	"github.com/ni-tami/job-hunting-dummies-service/internal/repository"
@@ -24,6 +25,8 @@ type (
 		GetApplicantByID(ctx context.Context, id int64) (*model.Applicant, error)
 		GetApplicationByID(ctx context.Context, id int64) (*model.Application, error)
 		GetUserByID(ctx context.Context, id int64) (*model.User, error)
+
+		GetRandomSourceCompanies(ctx context.Context, size int32) ([]model.SourceCompany, error)
 
 		GetJobsByIds(ctx context.Context, ids []int64) ([]model.Job, []error)
 		GetCompaniesByIds(ctx context.Context, ids []int64) ([]model.Company, []error)
@@ -193,6 +196,18 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.UserCrea
 
 func (u jobPortalUsecase) GetJobByID(ctx context.Context, id int64) (*model.Job, error) {
 	return u.repo.GetJobByID(ctx, id)
+}
+
+func (u jobPortalUsecase) GetRandomSourceCompanies(ctx context.Context, size int32) ([]model.SourceCompany, error) {
+	if size > config.MaxGetRandomCompaniesSize {
+		return nil, fmt.Errorf("Decrease number of random companies to get (max=%d).", size)
+	}
+	ids, err := u.repo.GetRandomSourceCompanyIds(ctx, size)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get random source company ids: %v", ids)
+	}
+	sourceCompanies, err := u.repo.GetSourceCompanyByIds(ctx, ids)
+	return sourceCompanies, err
 }
 
 func (u jobPortalUsecase) GetCompanyByID(ctx context.Context, id int64) (*model.Company, error) {

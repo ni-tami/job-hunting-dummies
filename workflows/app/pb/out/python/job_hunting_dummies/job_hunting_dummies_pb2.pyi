@@ -1,9 +1,10 @@
 import datetime
 
 from google.protobuf import timestamp_pb2 as _timestamp_pb2
+from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from collections.abc import Mapping as _Mapping
+from collections.abc import Iterable as _Iterable, Mapping as _Mapping
 from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
@@ -87,4 +88,40 @@ class CreateCompanyResponse(_message.Message):
         created_at: _Optional[
             _Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]
         ] = ...,
+    ) -> None: ...
+
+class GetRandomSourceCompaniesRequest(_message.Message):
+    __slots__ = ("size",)
+    SIZE_FIELD_NUMBER: _ClassVar[int]
+    size: int
+    def __init__(self, size: _Optional[int] = ...) -> None: ...
+
+class GetRandomSourceCompaniesResponse(_message.Message):
+    __slots__ = ("size", "companies")
+    SIZE_FIELD_NUMBER: _ClassVar[int]
+    COMPANIES_FIELD_NUMBER: _ClassVar[int]
+    size: int
+    companies: _containers.RepeatedCompositeFieldContainer[SourceCompanyReponse]
+    def __init__(
+        self,
+        size: _Optional[int] = ...,
+        companies: _Optional[_Iterable[_Union[SourceCompanyReponse, _Mapping]]] = ...,
+    ) -> None: ...
+
+class SourceCompanyReponse(_message.Message):
+    __slots__ = ("source_id", "name", "long_description", "website")
+    SOURCE_ID_FIELD_NUMBER: _ClassVar[int]
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    LONG_DESCRIPTION_FIELD_NUMBER: _ClassVar[int]
+    WEBSITE_FIELD_NUMBER: _ClassVar[int]
+    source_id: int
+    name: str
+    long_description: str
+    website: str
+    def __init__(
+        self,
+        source_id: _Optional[int] = ...,
+        name: _Optional[str] = ...,
+        long_description: _Optional[str] = ...,
+        website: _Optional[str] = ...,
     ) -> None: ...
