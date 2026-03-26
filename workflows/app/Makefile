@@ -46,6 +46,12 @@ ifndef wf
 endif
 	go run $(wf)/worker/main.go
 
+runpyworker:
+ifndef wf
+	$(error workflow is not set. Usage: make runworker wf=<use_case_name, e.g. populate_user>)
+endif
+	uv run -m $(wf).worker.$(wf)_worker
+
 runstarter:
 ifndef wf
 	$(error workflow is not set. Usage: make runstarter wf=<use_case_name, e.g. populate_user>)

@@ -39,15 +39,14 @@ func PopulateCompanyWorkflow(ctx workflow.Context, parallelism int) (results []m
 		// Start a goroutine in a workflow safe way
 		workflow.Go(ctx1, func(gCtx workflow.Context) {
 			var (
-				randCompany        models.CreateCompany
-				genCompanyActivity *cActivities.GenerateCompanyActivity
+				randCompany     models.CreateCompany
+				JobHuntActivity *sharedactivities.JobHuntServiceActivity
 			)
-			err = workflow.ExecuteActivity(gCtx, genCompanyActivity.ExecuteExternalGenerateCompanyActivity).Get(gCtx, &randCompany)
+			err = workflow.ExecuteChildWorkflow(gCtx, cActivities.ExecuteExternalGenerateCompanyChildWorkflow).Get(gCtx, &randCompany)
 			if err != nil {
 				// Very naive error handling. Only the last error will be returned by the workflow
 				return
 			}
-			var JobHuntActivity *sharedactivities.JobHuntServiceActivity
 			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.CreateCompanyRPCActivity, randCompany).Get(gCtx, &err)
 			if err != nil {
 				return

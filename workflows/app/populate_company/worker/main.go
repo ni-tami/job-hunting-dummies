@@ -32,14 +32,14 @@ func main() {
 	grpcClient := pb.NewJobHuntServiceClient(conn)
 
 	// initiate activities
-	extActivities := cActivities.NewGenerateCompanyActivity(c)
+	// extActivities := cActivities.NewGenerateCompanyActivity(c)
 	srvActivities := sharedactivities.NewJobHuntServiceActivity(grpcClient)
-	cActivities.NewGenerateCompanyActivity(c)
+	// cActivities.NewGenerateCompanyActivity(c)
 
 	w := worker.New(c, config.PopulateCompanyTaskQueueName, worker.Options{})
 
 	w.RegisterWorkflow(cWorkflow.PopulateCompanyWorkflow)
-	w.RegisterActivity(extActivities)
+	w.RegisterWorkflow(cActivities.ExecuteExternalGenerateCompanyChildWorkflow)
 	w.RegisterActivity(srvActivities)
 
 	err = w.Run(worker.InterruptCh())

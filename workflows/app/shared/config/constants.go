@@ -8,4 +8,7 @@ const (
 
 	PopulateCompanyTaskQueueName        = "populate-company"
 	PopulateCompanyScheduleIntervalHour = 24 * time.Hour
+
+	PyPopulateCompanyTaskQueueName = "generate-company-py-queue"
+	PyPopulateActivityName         = "generate-company-py-activity"
 )
