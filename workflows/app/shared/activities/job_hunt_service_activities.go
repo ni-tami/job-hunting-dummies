@@ -30,6 +30,29 @@ func (a *JobHuntServiceActivity) CreateUserRPCActivity(ctx context.Context, rand
 	return nil
 }
 
+
+func (a *JobHuntServiceActivity) FetchCompanyRPCActivity(ctx context.Context) (*cModel.CreateCompany, error) {
+	return nil, nil
+}
+	u, err := a.grpcClient.GetCompany(ctx,
+		&pb.GetCompanyRequest{
+			CompanyName: randCompany.CompanyName,
+			User: &pb.GetUserRequest{
+				Name:     randCompany.User.Name,
+				Username: randCompany.User.Username,
+			},
+			Description: randCompany.Description,
+			Website:     randCompany.Website,
+		},
+	)
+	if err != nil {
+		log.Fatalf("could not create user: %v", err)
+		return err
+	}
+// 	log.Printf("New Company: %+v", u)
+// 	return u, nil
+// }
+
 func (a *JobHuntServiceActivity) CreateCompanyRPCActivity(ctx context.Context, randCompany cModel.CreateCompany) error {
 	u, err := a.grpcClient.CreateCompany(ctx,
 		&pb.CreateCompanyRequest{

@@ -42,7 +42,11 @@ func PopulateCompanyWorkflow(ctx workflow.Context, parallelism int) (results []m
 				randCompany     models.CreateCompany
 				JobHuntActivity *sharedactivities.JobHuntServiceActivity
 			)
-			err = workflow.ExecuteChildWorkflow(gCtx, cActivities.ExecuteExternalGenerateCompanyChildWorkflow).Get(gCtx, &randCompany)
+			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.FetchCompanyRPCActivity).Get(gCtx, &randCompany)
+			if err != nil {
+				return
+			}
+			err = workflow.ExecuteChildWorkflow(gCtx, cActivities.ExecuteExternalGenerateCompanyChildWorkflow, randCompany).Get(gCtx, &randCompany)
 			if err != nil {
 				// Very naive error handling. Only the last error will be returned by the workflow
 				return

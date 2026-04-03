@@ -19,12 +19,12 @@ class CreateCompany:
 
 
 @activity.defn(name=activity_name)
-async def generate_company_activity() -> CreateCompany:
+async def generate_company_activity(source: CreateCompany) -> CreateCompany:
     create_company_payload = CreateCompany(
-        company_name="FamInc",
-        user=CreateUser(username="admin", name="admin andrea"),
-        description="Unc Inc.",
-        website="https://www.unc.inc",
+        company_name=source.company_name,
+        user=CreateUser(username=source.user.username, name=source.user.name),
+        description=source.description,
+        website=source.website,
     )
     activity.logger.info(
         "Generate activity from python activity:", create_company_payload
