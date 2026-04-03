@@ -21,9 +21,9 @@ class CreateCompany:
 @activity.defn(name=activity_name)
 async def generate_company_activity(source: CreateCompany) -> CreateCompany:
     create_company_payload = CreateCompany(
-        company_name=source.company_name,
+        company_name="hehe "+source.company_name,
         user=CreateUser(username=source.user.username, name=source.user.name),
-        description=source.description,
+        description="hehe "+source.description,
         website=source.website,
     )
     activity.logger.info(

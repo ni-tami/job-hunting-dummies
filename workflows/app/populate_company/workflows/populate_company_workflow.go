@@ -42,7 +42,7 @@ func PopulateCompanyWorkflow(ctx workflow.Context, parallelism int) (results []m
 				randCompany     models.CreateCompany
 				JobHuntActivity *sharedactivities.JobHuntServiceActivity
 			)
-			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.FetchCompanyRPCActivity).Get(gCtx, &randCompany)
+			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.FetchRandomSourceCompanyWithNewAdminUserRPCActivity).Get(gCtx, &randCompany)
 			if err != nil {
 				return
 			}

@@ -2,6 +2,7 @@ package sharedactivities
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	pb "github.com/ni-tami/job-hunting-dummies-workflows/app/pb/out/go/job_hunting_dummies"
@@ -30,28 +31,28 @@ func (a *JobHuntServiceActivity) CreateUserRPCActivity(ctx context.Context, rand
 	return nil
 }
 
-
-func (a *JobHuntServiceActivity) FetchCompanyRPCActivity(ctx context.Context) (*cModel.CreateCompany, error) {
-	return nil, nil
-}
-	u, err := a.grpcClient.GetCompany(ctx,
-		&pb.GetCompanyRequest{
-			CompanyName: randCompany.CompanyName,
-			User: &pb.GetUserRequest{
-				Name:     randCompany.User.Name,
-				Username: randCompany.User.Username,
-			},
-			Description: randCompany.Description,
-			Website:     randCompany.Website,
+// FetchRandomSourceCompanyWithNewAdminUserRPCActivity fetch source company created by new predefined "admin" user
+func (a *JobHuntServiceActivity) FetchRandomSourceCompanyWithNewAdminUserRPCActivity(ctx context.Context, size int32) ([]cModel.CreateCompany, error) {
+	companiesPB, err := a.grpcClient.GetRandomSourceCompanies(ctx,
+		&pb.GetRandomSourceCompaniesRequest{
+			Size: size,
 		},
 	)
 	if err != nil {
-		log.Fatalf("could not create user: %v", err)
-		return err
+		log.Fatalf("could not fetch source companies: %v", err)
+		return nil, err
 	}
-// 	log.Printf("New Company: %+v", u)
-// 	return u, nil
-// }
+	log.Printf("Fetch %d companies:", companiesPB.GetSize())
+	var companies []cModel.CreateCompany
+	for _, companyPB := range companiesPB.Companies {
+		associatedAdminUser := uModel.CreateUser{
+			Name: fmt.Sprintf("%s Admin", companyPB.Name),
+			Username: fmt.Sprintf("company-%s-admin", companyPB.SourceId),
+		}
+		companies = append(companies, cModel.NewCreateCompanyFromRandomSourceCompanyPB(companyPB, associatedAdminUser))
+	}
+	return companies, nil
+}
 
 func (a *JobHuntServiceActivity) CreateCompanyRPCActivity(ctx context.Context, randCompany cModel.CreateCompany) error {
 	u, err := a.grpcClient.CreateCompany(ctx,
