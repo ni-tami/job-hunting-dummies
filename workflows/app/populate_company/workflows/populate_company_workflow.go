@@ -6,6 +6,7 @@ import (
 	cActivities "github.com/ni-tami/job-hunting-dummies-workflows/app/populate_company/activities"
 	"github.com/ni-tami/job-hunting-dummies-workflows/app/populate_company/models"
 	sharedactivities "github.com/ni-tami/job-hunting-dummies-workflows/app/shared/activities"
+	"github.com/ni-tami/job-hunting-dummies-workflows/app/shared/config"
 	"go.temporal.io/sdk/converter"
 	"go.temporal.io/sdk/workflow"
 )
@@ -39,23 +40,23 @@ func PopulateCompanyWorkflow(ctx workflow.Context, parallelism int) (results []m
 		// Start a goroutine in a workflow safe way
 		workflow.Go(ctx1, func(gCtx workflow.Context) {
 			var (
-				randCompany     models.CreateCompany
+				randCompanies   []models.CreateCompany
 				JobHuntActivity *sharedactivities.JobHuntServiceActivity
 			)
-			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.FetchRandomSourceCompanyWithNewAdminUserRPCActivity).Get(gCtx, &randCompany)
+			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.FetchRandomSourceCompanyWithNewAdminUserRPCActivity, config.Koanf.Int("workflows.populate_company.fetch_random_source_company_size")).Get(gCtx, &randCompanies)
 			if err != nil {
 				return
 			}
-			err = workflow.ExecuteChildWorkflow(gCtx, cActivities.ExecuteExternalGenerateCompanyChildWorkflow, randCompany).Get(gCtx, &randCompany)
+			err = workflow.ExecuteChildWorkflow(gCtx, cActivities.ExecuteExternalGenerateCompanyChildWorkflow, randCompanies).Get(gCtx, &randCompanies)
 			if err != nil {
 				// Very naive error handling. Only the last error will be returned by the workflow
 				return
 			}
-			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.CreateCompanyRPCActivity, randCompany).Get(gCtx, &err)
+			err = workflow.ExecuteActivity(gCtx, JobHuntActivity.CreateCompaniesRPCActivity, randCompanies).Get(gCtx, &err)
 			if err != nil {
 				return
 			}
-			results = append(results, randCompany)
+			results = append(results, randCompanies...)
 		})
 	}
 

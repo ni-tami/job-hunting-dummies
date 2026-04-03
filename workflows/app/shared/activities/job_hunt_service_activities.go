@@ -46,17 +46,18 @@ func (a *JobHuntServiceActivity) FetchRandomSourceCompanyWithNewAdminUserRPCActi
 	var companies []cModel.CreateCompany
 	for _, companyPB := range companiesPB.Companies {
 		associatedAdminUser := uModel.CreateUser{
-			Name: fmt.Sprintf("%s Admin", companyPB.Name),
-			Username: fmt.Sprintf("company-%s-admin", companyPB.SourceId),
+			Name:     fmt.Sprintf("%s Admin", companyPB.Name),
+			Username: fmt.Sprintf("company-%d-admin", companyPB.SourceId),
 		}
 		companies = append(companies, cModel.NewCreateCompanyFromRandomSourceCompanyPB(companyPB, associatedAdminUser))
 	}
 	return companies, nil
 }
 
-func (a *JobHuntServiceActivity) CreateCompanyRPCActivity(ctx context.Context, randCompany cModel.CreateCompany) error {
-	u, err := a.grpcClient.CreateCompany(ctx,
-		&pb.CreateCompanyRequest{
+func (a *JobHuntServiceActivity) CreateCompaniesRPCActivity(ctx context.Context, randCompanies []cModel.CreateCompany) error {
+	var createCompaniesRequestPB []*pb.CreateCompanyRequest
+	for _, randCompany := range randCompanies {
+		createCompaniesRequestPB = append(createCompaniesRequestPB, &pb.CreateCompanyRequest{
 			CompanyName: randCompany.CompanyName,
 			User: &pb.CreateUserRequest{
 				Name:     randCompany.User.Name,
@@ -64,12 +65,17 @@ func (a *JobHuntServiceActivity) CreateCompanyRPCActivity(ctx context.Context, r
 			},
 			Description: randCompany.Description,
 			Website:     randCompany.Website,
+		})
+	}
+	createCompaniesResponsePB, err := a.grpcClient.CreateCompanies(ctx,
+		&pb.CreateCompaniesRequest{
+			Companies: createCompaniesRequestPB,
 		},
 	)
 	if err != nil {
-		log.Fatalf("could not create user: %v", err)
+		log.Fatalf("could not create companies: %v", err)
 		return err
 	}
-	log.Printf("New Company: %+v", u)
+	log.Printf("New Companies Count: %+v", len(createCompaniesResponsePB.Companies))
 	return nil
 }

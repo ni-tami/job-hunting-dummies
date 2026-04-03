@@ -1,3 +1,5 @@
+from typing import List
+
 from temporalio import activity
 from dataclasses import dataclass
 
@@ -19,14 +21,18 @@ class CreateCompany:
 
 
 @activity.defn(name=activity_name)
-async def generate_company_activity(source: CreateCompany) -> CreateCompany:
-    create_company_payload = CreateCompany(
-        company_name="hehe "+source.company_name,
-        user=CreateUser(username=source.user.username, name=source.user.name),
-        description="hehe "+source.description,
-        website=source.website,
-    )
+async def generate_company_activity(sources: List[CreateCompany]) -> List[CreateCompany]:
+    create_companies_payload = []
+    for source in sources:
+        create_companies_payload.append(
+            CreateCompany(
+                company_name="hehe "+source.company_name,
+                user=CreateUser(username=source.user.username, name=source.user.name),
+                description="hehe "+source.description,
+                website=source.website,
+            )
+        )
     activity.logger.info(
-        "Generate activity from python activity:", create_company_payload
+        f"Generate {len(create_companies_payload)} activities from python activity."
     )
-    return create_company_payload
+    return create_companies_payload

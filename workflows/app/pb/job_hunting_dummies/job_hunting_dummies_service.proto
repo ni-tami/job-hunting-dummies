@@ -8,5 +8,6 @@ import "job_hunting_dummies/job_hunting_dummies.proto";
 service JobHuntService {
   rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
   rpc CreateCompany (CreateCompanyRequest) returns (CreateCompanyResponse) {}
+  rpc CreateCompanies (CreateCompaniesRequest) returns (CreateCompaniesResponse) {}
   rpc GetRandomSourceCompanies (GetRandomSourceCompaniesRequest) returns (GetRandomSourceCompaniesResponse) {}
 }

@@ -24,30 +24,35 @@ var File_job_hunting_dummies_job_hunting_dummies_service_proto protoreflect.File
 
 const file_job_hunting_dummies_job_hunting_dummies_service_proto_rawDesc = "" +
 	"\n" +
-	"5job_hunting_dummies/job_hunting_dummies_service.proto\x12\x16job_hunting_dummies.v0\x1a-job_hunting_dummies/job_hunting_dummies.proto2\xf9\x02\n" +
+	"5job_hunting_dummies/job_hunting_dummies_service.proto\x12\x16job_hunting_dummies.v0\x1a-job_hunting_dummies/job_hunting_dummies.proto2\xef\x03\n" +
 	"\x0eJobHuntService\x12e\n" +
 	"\n" +
 	"CreateUser\x12).job_hunting_dummies.v0.CreateUserRequest\x1a*.job_hunting_dummies.v0.CreateUserResponse\"\x00\x12n\n" +
-	"\rCreateCompany\x12,.job_hunting_dummies.v0.CreateCompanyRequest\x1a-.job_hunting_dummies.v0.CreateCompanyResponse\"\x00\x12\x8f\x01\n" +
+	"\rCreateCompany\x12,.job_hunting_dummies.v0.CreateCompanyRequest\x1a-.job_hunting_dummies.v0.CreateCompanyResponse\"\x00\x12t\n" +
+	"\x0fCreateCompanies\x12..job_hunting_dummies.v0.CreateCompaniesRequest\x1a/.job_hunting_dummies.v0.CreateCompaniesResponse\"\x00\x12\x8f\x01\n" +
 	"\x18GetRandomSourceCompanies\x127.job_hunting_dummies.v0.GetRandomSourceCompaniesRequest\x1a8.job_hunting_dummies.v0.GetRandomSourceCompaniesResponse\"\x00BGZEgithub.com/ni-tami/job-hunting-dummies-service/pb/job_hunting_dummiesb\x06proto3"
 
 var file_job_hunting_dummies_job_hunting_dummies_service_proto_goTypes = []any{
 	(*CreateUserRequest)(nil),                // 0: job_hunting_dummies.v0.CreateUserRequest
 	(*CreateCompanyRequest)(nil),             // 1: job_hunting_dummies.v0.CreateCompanyRequest
-	(*GetRandomSourceCompaniesRequest)(nil),  // 2: job_hunting_dummies.v0.GetRandomSourceCompaniesRequest
-	(*CreateUserResponse)(nil),               // 3: job_hunting_dummies.v0.CreateUserResponse
-	(*CreateCompanyResponse)(nil),            // 4: job_hunting_dummies.v0.CreateCompanyResponse
-	(*GetRandomSourceCompaniesResponse)(nil), // 5: job_hunting_dummies.v0.GetRandomSourceCompaniesResponse
+	(*CreateCompaniesRequest)(nil),           // 2: job_hunting_dummies.v0.CreateCompaniesRequest
+	(*GetRandomSourceCompaniesRequest)(nil),  // 3: job_hunting_dummies.v0.GetRandomSourceCompaniesRequest
+	(*CreateUserResponse)(nil),               // 4: job_hunting_dummies.v0.CreateUserResponse
+	(*CreateCompanyResponse)(nil),            // 5: job_hunting_dummies.v0.CreateCompanyResponse
+	(*CreateCompaniesResponse)(nil),          // 6: job_hunting_dummies.v0.CreateCompaniesResponse
+	(*GetRandomSourceCompaniesResponse)(nil), // 7: job_hunting_dummies.v0.GetRandomSourceCompaniesResponse
 }
 var file_job_hunting_dummies_job_hunting_dummies_service_proto_depIdxs = []int32{
 	0, // 0: job_hunting_dummies.v0.JobHuntService.CreateUser:input_type -> job_hunting_dummies.v0.CreateUserRequest
 	1, // 1: job_hunting_dummies.v0.JobHuntService.CreateCompany:input_type -> job_hunting_dummies.v0.CreateCompanyRequest
-	2, // 2: job_hunting_dummies.v0.JobHuntService.GetRandomSourceCompanies:input_type -> job_hunting_dummies.v0.GetRandomSourceCompaniesRequest
-	3, // 3: job_hunting_dummies.v0.JobHuntService.CreateUser:output_type -> job_hunting_dummies.v0.CreateUserResponse
-	4, // 4: job_hunting_dummies.v0.JobHuntService.CreateCompany:output_type -> job_hunting_dummies.v0.CreateCompanyResponse
-	5, // 5: job_hunting_dummies.v0.JobHuntService.GetRandomSourceCompanies:output_type -> job_hunting_dummies.v0.GetRandomSourceCompaniesResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	2, // 2: job_hunting_dummies.v0.JobHuntService.CreateCompanies:input_type -> job_hunting_dummies.v0.CreateCompaniesRequest
+	3, // 3: job_hunting_dummies.v0.JobHuntService.GetRandomSourceCompanies:input_type -> job_hunting_dummies.v0.GetRandomSourceCompaniesRequest
+	4, // 4: job_hunting_dummies.v0.JobHuntService.CreateUser:output_type -> job_hunting_dummies.v0.CreateUserResponse
+	5, // 5: job_hunting_dummies.v0.JobHuntService.CreateCompany:output_type -> job_hunting_dummies.v0.CreateCompanyResponse
+	6, // 6: job_hunting_dummies.v0.JobHuntService.CreateCompanies:output_type -> job_hunting_dummies.v0.CreateCompaniesResponse
+	7, // 7: job_hunting_dummies.v0.JobHuntService.GetRandomSourceCompanies:output_type -> job_hunting_dummies.v0.GetRandomSourceCompaniesResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	DEFAULT_JOBHUNT_SERVICE_GRPC_ADDRESS = "localhost:50051"
+	DEFAULT_JOBHUNT_SERVICE_GRPC_ADDRESS     = "localhost:50051"
+	DEFAULT_FETCH_RANDOM_SOURCE_COMPANY_SIZE = 2
 )
 
 // Global koanf instance. Use . as the key path delimiter. This can be / or anything.
@@ -22,6 +23,7 @@ func Load() {
 	// Load default values using the confmap provider.
 	Koanf.Load(confmap.Provider(map[string]any{
 		"jobhunt_service.grpc_address": DEFAULT_JOBHUNT_SERVICE_GRPC_ADDRESS,
+		"workflows.populate_company.fetch_random_source_company_size": DEFAULT_FETCH_RANDOM_SOURCE_COMPANY_SIZE,
 	}, "."), nil)
 
 	// Load YAML config (TODO for deployment files).

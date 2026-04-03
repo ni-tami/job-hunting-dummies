@@ -13,8 +13,10 @@ type (
 		CreateApplicant(ctx context.Context, newApplicant *model.Applicant) error
 		CreateApplication(ctx context.Context, newApplication *model.Application) error
 		CreateCompany(ctx context.Context, newCompany *model.Company) error
+		CreateCompanies(ctx context.Context, newCompanies []*model.Company) error
 		CreateJob(ctx context.Context, newJob *model.Job) error
 		CreateUser(ctx context.Context, newUser *model.User) error
+		CreateUsers(ctx context.Context, newUsers []*model.User) error
 
 		GetApplicantByID(ctx context.Context, id int64) (*model.Applicant, error)
 		GetApplicationByID(ctx context.Context, id int64) (*model.Application, error)
@@ -78,6 +80,11 @@ func (r jobPortalRepository) CreateCompany(ctx context.Context, newCompany *mode
 	return err
 }
 
+func (r jobPortalRepository) CreateCompanies(ctx context.Context, newCompanies []*model.Company) error {
+	err := r.db.WithContext(ctx).Create(&newCompanies).Error
+	return err
+}
+
 func (r jobPortalRepository) CreateJob(ctx context.Context, newJob *model.Job) error {
 	err := r.db.WithContext(ctx).Save(&newJob).Error
 	return err
@@ -85,6 +92,11 @@ func (r jobPortalRepository) CreateJob(ctx context.Context, newJob *model.Job) e
 
 func (r jobPortalRepository) CreateUser(ctx context.Context, newUser *model.User) error {
 	err := r.db.WithContext(ctx).Save(&newUser).Error
+	return err
+}
+
+func (r jobPortalRepository) CreateUsers(ctx context.Context, newUsers []*model.User) error {
+	err := r.db.WithContext(ctx).Save(&newUsers).Error
 	return err
 }
 
@@ -109,7 +121,7 @@ func (r jobPortalRepository) GetCompanyByID(ctx context.Context, id int64) (*mod
 func (r jobPortalRepository) GetRandomSourceCompanyIds(ctx context.Context, size int32) ([]int64, error) {
 	// TODO full scan, careful. FIXME: limit
 	var company_ids []int64
-	err := r.db.WithContext(ctx).Order("RANDOM()").Limit(int(size)).Find(&company_ids).Error
+	err := r.db.WithContext(ctx).Model(&model.SourceCompany{}).Limit(int(size)).Order("RANDOM()").Pluck("id", &company_ids).Error
 	return company_ids, err
 }
 

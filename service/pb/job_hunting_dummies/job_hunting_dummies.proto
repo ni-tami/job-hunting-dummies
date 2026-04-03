@@ -35,6 +35,14 @@ message CreateCompanyResponse {
     google.protobuf.Timestamp created_at = 6;
 }
 
+message CreateCompaniesRequest {
+    repeated CreateCompanyRequest companies = 1;
+}
+
+message CreateCompaniesResponse {
+    repeated CreateCompanyResponse companies = 1;
+}
+
 message GetRandomSourceCompaniesRequest {
     int32 size = 1;
 }

@@ -11,10 +11,10 @@ import (
 )
 
 // ExecuteExternalGenerateCompanyChildWorkflow as handler for python activity
-func ExecuteExternalGenerateCompanyChildWorkflow(ctx workflow.Context) (models.CreateCompany, error) {
+func ExecuteExternalGenerateCompanyChildWorkflow(ctx workflow.Context, companies []models.CreateCompany) ([]models.CreateCompany, error) {
 	logger := workflow.GetLogger(ctx)
 
-	var randCompanyResp models.CreateCompany
+	var randCompaniesResp []models.CreateCompany
 	aCtx := workflow.WithActivityOptions(
 		ctx, workflow.ActivityOptions{
 			TaskQueue:              config.PyPopulateCompanyTaskQueueName,
@@ -23,17 +23,17 @@ func ExecuteExternalGenerateCompanyChildWorkflow(ctx workflow.Context) (models.C
 		},
 	)
 
-	generateCompanyActivity := workflow.ExecuteActivity(aCtx, config.PyPopulateActivityName)
+	generateCompanyActivity := workflow.ExecuteActivity(aCtx, config.PyPopulateActivityName, companies)
 	if generateCompanyActivity == nil {
 		// TODO: refactor
 		workflowNotFoundErr := fmt.Errorf("cannot execute child workflow %s", config.PyPopulateActivityName)
 		logger.Error(workflowNotFoundErr.Error())
-		return randCompanyResp, workflowNotFoundErr
+		return randCompaniesResp, workflowNotFoundErr
 	}
-	err := generateCompanyActivity.Get(aCtx, &randCompanyResp)
+	err := generateCompanyActivity.Get(aCtx, &randCompaniesResp)
 	if err != nil {
-		logger.Error(fmt.Sprintf("Execute activity %s: %v.", config.PyPopulateActivityName, randCompanyResp))
-		return randCompanyResp, err
+		logger.Error(fmt.Sprintf("Execute activity %s: %v.", config.PyPopulateActivityName, randCompaniesResp))
+		return randCompaniesResp, err
 	}
-	return randCompanyResp, nil
+	return randCompaniesResp, nil
 }

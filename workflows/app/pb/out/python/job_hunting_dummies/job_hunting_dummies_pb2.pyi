@@ -15,9 +15,7 @@ class CreateUserRequest(_message.Message):
     NAME_FIELD_NUMBER: _ClassVar[int]
     username: str
     name: str
-    def __init__(
-        self, username: _Optional[str] = ..., name: _Optional[str] = ...
-    ) -> None: ...
+    def __init__(self, username: _Optional[str] = ..., name: _Optional[str] = ...) -> None: ...
 
 class CreateUserResponse(_message.Message):
     __slots__ = ("id", "username", "name", "created_at")
@@ -29,15 +27,7 @@ class CreateUserResponse(_message.Message):
     username: str
     name: str
     created_at: _timestamp_pb2.Timestamp
-    def __init__(
-        self,
-        id: _Optional[int] = ...,
-        username: _Optional[str] = ...,
-        name: _Optional[str] = ...,
-        created_at: _Optional[
-            _Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]
-        ] = ...,
-    ) -> None: ...
+    def __init__(self, id: _Optional[int] = ..., username: _Optional[str] = ..., name: _Optional[str] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
 
 class CreateCompanyRequest(_message.Message):
     __slots__ = ("company_name", "user", "description", "website")
@@ -49,23 +39,10 @@ class CreateCompanyRequest(_message.Message):
     user: CreateUserRequest
     description: str
     website: str
-    def __init__(
-        self,
-        company_name: _Optional[str] = ...,
-        user: _Optional[_Union[CreateUserRequest, _Mapping]] = ...,
-        description: _Optional[str] = ...,
-        website: _Optional[str] = ...,
-    ) -> None: ...
+    def __init__(self, company_name: _Optional[str] = ..., user: _Optional[_Union[CreateUserRequest, _Mapping]] = ..., description: _Optional[str] = ..., website: _Optional[str] = ...) -> None: ...
 
 class CreateCompanyResponse(_message.Message):
-    __slots__ = (
-        "id",
-        "user_id",
-        "company_name",
-        "description",
-        "website",
-        "created_at",
-    )
+    __slots__ = ("id", "user_id", "company_name", "description", "website", "created_at")
     ID_FIELD_NUMBER: _ClassVar[int]
     USER_ID_FIELD_NUMBER: _ClassVar[int]
     COMPANY_NAME_FIELD_NUMBER: _ClassVar[int]
@@ -78,17 +55,19 @@ class CreateCompanyResponse(_message.Message):
     description: str
     website: str
     created_at: _timestamp_pb2.Timestamp
-    def __init__(
-        self,
-        id: _Optional[int] = ...,
-        user_id: _Optional[int] = ...,
-        company_name: _Optional[str] = ...,
-        description: _Optional[str] = ...,
-        website: _Optional[str] = ...,
-        created_at: _Optional[
-            _Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]
-        ] = ...,
-    ) -> None: ...
+    def __init__(self, id: _Optional[int] = ..., user_id: _Optional[int] = ..., company_name: _Optional[str] = ..., description: _Optional[str] = ..., website: _Optional[str] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
+
+class CreateCompaniesRequest(_message.Message):
+    __slots__ = ("companies",)
+    COMPANIES_FIELD_NUMBER: _ClassVar[int]
+    companies: _containers.RepeatedCompositeFieldContainer[CreateCompanyRequest]
+    def __init__(self, companies: _Optional[_Iterable[_Union[CreateCompanyRequest, _Mapping]]] = ...) -> None: ...
+
+class CreateCompaniesResponse(_message.Message):
+    __slots__ = ("companies",)
+    COMPANIES_FIELD_NUMBER: _ClassVar[int]
+    companies: _containers.RepeatedCompositeFieldContainer[CreateCompanyResponse]
+    def __init__(self, companies: _Optional[_Iterable[_Union[CreateCompanyResponse, _Mapping]]] = ...) -> None: ...
 
 class GetRandomSourceCompaniesRequest(_message.Message):
     __slots__ = ("size",)
@@ -102,11 +81,7 @@ class GetRandomSourceCompaniesResponse(_message.Message):
     COMPANIES_FIELD_NUMBER: _ClassVar[int]
     size: int
     companies: _containers.RepeatedCompositeFieldContainer[SourceCompanyReponse]
-    def __init__(
-        self,
-        size: _Optional[int] = ...,
-        companies: _Optional[_Iterable[_Union[SourceCompanyReponse, _Mapping]]] = ...,
-    ) -> None: ...
+    def __init__(self, size: _Optional[int] = ..., companies: _Optional[_Iterable[_Union[SourceCompanyReponse, _Mapping]]] = ...) -> None: ...
 
 class SourceCompanyReponse(_message.Message):
     __slots__ = ("source_id", "name", "long_description", "website")
@@ -118,10 +93,4 @@ class SourceCompanyReponse(_message.Message):
     name: str
     long_description: str
     website: str
-    def __init__(
-        self,
-        source_id: _Optional[int] = ...,
-        name: _Optional[str] = ...,
-        long_description: _Optional[str] = ...,
-        website: _Optional[str] = ...,
-    ) -> None: ...
+    def __init__(self, source_id: _Optional[int] = ..., name: _Optional[str] = ..., long_description: _Optional[str] = ..., website: _Optional[str] = ...) -> None: ...

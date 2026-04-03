@@ -10,7 +10,7 @@ import (
 func MigrateTables() {
 	db := client.NewCrdbConn()
 	fmt.Println("Migrating tables...")
-	err := db.AutoMigrate(model.User{}, model.Applicant{}, model.Company{}, model.Application{}, model.Job{})
+	err := db.AutoMigrate(model.User{}, model.Applicant{}, model.Company{}, model.SourceCompany{}, model.Application{}, model.Job{})
 	if err != nil {
 		fmt.Printf("Failed to migrate tables: %v\n", err)
 		return

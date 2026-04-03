@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	JobHuntService_CreateUser_FullMethodName               = "/job_hunting_dummies.v0.JobHuntService/CreateUser"
 	JobHuntService_CreateCompany_FullMethodName            = "/job_hunting_dummies.v0.JobHuntService/CreateCompany"
+	JobHuntService_CreateCompanies_FullMethodName          = "/job_hunting_dummies.v0.JobHuntService/CreateCompanies"
 	JobHuntService_GetRandomSourceCompanies_FullMethodName = "/job_hunting_dummies.v0.JobHuntService/GetRandomSourceCompanies"
 )
 
@@ -30,6 +31,7 @@ const (
 type JobHuntServiceClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	CreateCompany(ctx context.Context, in *CreateCompanyRequest, opts ...grpc.CallOption) (*CreateCompanyResponse, error)
+	CreateCompanies(ctx context.Context, in *CreateCompaniesRequest, opts ...grpc.CallOption) (*CreateCompaniesResponse, error)
 	GetRandomSourceCompanies(ctx context.Context, in *GetRandomSourceCompaniesRequest, opts ...grpc.CallOption) (*GetRandomSourceCompaniesResponse, error)
 }
 
@@ -61,6 +63,16 @@ func (c *jobHuntServiceClient) CreateCompany(ctx context.Context, in *CreateComp
 	return out, nil
 }
 
+func (c *jobHuntServiceClient) CreateCompanies(ctx context.Context, in *CreateCompaniesRequest, opts ...grpc.CallOption) (*CreateCompaniesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateCompaniesResponse)
+	err := c.cc.Invoke(ctx, JobHuntService_CreateCompanies_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *jobHuntServiceClient) GetRandomSourceCompanies(ctx context.Context, in *GetRandomSourceCompaniesRequest, opts ...grpc.CallOption) (*GetRandomSourceCompaniesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetRandomSourceCompaniesResponse)
@@ -77,6 +89,7 @@ func (c *jobHuntServiceClient) GetRandomSourceCompanies(ctx context.Context, in 
 type JobHuntServiceServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	CreateCompany(context.Context, *CreateCompanyRequest) (*CreateCompanyResponse, error)
+	CreateCompanies(context.Context, *CreateCompaniesRequest) (*CreateCompaniesResponse, error)
 	GetRandomSourceCompanies(context.Context, *GetRandomSourceCompaniesRequest) (*GetRandomSourceCompaniesResponse, error)
 	mustEmbedUnimplementedJobHuntServiceServer()
 }
@@ -93,6 +106,9 @@ func (UnimplementedJobHuntServiceServer) CreateUser(context.Context, *CreateUser
 }
 func (UnimplementedJobHuntServiceServer) CreateCompany(context.Context, *CreateCompanyRequest) (*CreateCompanyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateCompany not implemented")
+}
+func (UnimplementedJobHuntServiceServer) CreateCompanies(context.Context, *CreateCompaniesRequest) (*CreateCompaniesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateCompanies not implemented")
 }
 func (UnimplementedJobHuntServiceServer) GetRandomSourceCompanies(context.Context, *GetRandomSourceCompaniesRequest) (*GetRandomSourceCompaniesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetRandomSourceCompanies not implemented")
@@ -154,6 +170,24 @@ func _JobHuntService_CreateCompany_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobHuntService_CreateCompanies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCompaniesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobHuntServiceServer).CreateCompanies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobHuntService_CreateCompanies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobHuntServiceServer).CreateCompanies(ctx, req.(*CreateCompaniesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _JobHuntService_GetRandomSourceCompanies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRandomSourceCompaniesRequest)
 	if err := dec(in); err != nil {
@@ -186,6 +220,10 @@ var JobHuntService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateCompany",
 			Handler:    _JobHuntService_CreateCompany_Handler,
+		},
+		{
+			MethodName: "CreateCompanies",
+			Handler:    _JobHuntService_CreateCompanies_Handler,
 		},
 		{
 			MethodName: "GetRandomSourceCompanies",

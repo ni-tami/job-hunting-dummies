@@ -5,7 +5,7 @@ import (
 )
 
 type SourceCompany struct {
-	SourceID        int64  `json:"source_id"`
+	ID              int64  `json:"id"`
 	Name            string `json:"name"`
 	Website         string `json:"website"`
 	LongDescription string `json:"long_description"`
@@ -17,7 +17,7 @@ func (c *SourceCompany) TableName() string {
 
 func (c *SourceCompany) ToSourceCompanyGRPC() *pb.SourceCompanyReponse {
 	return &pb.SourceCompanyReponse{
-		SourceId:        c.SourceID,
+		SourceId:        c.ID,
 		Name:            c.Name,
 		LongDescription: c.LongDescription,
 		Website:         c.Website,

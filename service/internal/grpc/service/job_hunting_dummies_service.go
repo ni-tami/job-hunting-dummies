@@ -41,6 +41,28 @@ func (s *grpcServer) CreateCompany(ctx context.Context, request *pb.CreateCompan
 	return company.ToCreateCompanyGRPC(), nil
 }
 
+
+// CreateCompanies implements JobHuntService
+func (s *grpcServer) CreateCompanies(ctx context.Context, request *pb.CreateCompaniesRequest) (*pb.CreateCompaniesResponse, error) {
+	var (
+		companiesCreate  []model.CompanyCreate
+		companiesPB      []*pb.CreateCompanyResponse
+	)
+	for _, createCompanyPB := range request.Companies {
+		companiesCreate = append(companiesCreate, model.NewCompanyCreateFromGRPC(createCompanyPB))
+	}
+	companies, err := s.usecase.CreateCompanies(ctx, companiesCreate)
+	if err != nil {
+		log.Fatalf("Failed to create company. Error %v", err)
+	}
+	for _, company := range companies {
+		companiesPB = append(companiesPB, company.ToCreateCompanyGRPC())
+	}
+	return &pb.CreateCompaniesResponse{
+		Companies: companiesPB,
+	}, nil
+}
+
 // GetRandomSourceCompanies implements JobHuntService
 func (s *grpcServer) GetRandomSourceCompanies(ctx context.Context, request *pb.GetRandomSourceCompaniesRequest) (*pb.GetRandomSourceCompaniesResponse, error) {
 	companies, err := s.usecase.GetRandomSourceCompanies(ctx, request.GetSize())

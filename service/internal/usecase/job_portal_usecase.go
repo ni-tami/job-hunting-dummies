@@ -16,9 +16,11 @@ type (
 		// TODO: might need to separate into multiple services if this grows too big
 		CreateJob(ctx context.Context, newJob gqlModel.NewJob) (*model.Job, error)
 		CreateCompany(ctx context.Context, newCompany model.CompanyCreate) (*model.Company, error)
+		CreateCompanies(ctx context.Context, newCompanies []model.CompanyCreate) ([]*model.Company, error)
 		CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
 		CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error)
 		CreateUser(ctx context.Context, newUser model.UserCreate) (*model.User, error)
+		CreateUsers(ctx context.Context, newUsers []model.UserCreate) ([]*model.User, error)
 
 		GetJobByID(ctx context.Context, id int64) (*model.Job, error)
 		GetCompanyByID(ctx context.Context, id int64) (*model.Company, error)
@@ -124,6 +126,49 @@ func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany model.Co
 	return company, nil
 }
 
+func (u jobPortalUsecase) CreateCompanies(ctx context.Context, newCompanies []model.CompanyCreate) ([]*model.Company, error) {
+	var (
+		newUsers	             []model.UserCreate
+		newUsernameToCompanyMap  map[string]*model.Company
+		companies                []*model.Company
+	)
+	newUsers = make([]model.UserCreate, len(newCompanies))
+	newUsernameToCompanyMap = make(map[string]*model.Company)
+	companies = make([]*model.Company, len(newCompanies))
+	for _, newCompany := range newCompanies {
+		newUser := model.UserCreate{
+			Username: newCompany.User.Username,
+			Name:     newCompany.User.Name,
+		}
+		newUsers = append(newUsers, newUser)
+		
+		id := time.Now().UnixMicro()
+		company := &model.Company{
+			ID:          id,
+			CompanyName: newCompany.CompanyName,
+			Website:     newCompany.Website,
+			Description: newCompany.Description,
+			CreatedAt:   time.Now(),
+			UpdatedAt:   time.Now(),
+		}
+		newUsernameToCompanyMap[newUser.Username] = company
+	}
+	users, err := u.CreateUsers(ctx, newUsers)
+	for _, user := range users {
+		newUsernameToCompanyMap[user.Username].UserID = user.ID
+		companies = append(companies, newUsernameToCompanyMap[user.Username])
+	}
+	if err != nil {
+		fmt.Println("Fatal: Failed to create user for company")
+	}
+
+	err = u.repo.CreateCompanies(ctx, companies)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create company: %w", err)
+	}
+	return companies, nil
+}
+
 func (u jobPortalUsecase) CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error) {
 	newUser := model.UserCreate{
 		Username: newApplicant.User.Username,
@@ -194,17 +239,37 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.UserCrea
 	return user, nil
 }
 
+func (u jobPortalUsecase) CreateUsers(ctx context.Context, newUsers []model.UserCreate) ([]*model.User, error) {
+	var users []*model.User
+	for _, newUser := range newUsers {
+		id := time.Now().UnixMicro()
+		user := &model.User{
+			ID:        id,
+			Username:  newUser.Username,
+			Name:      newUser.Name,
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
+		users = append(users, user)
+	}
+	err := u.repo.CreateUsers(ctx, users)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create user: %w", err)
+	}
+	return users, nil
+}
+
 func (u jobPortalUsecase) GetJobByID(ctx context.Context, id int64) (*model.Job, error) {
 	return u.repo.GetJobByID(ctx, id)
 }
 
 func (u jobPortalUsecase) GetRandomSourceCompanies(ctx context.Context, size int32) ([]model.SourceCompany, error) {
 	if size > config.MaxGetRandomCompaniesSize {
-		return nil, fmt.Errorf("Decrease number of random companies to get (max=%d).", size)
+		return nil, fmt.Errorf("decrease number of random companies to get (max=%d)", size)
 	}
 	ids, err := u.repo.GetRandomSourceCompanyIds(ctx, size)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get random source company ids: %v", ids)
+		return nil, fmt.Errorf("failed to get random source company ids: %v. Error: %+v", ids, err)
 	}
 	sourceCompanies, err := u.repo.GetSourceCompanyByIds(ctx, ids)
 	return sourceCompanies, err
