@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/ni-tami/job-hunting-dummies-service/internal/config"
@@ -140,8 +139,7 @@ func (u jobPortalUsecase) CreateCompanies(ctx context.Context, newCompanies []mo
 			Name:     newCompany.User.Name,
 		}
 		newUsers = append(newUsers, newUser)
-		log.Printf("newUser in usecase: %+v", *newUser)
-		
+
 		id := time.Now().UnixMicro()
 		company := &model.Company{
 			ID:          id,
@@ -151,22 +149,18 @@ func (u jobPortalUsecase) CreateCompanies(ctx context.Context, newCompanies []mo
 			CreatedAt:   time.Now(),
 			UpdatedAt:   time.Now(),
 		}
-		log.Printf("company in usecase: %+v", *company)
 
 		newUsernameToCompanyMap[newUser.Username] = company
 	}
-	log.Printf("newUsers count in usecase: %d", len(newUsers))
-	log.Printf("newUser sample in usecase: %s", newUsers[0].Name)
 
 	users, err := u.CreateUsers(ctx, newUsers)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create users for companies: %w", err)
+	}
 	for _, user := range users {
 		newUsernameToCompanyMap[user.Username].UserID = user.ID
 		company := newUsernameToCompanyMap[user.Username]
-		log.Printf("company with created user in usecase: %+v", *company)
 		companies = append(companies, company)
-	}
-	if err != nil {
-		fmt.Println("Fatal: Failed to create user for company")
 	}
 
 	err = u.repo.CreateCompanies(ctx, companies)
@@ -248,15 +242,13 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.UserCrea
 
 func (u jobPortalUsecase) CreateUsers(ctx context.Context, newUsers []*model.UserCreate) ([]*model.User, error) {
 	var users []*model.User
-	log.Printf("newUsers count in usecase: %d", len(newUsers))
 
-	for _, newUser := range newUsers {
-		log.Println(newUser)
-		id := time.Now().UnixMicro()
+	baseID := time.Now().UnixMicro()
+	for i, newUser := range newUsers {
 		user := &model.User{
-			ID:        id,
-			Username:  (*newUser).Username,
-			Name:      (*newUser).Name,
+			ID:        baseID + int64(i),
+			Username:  newUser.Username,
+			Name:      newUser.Name,
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 		}
