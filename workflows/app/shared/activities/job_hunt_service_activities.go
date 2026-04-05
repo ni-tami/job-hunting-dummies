@@ -49,7 +49,8 @@ func (a *JobHuntServiceActivity) FetchRandomSourceCompanyWithNewAdminUserRPCActi
 			Name:     fmt.Sprintf("%s Admin", companyPB.Name),
 			Username: fmt.Sprintf("company-%d-admin", companyPB.SourceId),
 		}
-		companies = append(companies, cModel.NewCreateCompanyFromRandomSourceCompanyPB(companyPB, associatedAdminUser))
+		company := cModel.NewCreateCompanyFromRandomSourceCompanyPB(companyPB, associatedAdminUser)
+		companies = append(companies, company)
 	}
 	return companies, nil
 }

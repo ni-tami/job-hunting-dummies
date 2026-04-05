@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/ni-tami/job-hunting-dummies-service/internal/config"
@@ -20,7 +21,7 @@ type (
 		CreateApplicant(ctx context.Context, newApplicant gqlModel.NewApplicant) (*model.Applicant, error)
 		CreateApplication(ctx context.Context, newApplication gqlModel.NewApplication) (*model.Application, error)
 		CreateUser(ctx context.Context, newUser model.UserCreate) (*model.User, error)
-		CreateUsers(ctx context.Context, newUsers []model.UserCreate) ([]*model.User, error)
+		CreateUsers(ctx context.Context, newUsers []*model.UserCreate) ([]*model.User, error)
 
 		GetJobByID(ctx context.Context, id int64) (*model.Job, error)
 		GetCompanyByID(ctx context.Context, id int64) (*model.Company, error)
@@ -128,19 +129,18 @@ func (u jobPortalUsecase) CreateCompany(ctx context.Context, newCompany model.Co
 
 func (u jobPortalUsecase) CreateCompanies(ctx context.Context, newCompanies []model.CompanyCreate) ([]*model.Company, error) {
 	var (
-		newUsers	             []model.UserCreate
-		newUsernameToCompanyMap  map[string]*model.Company
-		companies                []*model.Company
+		newUsers	            []*model.UserCreate
+		newUsernameToCompanyMap map[string]*model.Company
+		companies               []*model.Company
 	)
-	newUsers = make([]model.UserCreate, len(newCompanies))
 	newUsernameToCompanyMap = make(map[string]*model.Company)
-	companies = make([]*model.Company, len(newCompanies))
 	for _, newCompany := range newCompanies {
-		newUser := model.UserCreate{
+		newUser := &model.UserCreate{
 			Username: newCompany.User.Username,
 			Name:     newCompany.User.Name,
 		}
 		newUsers = append(newUsers, newUser)
+		log.Printf("newUser in usecase: %+v", *newUser)
 		
 		id := time.Now().UnixMicro()
 		company := &model.Company{
@@ -151,12 +151,19 @@ func (u jobPortalUsecase) CreateCompanies(ctx context.Context, newCompanies []mo
 			CreatedAt:   time.Now(),
 			UpdatedAt:   time.Now(),
 		}
+		log.Printf("company in usecase: %+v", *company)
+
 		newUsernameToCompanyMap[newUser.Username] = company
 	}
+	log.Printf("newUsers count in usecase: %d", len(newUsers))
+	log.Printf("newUser sample in usecase: %s", newUsers[0].Name)
+
 	users, err := u.CreateUsers(ctx, newUsers)
 	for _, user := range users {
 		newUsernameToCompanyMap[user.Username].UserID = user.ID
-		companies = append(companies, newUsernameToCompanyMap[user.Username])
+		company := newUsernameToCompanyMap[user.Username]
+		log.Printf("company with created user in usecase: %+v", *company)
+		companies = append(companies, company)
 	}
 	if err != nil {
 		fmt.Println("Fatal: Failed to create user for company")
@@ -239,14 +246,17 @@ func (u jobPortalUsecase) CreateUser(ctx context.Context, newUser model.UserCrea
 	return user, nil
 }
 
-func (u jobPortalUsecase) CreateUsers(ctx context.Context, newUsers []model.UserCreate) ([]*model.User, error) {
+func (u jobPortalUsecase) CreateUsers(ctx context.Context, newUsers []*model.UserCreate) ([]*model.User, error) {
 	var users []*model.User
+	log.Printf("newUsers count in usecase: %d", len(newUsers))
+
 	for _, newUser := range newUsers {
+		log.Println(newUser)
 		id := time.Now().UnixMicro()
 		user := &model.User{
 			ID:        id,
-			Username:  newUser.Username,
-			Name:      newUser.Name,
+			Username:  (*newUser).Username,
+			Name:      (*newUser).Name,
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 		}
