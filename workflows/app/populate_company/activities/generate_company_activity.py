@@ -19,6 +19,9 @@ class CreateCompany:
     description: str
     website: str
 
+class GenerateCompanyActivity:
+    def __init__(self, model):
+        self.model = model
 
 @activity.defn(name=activity_name)
 async def generate_company_activity(sources: List[CreateCompany]) -> List[CreateCompany]:

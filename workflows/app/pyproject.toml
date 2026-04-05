@@ -7,5 +7,6 @@ requires-python = ">=3.13"
 dependencies = [
     "grpcio>=1.78.0",
     "grpcio-tools>=1.78.0",
+    "llama-cpp-python>=0.3.20",
     "temporalio>=1.23.0",
 ]
